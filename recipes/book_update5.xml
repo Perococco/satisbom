@@ -1,0 +1,1993 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book xmlns="pero:book" name="EarlyAccess">
+    <buildings>
+
+        <extractor id="oil_extractor" type="oil_extractor" power-usage="20" normal-extraction-rate="120"/>
+        <extractor id="water_extractor" type="water_extractor" power-usage="40" normal-extraction-rate="120"/>
+        <extractor id="resource_well_pressurizer" type="resource_well_extractor" power-usage="150"
+                   normal-extraction-rate="60"/>
+
+        <processor id="constructor" type="builder" power-usage="4"/>
+        <processor id="assembler" type="builder" power-usage="15"/>
+        <processor id="manufacturer" type="builder" power-usage="55"/>
+        <processor id="packager" type="builder" power-usage="10"/>
+        <processor id="refinery" type="builder" power-usage="30"/>
+        <processor id="blender" type="builder" power-usage="75"/>
+        <processor id="particle_accelerator" type="builder" power-usage="1000"/>
+        <extractor id="miner_mk1" type="miner" power-usage="5" normal-extraction-rate="60"/>
+        <extractor id="miner_mk2" type="miner" power-usage="12" normal-extraction-rate="120"/>
+        <extractor id="miner_mk3" type="miner" power-usage="30" normal-extraction-rate="240"/>
+
+        <processor id="smelter" type="builder" power-usage="4"/>
+        <processor id="foundry" type="builder" power-usage="16"/>
+        <processor id="nuclear_power_plant" type="builder" power-usage="-2500"/>
+
+    </buildings>
+    <items>
+        <resource id="bauxite" extractor="miner" impure="5" normal="6" pure="6"/>
+        <resource id="caterium_ore" extractor="miner" impure="0" normal="8" pure="8"/>
+        <resource id="coal" extractor="miner" impure="6" normal="29" pure="14"/>
+        <resource id="copper_ore" extractor="miner" impure="9" normal="28" pure="12"/>
+        <resource id="crude_oil" extractor="oil_extractor" impure="10" normal="12" pure="8"/>
+        <resource id="iron_ore" extractor="miner" impure="33" normal="41" pure="46"/>
+        <resource id="limestone" extractor="miner" impure="12" normal="47" pure="27"/>
+        <resource id="nitrogen_gas" extractor="resource_well_extractor" impure="2" normal="7" pure="36"/>
+        <resource id="raw_quartz" extractor="miner" impure="0" normal="11" pure="5"/>
+        <resource id="sulfur" extractor="miner" impure="1" normal="7" pure="3"/>
+        <resource id="uranium" extractor="miner" impure="1" normal="3" pure="0"/>
+        <resource id="water" extractor="water_extractor"/>
+
+        <resource id="alien_carapace" extractor="manual"/>
+        <resource id="alien_organ" extractor="manual"/>
+        <resource id="flower_petal" extractor="manual"/>
+        <resource id="leaves" extractor="manual"/>
+        <resource id="mycelia" extractor="manual"/>
+        <resource id="wood" extractor="manual"/>
+        <resource id="bacon_agaric" extractor="manual"/>
+        <resource id="beryl_nut" extractor="manual"/>
+        <resource id="paleberry" extractor="manual"/>
+
+        <resource id="blue_power_slug" extractor="manual"/>
+        <resource id="yellow_power_slug" extractor="manual"/>
+        <resource id="purple_power_slug" extractor="manual"/>
+
+        <item id="power_shard"/>
+        <item id="ai_limiter"/>
+        <item id="alclad_aluminum_sheet"/>
+        <item id="alumina_solution"/>
+        <item id="aluminum_ingot"/>
+        <item id="aluminum_casing"/>
+        <item id="aluminum_scrap"/>
+        <item id="adaptive_control_unit"/>
+        <item id="assembly_director_system"/>
+        <item id="automated_wiring"/>
+        <item id="battery"/>
+        <item id="beacon"/>
+        <item id="biomass"/>
+        <item id="black_powder"/>
+        <item id="cable"/>
+        <item id="caterium_ingot"/>
+        <item id="circuit_board"/>
+        <item id="cooling_system"/>
+        <item id="computer"/>
+        <item id="concrete"/>
+        <item id="copper_ingot"/>
+        <item id="copper_powder"/>
+        <item id="color_cartridge"/>
+        <item id="compacted_coal"/>
+        <item id="copper_sheet"/>
+        <item id="crystal_oscillator"/>
+        <item id="encased_industrial_beam"/>
+        <item id="encased_plutonium_cell"/>
+        <item id="empty_canister"/>
+        <item id="empty_fluid_tank"/>
+        <item id="fabric"/>
+        <item id="fused_modular_frame"/>
+        <item id="fuel"/>
+        <item id="gas_filter"/>
+        <item id="heavy_oil_residue"/>
+        <item id="heavy_modular_frame"/>
+        <item id="heat_sink"/>
+        <item id="high_speed_connector"/>
+        <item id="iodine_infused_filter"/>
+        <item id="iron_ingot"/>
+        <item id="iron_plate"/>
+        <item id="iron_rod"/>
+        <item id="liquid_biofuel"/>
+        <item id="nitric_acid"/>
+        <item id="magnetic_field_generator"/>
+        <item id="modular_frame"/>
+        <item id="modular_engine"/>
+        <item id="motor"/>
+        <item id="non_fissible_uranium"/>
+        <item id="nuclear_fuel_rod"/>
+        <item id="encased_uranium_cell"/>
+        <item id="electromagnetic_control_rod"/>
+        <item id="nuclear_pasta"/>
+        <item id="nobelisk"/>
+        <item id="packaged_alumina_solution"/>
+        <item id="packaged_oil"/>
+        <item id="packaged_water"/>
+        <item id="packaged_liquid_biofuel"/>
+        <item id="packaged_nitric_acid"/>
+        <item id="packaged_nitrogen_gas"/>
+        <item id="packaged_sulfuric_acid"/>
+        <item id="packaged_turbofuel"/>
+        <item id="packaged_fuel"/>
+        <item id="packaged_heavy_oil_residue"/>
+        <item id="petroleum_coke"/>
+        <item id="plastic"/>
+        <item id="plutonium_fuel_rod"/>
+        <item id="plutonium_pellet"/>
+        <item id="pressure_conversion_cube"/>
+        <item id="polymer_resin"/>
+        <item id="portable_miner"/>
+        <item id="quartz_crystal"/>
+        <item id="quickwire"/>
+        <item id="radio_control_unit"/>
+        <item id="reinforced_iron_plate"/>
+        <item id="rifle_cartridge"/>
+        <item id="rotor"/>
+        <item id="rubber"/>
+        <item id="screw"/>
+        <item id="silica"/>
+        <item id="smart_plating"/>
+        <item id="solid_biofuel"/>
+        <item id="stator"/>
+        <item id="steel_beam"/>
+        <item id="steel_pipe"/>
+        <item id="steel_ingot"/>
+        <item id="sulfuric_acid"/>
+        <item id="super_computer"/>
+        <item id="spiked_rebar"/>
+        <item id="thermal_propulsion_rocket"/>
+        <item id="turbo_motor"/>
+        <item id="turbofuel"/>
+        <item id="uranium_pellet"/>
+        <item id="uranium_waste"/>
+        <item id="uranium_fuel_rod"/>
+        <item id="versatile_framework"/>
+        <item id="wire"/>
+
+    </items>
+    <recipes>
+        <recipe id="_aluminum_casing" duration="2" building="constructor" alternate="false">
+            <inputs>
+                <reactant item="aluminum_ingot" quantity="3"/>
+            </inputs>
+            <outputs>
+                <reactant item="aluminum_casing" quantity="2"/>
+            </outputs>
+        </recipe>
+        <recipe id="_biocoal" duration="8" building="constructor" alternate="true">
+            <inputs>
+                <reactant item="biomass" quantity="5"/>
+            </inputs>
+            <outputs>
+                <reactant item="coal" quantity="6"/>
+            </outputs>
+        </recipe>
+        <recipe id="_biomass_carapace" duration="4" alternate="true" building="constructor">
+            <inputs>
+                <reactant item="alien_carapace" quantity="1"/>
+            </inputs>
+            <outputs>
+                <reactant item="biomass" quantity="100"/>
+            </outputs>
+        </recipe>
+        <recipe id="_biomass_organ" duration="8" alternate="true" building="constructor">
+            <inputs>
+                <reactant item="alien_organ" quantity="1"/>
+            </inputs>
+            <outputs>
+                <reactant item="biomass" quantity="200"/>
+            </outputs>
+        </recipe>
+        <recipe id="_biomass_leaves" duration="5" alternate="true" building="constructor">
+            <outputs>
+                <reactant item="biomass" quantity="5"/>
+            </outputs>
+            <inputs>
+                <reactant item="leaves" quantity="10"/>
+            </inputs>
+        </recipe>
+        <recipe id="_biomass_mycelia" duration="4" alternate="true" building="constructor">
+            <inputs>
+                <reactant item="mycelia" quantity="10"/>
+            </inputs>
+            <outputs>
+                <reactant item="biomass" quantity="10"/>
+            </outputs>
+        </recipe>
+        <recipe id="_biomass_wood" duration="4" alternate="false" building="constructor">
+            <inputs>
+                <reactant item="wood" quantity="4"/>
+            </inputs>
+            <outputs>
+                <reactant item="biomass" quantity="20"/>
+            </outputs>
+        </recipe>
+        <recipe id="_cable" duration="2" alternate="false" building="constructor">
+            <inputs>
+                <reactant item="wire" quantity="2"/>
+            </inputs>
+            <outputs>
+                <reactant item="cable" quantity="1"/>
+            </outputs>
+        </recipe>
+        <recipe id="_casted_screw" duration="24" alternate="true" building="constructor">
+            <inputs>
+                <reactant item="iron_ingot" quantity="5"/>
+            </inputs>
+            <outputs>
+                <reactant item="screw" quantity="20"/>
+            </outputs>
+        </recipe>
+        <recipe id="_caterium_wire" duration="4" alternate="true" building="constructor">
+            <inputs>
+                <reactant item="caterium_ingot" quantity="1"/>
+            </inputs>
+            <outputs>
+                <reactant item="wire" quantity="8"/>
+            </outputs>
+        </recipe>
+        <recipe id="_charcoal" duration="4" building="constructor" alternate="true">
+            <outputs>
+                <reactant item="coal" quantity="10"/>
+            </outputs>
+            <inputs>
+                <reactant item="wood" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_color_cartridge" duration="8" alternate="false" building="constructor">
+            <outputs>
+                <reactant item="color_cartridge" quantity="10"/>
+            </outputs>
+            <inputs>
+                <reactant item="flower_petal" quantity="5"/>
+            </inputs>
+        </recipe>
+        <recipe id="_concrete" duration="4" alternate="false" building="constructor">
+            <outputs>
+                <reactant item="concrete" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="limestone" quantity="3"/>
+            </inputs>
+        </recipe>
+        <recipe id="_copper_powder" duration="6" building="constructor" alternate="false">
+            <outputs>
+                <reactant item="copper_powder" quantity="5"/>
+            </outputs>
+            <inputs>
+                <reactant item="copper_ingot" quantity="30"/>
+            </inputs>
+        </recipe>
+        <recipe id="_copper_sheet" duration="6" alternate="false" building="constructor">
+            <outputs>
+                <reactant item="copper_sheet" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="copper_ingot" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_empty_canister" duration="4" alternate="false" building="constructor">
+            <outputs>
+                <reactant item="empty_canister" quantity="4"/>
+            </outputs>
+            <inputs>
+                <reactant item="plastic" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_empty_fluid_tank" duration="1" building="constructor" alternate="false">
+            <inputs>
+                <reactant item="aluminum_ingot" quantity="1"/>
+            </inputs>
+            <outputs>
+                <reactant item="empty_fluid_tank" quantity="1"/>
+            </outputs>
+        </recipe>
+        <recipe id="_iron_plate" duration="6" building="constructor" alternate="false">
+            <outputs>
+                <reactant item="iron_plate" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="iron_ingot" quantity="3"/>
+            </inputs>
+        </recipe>
+        <recipe id="_iron_rod" duration="4" building="constructor" alternate="false">
+            <outputs>
+                <reactant item="iron_rod" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="iron_ingot" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_iron_wire" duration="24" alternate="true" building="constructor">
+            <outputs>
+                <reactant item="wire" quantity="9"/>
+            </outputs>
+            <inputs>
+                <reactant item="iron_ingot" quantity="5"/>
+            </inputs>
+        </recipe>
+        <recipe id="_power_shard_1" duration="8" building="constructor" alternate="false">
+            <outputs>
+                <reactant item="power_shard" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="blue_power_slug" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_power_shard_2" duration="12" building="constructor" alternate="false">
+            <outputs>
+                <reactant item="power_shard" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="yellow_power_slug" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_power_shard_3" duration="24" building="constructor" alternate="false">
+            <outputs>
+                <reactant item="power_shard" quantity="5"/>
+            </outputs>
+            <inputs>
+                <reactant item="purple_power_slug" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_quartz_crystal" duration="8" alternate="false" building="constructor">
+            <outputs>
+                <reactant item="quartz_crystal" quantity="3"/>
+            </outputs>
+            <inputs>
+                <reactant item="raw_quartz" quantity="5"/>
+            </inputs>
+        </recipe>
+        <recipe id="_quickwire" duration="5" alternate="false" building="constructor">
+            <outputs>
+                <reactant item="quickwire" quantity="5"/>
+            </outputs>
+            <inputs>
+                <reactant item="caterium_ingot" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_screw" duration="6" alternate="false" building="constructor">
+            <outputs>
+                <reactant item="screw" quantity="4"/>
+            </outputs>
+            <inputs>
+                <reactant item="iron_rod" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_silica" duration="8" alternate="false" building="constructor">
+            <outputs>
+                <reactant item="silica" quantity="5"/>
+            </outputs>
+            <inputs>
+                <reactant item="raw_quartz" quantity="3"/>
+            </inputs>
+        </recipe>
+        <recipe id="_solid_biofuel" duration="4" alternate="false" building="constructor">
+            <outputs>
+                <reactant item="solid_biofuel" quantity="4"/>
+            </outputs>
+            <inputs>
+                <reactant item="biomass" quantity="8"/>
+            </inputs>
+        </recipe>
+        <recipe id="_spiked_rebar" duration="4" alternate="false" building="constructor">
+            <outputs>
+                <reactant item="spiked_rebar" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="iron_rod" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_steel_beam" duration="4" alternate="false" building="constructor">
+            <outputs>
+                <reactant item="steel_beam" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="steel_ingot" quantity="4"/>
+            </inputs>
+        </recipe>
+        <recipe id="_steel_canister" duration="3" building="constructor" alternate="true">
+            <inputs>
+                <reactant item="steel_ingot" quantity="3"/>
+            </inputs>
+            <outputs>
+                <reactant item="empty_canister" quantity="2"/>
+            </outputs>
+        </recipe>
+        <recipe id="_steel_pipe" duration="6" alternate="false" building="constructor">
+            <outputs>
+                <reactant item="steel_pipe" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="steel_ingot" quantity="3"/>
+            </inputs>
+        </recipe>
+        <recipe id="_steel_rod" duration="5" building="constructor" alternate="true">
+            <outputs>
+                <reactant item="iron_rod" quantity="4"/>
+            </outputs>
+            <inputs>
+                <reactant item="steel_ingot" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_steel_screw" duration="12" alternate="true" building="constructor">
+            <outputs>
+                <reactant item="screw" quantity="52"/>
+            </outputs>
+            <inputs>
+                <reactant item="steel_beam" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_wire" duration="4" alternate="false" building="constructor">
+            <outputs>
+                <reactant item="wire" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="copper_ingot" quantity="1"/>
+            </inputs>
+        </recipe>
+
+
+        <recipe id="_adhered_iron_plate" duration="16" alternate="true" building="assembler">
+            <outputs>
+                <reactant item="reinforced_iron_plate" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="iron_plate" quantity="3"/>
+                <reactant item="rubber" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_ai_limiter" duration="12" alternate="false" building="assembler">
+            <outputs>
+                <reactant item="ai_limiter" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="copper_sheet" quantity="5"/>
+                <reactant item="quickwire" quantity="20"/>
+            </inputs>
+        </recipe>
+        <recipe id="_alclad_aluminum_sheet" duration="6" building="assembler" alternate="false">
+            <outputs>
+                <reactant item="alclad_aluminum_sheet" quantity="3"/>
+            </outputs>
+            <inputs>
+                <reactant item="aluminum_ingot" quantity="3"/>
+                <reactant item="copper_ingot" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_alclad_casing" duration="8" building="assembler" alternate="true">
+            <outputs>
+                <reactant item="aluminum_casing" quantity="15"/>
+            </outputs>
+            <inputs>
+                <reactant item="aluminum_ingot" quantity="20"/>
+                <reactant item="copper_ingot" quantity="10"/>
+            </inputs>
+        </recipe>
+        <recipe id="_assembly_director_system" duration="80" building="assembler" alternate="false">
+            <outputs>
+                <reactant item="assembly_director_system" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="adaptive_control_unit" quantity="2"/>
+                <reactant item="super_computer" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_automated_wiring" duration="24" alternate="false" building="assembler">
+            <outputs>
+                <reactant item="automated_wiring" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="stator" quantity="1"/>
+                <reactant item="cable" quantity="20"/>
+            </inputs>
+        </recipe>
+        <recipe id="_black_powder" duration="8" alternate="false" building="assembler">
+            <outputs>
+                <reactant item="black_powder" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="coal" quantity="1"/>
+                <reactant item="sulfur" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_bolted_frame" duration="24" alternate="true" building="assembler">
+            <outputs>
+                <reactant item="modular_frame" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="reinforced_iron_plate" quantity="3"/>
+                <reactant item="screw" quantity="56"/>
+            </inputs>
+        </recipe>
+        <recipe id="_bolted_iron_plate" duration="12" alternate="true" building="assembler">
+            <outputs>
+                <reactant item="reinforced_iron_plate" quantity="3"/>
+            </outputs>
+            <inputs>
+                <reactant item="iron_plate" quantity="18"/>
+                <reactant item="screw" quantity="50"/>
+            </inputs>
+        </recipe>
+        <recipe id="_caterium_circuit_board" duration="48" building="assembler" alternate="true">
+            <outputs>
+                <reactant item="circuit_board" quantity="7"/>
+            </outputs>
+            <inputs>
+                <reactant item="plastic" quantity="10"/>
+                <reactant item="quickwire" quantity="30"/>
+            </inputs>
+        </recipe>
+        <recipe id="_cheap_silica" duration="16" alternate="true" building="assembler">
+            <outputs>
+                <reactant item="silica" quantity="7"/>
+            </outputs>
+            <inputs>
+                <reactant item="raw_quartz" quantity="3"/>
+                <reactant item="limestone" quantity="5"/>
+            </inputs>
+        </recipe>
+        <recipe id="_circuit_board" duration="8" alternate="false" building="assembler">
+            <outputs>
+                <reactant item="circuit_board" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="copper_sheet" quantity="2"/>
+                <reactant item="plastic" quantity="4"/>
+            </inputs>
+        </recipe>
+        <recipe id="_coated_iron_canister" duration="4" building="assembler" alternate="true">
+            <outputs>
+                <reactant item="empty_canister" quantity="4"/>
+            </outputs>
+            <inputs>
+                <reactant item="iron_plate" quantity="2"/>
+                <reactant item="copper_sheet" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_coated_iron_plate" duration="12" building="assembler" alternate="true">
+            <outputs>
+                <reactant item="iron_plate" quantity="15"/>
+            </outputs>
+            <inputs>
+                <reactant item="iron_ingot" quantity="10"/>
+                <reactant item="plastic" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_compacted_coal" duration="12" alternate="true" building="assembler">
+            <outputs>
+                <reactant item="compacted_coal" quantity="5"/>
+            </outputs>
+            <inputs>
+                <reactant item="coal" quantity="5"/>
+                <reactant item="sulfur" quantity="5"/>
+            </inputs>
+        </recipe>
+        <recipe id="_copper_rotor" duration="16" building="assembler" alternate="true">
+            <outputs>
+                <reactant item="rotor" quantity="3"/>
+            </outputs>
+            <inputs>
+                <reactant item="copper_sheet" quantity="6"/>
+                <reactant item="screw" quantity="52"/>
+            </inputs>
+        </recipe>
+        <recipe id="_crystal_computer" duration="64" building="assembler" alternate="true">
+            <outputs>
+                <reactant item="computer" quantity="3"/>
+            </outputs>
+            <inputs>
+                <reactant item="circuit_board" quantity="8"/>
+                <reactant item="crystal_oscillator" quantity="3"/>
+            </inputs>
+        </recipe>
+        <recipe id="_electric_motor" duration="16" building="assembler" alternate="true">
+            <outputs>
+                <reactant item="motor" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="electromagnetic_control_rod" quantity="1"/>
+                <reactant item="rotor" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_electrode_circuit_board" duration="12" building="assembler" alternate="true">
+            <outputs>
+                <reactant item="circuit_board" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="rubber" quantity="6"/>
+                <reactant item="petroleum_coke" quantity="9"/>
+            </inputs>
+        </recipe>
+        <recipe id="_electromagnetic_connection_rod" duration="15" building="assembler" alternate="true">
+            <outputs>
+                <reactant item="electromagnetic_control_rod" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="stator" quantity="2"/>
+                <reactant item="high_speed_connector" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_electromagnetic_control_rod" duration="30" building="assembler" alternate="false">
+            <outputs>
+                <reactant item="electromagnetic_control_rod" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="stator" quantity="3"/>
+                <reactant item="ai_limiter" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_encased_industrial_beam" duration="10" alternate="false" building="assembler">
+            <outputs>
+                <reactant item="encased_industrial_beam" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="steel_beam" quantity="4"/>
+                <reactant item="concrete" quantity="5"/>
+            </inputs>
+        </recipe>
+        <recipe id="_encased_industrial_pipe" duration="15" alternate="true" building="assembler">
+            <outputs>
+                <reactant item="encased_industrial_beam" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="steel_pipe" quantity="7"/>
+                <reactant item="concrete" quantity="5"/>
+            </inputs>
+        </recipe>
+        <recipe id="_encased_plutonium_cell" duration="12" building="assembler" alternate="false">
+            <outputs>
+                <reactant item="encased_plutonium_cell" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="plutonium_pellet" quantity="2"/>
+                <reactant item="concrete" quantity="4"/>
+            </inputs>
+        </recipe>
+        <recipe id="_fabric" duration="4" alternate="false" building="assembler">
+            <outputs>
+                <reactant item="fabric" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="mycelia" quantity="1"/>
+                <reactant item="biomass" quantity="5"/>
+            </inputs>
+        </recipe>
+        <recipe id="_fine_black_powder" duration="16" building="assembler" alternate="true">
+            <outputs>
+                <reactant item="black_powder" quantity="4"/>
+            </outputs>
+            <inputs>
+                <reactant item="sulfur" quantity="2"/>
+                <reactant item="compacted_coal" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_fine_concrete" duration="24" alternate="true" building="assembler">
+            <outputs>
+                <reactant item="concrete" quantity="10"/>
+            </outputs>
+            <inputs>
+                <reactant item="silica" quantity="3"/>
+                <reactant item="limestone" quantity="12"/>
+            </inputs>
+        </recipe>
+        <recipe id="_fused_quickwire" duration="8" alternate="true" building="assembler">
+            <outputs>
+                <reactant item="quickwire" quantity="12"/>
+            </outputs>
+            <inputs>
+                <reactant item="copper_ingot" quantity="5"/>
+                <reactant item="caterium_ingot" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_fused_wire" duration="20" alternate="true" building="assembler">
+            <outputs>
+                <reactant item="wire" quantity="30"/>
+            </outputs>
+            <inputs>
+                <reactant item="copper_ingot" quantity="4"/>
+                <reactant item="caterium_ingot" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_heat_exchanger" duration="6" building="assembler" alternate="true">
+            <outputs>
+                <reactant item="heat_sink" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="aluminum_casing" quantity="3"/>
+                <reactant item="rubber" quantity="3"/>
+            </inputs>
+        </recipe>
+        <recipe id="_heat_sink" duration="8" building="assembler" alternate="false">
+            <outputs>
+                <reactant item="heat_sink" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="alclad_aluminum_sheet" quantity="5"/>
+                <reactant item="copper_sheet" quantity="3"/>
+            </inputs>
+        </recipe>
+        <recipe id="_insulated_cable" alternate="true" duration="12" building="assembler">
+            <outputs>
+                <reactant item="cable" quantity="20"/>
+            </outputs>
+            <inputs>
+                <reactant item="wire" quantity="9"/>
+                <reactant item="rubber" quantity="6"/>
+            </inputs>
+        </recipe>
+        <recipe id="_modular_frame" duration="60" alternate="false" building="assembler">
+            <outputs>
+                <reactant item="modular_frame" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="iron_rod" quantity="12"/>
+                <reactant item="reinforced_iron_plate" quantity="3"/>
+            </inputs>
+        </recipe>
+        <recipe id="_motor" duration="12" alternate="false" building="assembler">
+            <outputs>
+                <reactant item="motor" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="stator" quantity="2"/>
+                <reactant item="rotor" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_nobelisk" duration="20" building="assembler" alternate="false">
+            <outputs>
+                <reactant item="nobelisk" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="black_powder" quantity="5"/>
+                <reactant item="steel_pipe" quantity="10"/>
+            </inputs>
+        </recipe>
+        <recipe id="_oc_supercomputer" duration="20" building="assembler" alternate="true">
+            <outputs>
+                <reactant item="super_computer" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="radio_control_unit" quantity="3"/>
+                <reactant item="cooling_system" quantity="3"/>
+            </inputs>
+        </recipe>
+        <recipe id="_plutonium_fuel_unit" duration="120" building="assembler" alternate="true">
+            <outputs>
+                <reactant item="plutonium_fuel_rod" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="encased_plutonium_cell" quantity="20"/>
+                <reactant item="pressure_conversion_cube" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_pressure_conversion_cube" duration="60" building="assembler" alternate="false">
+            <outputs>
+                <reactant item="pressure_conversion_cube" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="fused_modular_frame" quantity="1"/>
+                <reactant item="radio_control_unit" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_quickwire_cable" alternate="true" duration="24" building="assembler">
+            <outputs>
+                <reactant item="cable" quantity="11"/>
+            </outputs>
+            <inputs>
+                <reactant item="quickwire" quantity="3"/>
+                <reactant item="rubber" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_quickwire_stator" duration="15" alternate="true" building="assembler">
+            <outputs>
+                <reactant item="stator" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="steel_pipe" quantity="4"/>
+                <reactant item="quickwire" quantity="15"/>
+            </inputs>
+        </recipe>
+        <recipe id="_reinforced_iron_plate" duration="12" alternate="false" building="assembler">
+            <outputs>
+                <reactant item="reinforced_iron_plate" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="iron_plate" quantity="6"/>
+                <reactant item="screw" quantity="12"/>
+            </inputs>
+        </recipe>
+        <recipe id="_rotor" duration="15" alternate="false" building="assembler">
+            <outputs>
+                <reactant item="rotor" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="iron_rod" quantity="5"/>
+                <reactant item="screw" quantity="25"/>
+            </inputs>
+        </recipe>
+        <recipe id="_rubber_concrete" duration="12" alternate="true" building="assembler">
+            <outputs>
+                <reactant item="concrete" quantity="9"/>
+            </outputs>
+            <inputs>
+                <reactant item="limestone" quantity="10"/>
+                <reactant item="rubber" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_silicon_circuit_board" duration="24" alternate="true" building="assembler">
+            <outputs>
+                <reactant item="circuit_board" quantity="5"/>
+            </outputs>
+            <inputs>
+                <reactant item="copper_sheet" quantity="11"/>
+                <reactant item="silica" quantity="11"/>
+            </inputs>
+        </recipe>
+        <recipe id="_smart_plating" duration="30" alternate="false" building="assembler">
+            <outputs>
+                <reactant item="smart_plating" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="rotor" quantity="1"/>
+                <reactant item="reinforced_iron_plate" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_stator" duration="12" alternate="false" building="assembler">
+            <outputs>
+                <reactant item="stator" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="steel_pipe" quantity="3"/>
+                <reactant item="wire" quantity="8"/>
+            </inputs>
+        </recipe>
+        <recipe id="_steel_coated_plate" duration="24" building="assembler" alternate="true">
+            <outputs>
+                <reactant item="iron_plate" quantity="18"/>
+            </outputs>
+            <inputs>
+                <reactant item="steel_ingot" quantity="3"/>
+                <reactant item="plastic" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_steel_rotor" duration="12" building="assembler" alternate="true">
+            <outputs>
+                <reactant item="rotor" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="steel_pipe" quantity="2"/>
+                <reactant item="wire" quantity="6"/>
+            </inputs>
+        </recipe>
+        <recipe id="_steeled_frame" duration="60" building="assembler" alternate="true">
+            <outputs>
+                <reactant item="modular_frame" quantity="3"/>
+            </outputs>
+            <inputs>
+                <reactant item="reinforced_iron_plate" quantity="2"/>
+                <reactant item="steel_pipe" quantity="10"/>
+            </inputs>
+        </recipe>
+        <recipe id="_stitched_iron_plate" duration="32" alternate="true" building="assembler">
+            <outputs>
+                <reactant item="reinforced_iron_plate" quantity="3"/>
+            </outputs>
+            <inputs>
+                <reactant item="iron_plate" quantity="10"/>
+                <reactant item="wire" quantity="20"/>
+            </inputs>
+        </recipe>
+        <recipe id="_versatile_framework" duration="24" alternate="false" building="assembler">
+            <outputs>
+                <reactant item="versatile_framework" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="steel_beam" quantity="12"/>
+                <reactant item="modular_frame" quantity="1"/>
+            </inputs>
+        </recipe>
+
+
+        <recipe id="_adaptive_control_unit" duration="120" alternate="false" building="manufacturer">
+            <outputs>
+                <reactant item="adaptive_control_unit" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="automated_wiring" quantity="15"/>
+                <reactant item="circuit_board" quantity="10"/>
+                <reactant item="heavy_modular_frame" quantity="2"/>
+                <reactant item="computer" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_automated_miner" duration="60" building="manufacturer" alternate="true">
+            <outputs>
+                <reactant item="portable_miner" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="motor" quantity="1"/>
+                <reactant item="steel_pipe" quantity="4"/>
+                <reactant item="iron_rod" quantity="4"/>
+                <reactant item="iron_plate" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_beacon" duration="8" building="manufacturer" alternate="false">
+            <outputs>
+                <reactant item="beacon" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="iron_plate" quantity="3"/>
+                <reactant item="iron_rod" quantity="1"/>
+                <reactant item="wire" quantity="15"/>
+                <reactant item="cable" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_caterium_computer" duration="16" building="manufacturer" alternate="true">
+            <outputs>
+                <reactant item="computer" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="circuit_board" quantity="7"/>
+                <reactant item="quickwire" quantity="28"/>
+                <reactant item="rubber" quantity="12"/>
+            </inputs>
+        </recipe>
+        <recipe id="_classic_battery" duration="8" building="manufacturer" alternate="true">
+            <outputs>
+                <reactant item="battery" quantity="4"/>
+            </outputs>
+            <inputs>
+                <reactant item="sulfur" quantity="6"/>
+                <reactant item="alclad_aluminum_sheet" quantity="7"/>
+                <reactant item="plastic" quantity="8"/>
+                <reactant item="wire" quantity="12"/>
+            </inputs>
+        </recipe>
+        <recipe id="_computer" duration="24" alternate="false" building="manufacturer">
+            <outputs>
+                <reactant item="computer" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="circuit_board" quantity="10"/>
+                <reactant item="cable" quantity="9"/>
+                <reactant item="plastic" quantity="18"/>
+                <reactant item="screw" quantity="52"/>
+            </inputs>
+        </recipe>
+        <recipe id="_crystal_beacon" duration="120" building="manufacturer" alternate="true">
+            <outputs>
+                <reactant item="beacon" quantity="20"/>
+            </outputs>
+            <inputs>
+                <reactant item="steel_beam" quantity="4"/>
+                <reactant item="steel_pipe" quantity="16"/>
+                <reactant item="crystal_oscillator" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_crystal_oscillator" duration="120" alternate="false" building="manufacturer">
+            <outputs>
+                <reactant item="crystal_oscillator" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="quartz_crystal" quantity="36"/>
+                <reactant item="cable" quantity="28"/>
+                <reactant item="reinforced_iron_plate" quantity="5"/>
+            </inputs>
+        </recipe>
+        <recipe id="_flexible_framework" duration="16" building="manufacturer" alternate="true">
+            <outputs>
+                <reactant item="versatile_framework" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="modular_frame" quantity="1"/>
+                <reactant item="steel_beam" quantity="6"/>
+                <reactant item="rubber" quantity="8"/>
+            </inputs>
+        </recipe>
+        <recipe id="_gas_filter" duration="8" building="manufacturer" alternate="false">
+            <outputs>
+                <reactant item="gas_filter" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="coal" quantity="5"/>
+                <reactant item="rubber" quantity="2"/>
+                <reactant item="fabric" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_heavy_encased_frame" duration="64" alternate="true" building="manufacturer">
+            <outputs>
+                <reactant item="heavy_modular_frame" quantity="3"/>
+            </outputs>
+            <inputs>
+                <reactant item="modular_frame" quantity="8"/>
+                <reactant item="encased_industrial_beam" quantity="10"/>
+                <reactant item="steel_pipe" quantity="36"/>
+                <reactant item="concrete" quantity="22"/>
+            </inputs>
+        </recipe>
+        <recipe id="_heavy_flexible_frame" duration="16" building="manufacturer" alternate="true">
+            <outputs>
+                <reactant item="heavy_modular_frame" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="modular_frame" quantity="5"/>
+                <reactant item="encased_industrial_beam" quantity="3"/>
+                <reactant item="rubber" quantity="20"/>
+                <reactant item="screw" quantity="104"/>
+            </inputs>
+        </recipe>
+        <recipe id="_heavy_modular_frame" duration="30" alternate="false" building="manufacturer">
+            <outputs>
+                <reactant item="heavy_modular_frame" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="modular_frame" quantity="5"/>
+                <reactant item="steel_pipe" quantity="15"/>
+                <reactant item="encased_industrial_beam" quantity="5"/>
+                <reactant item="screw" quantity="100"/>
+            </inputs>
+        </recipe>
+        <recipe id="_high_speed_connector" duration="16" alternate="false" building="manufacturer">
+            <outputs>
+                <reactant item="high_speed_connector" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="quickwire" quantity="56"/>
+                <reactant item="cable" quantity="10"/>
+                <reactant item="circuit_board" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_high_speed_wiring" duration="32" building="manufacturer" alternate="true">
+            <outputs>
+                <reactant item="automated_wiring" quantity="4"/>
+            </outputs>
+            <inputs>
+                <reactant item="stator" quantity="2"/>
+                <reactant item="wire" quantity="40"/>
+                <reactant item="high_speed_connector" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_infused_uranium_cell" duration="12" building="manufacturer" alternate="true">
+            <outputs>
+                <reactant item="encased_uranium_cell" quantity="4"/>
+            </outputs>
+            <inputs>
+                <reactant item="uranium" quantity="5"/>
+                <reactant item="silica" quantity="3"/>
+                <reactant item="sulfur" quantity="5"/>
+                <reactant item="quickwire" quantity="15"/>
+            </inputs>
+        </recipe>
+        <recipe id="_insulated_crystal_oscillator" duration="32" alternate="true" building="manufacturer">
+            <outputs>
+                <reactant item="crystal_oscillator" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="quartz_crystal" quantity="10"/>
+                <reactant item="rubber" quantity="7"/>
+                <reactant item="ai_limiter" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_iodine_infused_filter" duration="16" building="manufacturer" alternate="false">
+            <outputs>
+                <reactant item="iodine_infused_filter" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="gas_filter" quantity="1"/>
+                <reactant item="quickwire" quantity="8"/>
+                <reactant item="aluminum_casing" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_magnetic_field_generator" duration="120" building="manufacturer" alternate="false">
+            <outputs>
+                <reactant item="magnetic_field_generator" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="versatile_framework" quantity="5"/>
+                <reactant item="electromagnetic_control_rod" quantity="2"/>
+                <reactant item="battery" quantity="10"/>
+            </inputs>
+        </recipe>
+        <recipe id="_modular_engine" duration="60" alternate="false" building="manufacturer">
+            <outputs>
+                <reactant item="modular_engine" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="motor" quantity="2"/>
+                <reactant item="rubber" quantity="15"/>
+                <reactant item="smart_plating" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_plastic_smart_plating" duration="24" building="manufacturer" alternate="true">
+            <outputs>
+                <reactant item="smart_plating" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="reinforced_iron_plate" quantity="1"/>
+                <reactant item="rotor" quantity="1"/>
+                <reactant item="plastic" quantity="3"/>
+            </inputs>
+        </recipe>
+        <recipe id="_plutonium_fuel_rod" duration="240" building="manufacturer" alternate="false">
+            <outputs>
+                <reactant item="plutonium_fuel_rod" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="encased_plutonium_cell" quantity="30"/>
+                <reactant item="steel_beam" quantity="18"/>
+                <reactant item="electromagnetic_control_rod" quantity="6"/>
+                <reactant item="heat_sink" quantity="10"/>
+            </inputs>
+        </recipe>
+        <recipe id="_radio_connection_unit" duration="16" building="manufacturer" alternate="true">
+            <outputs>
+                <reactant item="radio_control_unit" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="heat_sink" quantity="4"/>
+                <reactant item="high_speed_connector" quantity="2"/>
+                <reactant item="quartz_crystal" quantity="12"/>
+            </inputs>
+        </recipe>
+        <recipe id="_radio_control_system" duration="40" building="manufacturer" alternate="true">
+            <outputs>
+                <reactant item="radio_control_unit" quantity="3"/>
+            </outputs>
+            <inputs>
+                <reactant item="crystal_oscillator" quantity="1"/>
+                <reactant item="circuit_board" quantity="10"/>
+                <reactant item="aluminum_casing" quantity="60"/>
+                <reactant item="rubber" quantity="30"/>
+            </inputs>
+        </recipe>
+        <recipe id="_radio_control_unit" duration="48" building="manufacturer" alternate="false">
+            <outputs>
+                <reactant item="radio_control_unit" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="aluminum_casing" quantity="32"/>
+                <reactant item="crystal_oscillator" quantity="1"/>
+                <reactant item="computer" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_rifle_cartridge" duration="20" building="manufacturer" alternate="false">
+            <outputs>
+                <reactant item="rifle_cartridge" quantity="5"/>
+            </outputs>
+            <inputs>
+                <reactant item="beacon" quantity="1"/>
+                <reactant item="steel_pipe" quantity="10"/>
+                <reactant item="black_powder" quantity="10"/>
+                <reactant item="rubber" quantity="10"/>
+            </inputs>
+        </recipe>
+        <recipe id="_rigour_motor" duration="48" building="manufacturer" alternate="true">
+            <outputs>
+                <reactant item="motor" quantity="6"/>
+            </outputs>
+            <inputs>
+                <reactant item="rotor" quantity="3"/>
+                <reactant item="stator" quantity="3"/>
+                <reactant item="crystal_oscillator" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_seismic_nobelisk" duration="40" building="manufacturer" alternate="true">
+            <outputs>
+                <reactant item="nobelisk" quantity="4"/>
+            </outputs>
+            <inputs>
+                <reactant item="black_powder" quantity="8"/>
+                <reactant item="steel_pipe" quantity="8"/>
+                <reactant item="crystal_oscillator" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_silicone_high_speed_connector" duration="40" building="manufacturer" alternate="true">
+            <outputs>
+                <reactant item="high_speed_connector" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="quickwire" quantity="60"/>
+                <reactant item="silica" quantity="25"/>
+                <reactant item="circuit_board" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_super_state_computer" duration="50" building="manufacturer" alternate="true">
+            <outputs>
+                <reactant item="super_computer" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="computer" quantity="3"/>
+                <reactant item="electromagnetic_control_rod" quantity="2"/>
+                <reactant item="battery" quantity="20"/>
+                <reactant item="wire" quantity="45"/>
+            </inputs>
+        </recipe>
+        <recipe id="_super_computer" duration="32" alternate="false" building="manufacturer">
+            <outputs>
+                <reactant item="super_computer" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="computer" quantity="2"/>
+                <reactant item="ai_limiter" quantity="2"/>
+                <reactant item="high_speed_connector" quantity="3"/>
+                <reactant item="plastic" quantity="28"/>
+            </inputs>
+        </recipe>
+        <recipe id="_thermal_propulsion_rocket" duration="120" building="manufacturer" alternate="false">
+            <outputs>
+                <reactant item="thermal_propulsion_rocket" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="modular_engine" quantity="5"/>
+                <reactant item="turbo_motor" quantity="2"/>
+                <reactant item="cooling_system" quantity="6"/>
+                <reactant item="fused_modular_frame" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_turbo_electric_motor" duration="64" building="manufacturer" alternate="true">
+            <outputs>
+                <reactant item="turbo_motor" quantity="3"/>
+            </outputs>
+            <inputs>
+                <reactant item="motor" quantity="7"/>
+                <reactant item="radio_control_unit" quantity="9"/>
+                <reactant item="electromagnetic_control_rod" quantity="5"/>
+                <reactant item="rotor" quantity="7"/>
+            </inputs>
+        </recipe>
+        <recipe id="_turbo_motor" duration="32" building="manufacturer" alternate="false">
+            <outputs>
+                <reactant item="turbo_motor" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="cooling_system" quantity="4"/>
+                <reactant item="radio_control_unit" quantity="2"/>
+                <reactant item="motor" quantity="4"/>
+                <reactant item="rubber" quantity="24"/>
+            </inputs>
+        </recipe>
+        <recipe id="_turbo_pressure_motor" duration="32" building="manufacturer" alternate="true">
+            <outputs>
+                <reactant item="turbo_motor" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="motor" quantity="4"/>
+                <reactant item="pressure_conversion_cube" quantity="1"/>
+                <reactant item="packaged_nitrogen_gas" quantity="24"/>
+                <reactant item="stator" quantity="8"/>
+            </inputs>
+        </recipe>
+        <recipe id="_uranium_fuel_rod" duration="150" building="manufacturer" alternate="false">
+            <outputs>
+                <reactant item="uranium_fuel_rod" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="encased_uranium_cell" quantity="50"/>
+                <reactant item="encased_industrial_beam" quantity="3"/>
+                <reactant item="electromagnetic_control_rod" quantity="5"/>
+            </inputs>
+        </recipe>
+        <recipe id="uranium_fuel_unit" duration="300" building="manufacturer" alternate="true">
+            <outputs>
+                <reactant item="uranium_fuel_rod" quantity="3"/>
+            </outputs>
+            <inputs>
+                <reactant item="encased_uranium_cell" quantity="100"/>
+                <reactant item="electromagnetic_control_rod" quantity="10"/>
+                <reactant item="crystal_oscillator" quantity="3"/>
+                <reactant item="beacon" quantity="6"/>
+            </inputs>
+        </recipe>
+
+
+        <recipe id="_packaged_alumina_solution" duration="1" building="packager" alternate="false">
+            <outputs>
+                <reactant item="packaged_alumina_solution" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="alumina_solution" quantity="2"/>
+                <reactant item="empty_canister" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_packaged_fuel" duration="3" building="packager" alternate="false">
+            <outputs>
+                <reactant item="packaged_fuel" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="fuel" quantity="2"/>
+                <reactant item="empty_canister" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_packaged_heavy_oil_residue" duration="4" building="packager" alternate="false">
+            <outputs>
+                <reactant item="packaged_heavy_oil_residue" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="heavy_oil_residue" quantity="2"/>
+                <reactant item="empty_canister" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_packaged_liquid_biofuel" duration="3" building="packager" alternate="false">
+            <outputs>
+                <reactant item="packaged_liquid_biofuel" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="empty_canister" quantity="2"/>
+                <reactant item="liquid_biofuel" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_packaged_nitric_acid" duration="2" building="packager" alternate="false">
+            <outputs>
+                <reactant item="packaged_nitric_acid" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="nitric_acid" quantity="1"/>
+                <reactant item="empty_fluid_tank" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_packaged_nitrogen_gas" duration="1" building="packager" alternate="false">
+            <outputs>
+                <reactant item="packaged_nitrogen_gas" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="nitrogen_gas" quantity="4"/>
+                <reactant item="empty_fluid_tank" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_packaged_oil" duration="4" building="packager" alternate="false">
+            <outputs>
+                <reactant item="packaged_oil" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="empty_canister" quantity="2"/>
+                <reactant item="crude_oil" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_packaged_sulfuric_acid" duration="3" building="packager" alternate="false">
+            <outputs>
+                <reactant item="packaged_sulfuric_acid" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="sulfuric_acid" quantity="2"/>
+                <reactant item="empty_canister" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_packaged_turbofuel" duration="6" building="packager" alternate="false">
+            <outputs>
+                <reactant item="packaged_turbofuel" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="empty_canister" quantity="2"/>
+                <reactant item="turbofuel" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_packaged_water" duration="2" building="packager" alternate="false">
+            <outputs>
+                <reactant item="packaged_water" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="empty_canister" quantity="2"/>
+                <reactant item="water" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_unpackaged_alumina_solution" duration="1" building="packager" alternate="false">
+            <outputs>
+                <reactant item="alumina_solution" quantity="2"/>
+                <reactant item="empty_canister" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="packaged_alumina_solution" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_unpackage_fuel" duration="2" building="packager" alternate="false">
+            <outputs>
+                <reactant item="fuel" quantity="2"/>
+                <reactant item="empty_canister" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="packaged_fuel" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_unpackage_heavy_oil_residue" duration="6" building="packager" alternate="false">
+            <outputs>
+                <reactant item="heavy_oil_residue" quantity="2"/>
+                <reactant item="empty_canister" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="packaged_heavy_oil_residue" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_unpackage_liquid_biofuel" duration="2" building="packager" alternate="false">
+            <outputs>
+                <reactant item="empty_canister" quantity="2"/>
+                <reactant item="liquid_biofuel" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="packaged_liquid_biofuel" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_unpackage_nitric_acid" duration="3" building="packager" alternate="false">
+            <outputs>
+                <reactant item="nitric_acid" quantity="1"/>
+                <reactant item="empty_fluid_tank" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="packaged_nitric_acid" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_unpackage_nitrogen_gas" duration="1" building="packager" alternate="false">
+            <outputs>
+                <reactant item="nitrogen_gas" quantity="4"/>
+                <reactant item="empty_fluid_tank" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="packaged_nitrogen_gas" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_unpackage_oil" duration="2" building="packager" alternate="false">
+            <outputs>
+                <reactant item="empty_canister" quantity="2"/>
+                <reactant item="crude_oil" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="packaged_oil" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_unpackage_sulfuric_acid" duration="1" building="packager" alternate="false">
+            <outputs>
+                <reactant item="sulfuric_acid" quantity="1"/>
+                <reactant item="empty_canister" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="packaged_sulfuric_acid" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_unpackage_turbofuel" duration="6" building="packager" alternate="false">
+            <outputs>
+                <reactant item="empty_canister" quantity="2"/>
+                <reactant item="turbofuel" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="packaged_turbofuel" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_unpackage_water" duration="1" building="packager" alternate="false">
+            <outputs>
+                <reactant item="empty_canister" quantity="2"/>
+                <reactant item="water" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="packaged_water" quantity="2"/>
+            </inputs>
+        </recipe>
+
+
+        <recipe id="_alumina_solution" duration="6" alternate="false" building="refinery">
+            <outputs>
+                <reactant item="alumina_solution" quantity="12"/>
+                <reactant item="silica" quantity="5"/>
+            </outputs>
+            <inputs>
+                <reactant item="bauxite" quantity="12"/>
+                <reactant item="water" quantity="18"/>
+            </inputs>
+        </recipe>
+        <recipe id="_aluminum_scrap" duration="1" building="refinery" alternate="false">
+            <outputs>
+                <reactant item="aluminum_scrap" quantity="6"/>
+                <reactant item="water" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="alumina_solution" quantity="4"/>
+                <reactant item="coal" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_coated_cable" alternate="true" duration="8" building="refinery">
+            <outputs>
+                <reactant item="cable" quantity="9"/>
+            </outputs>
+            <inputs>
+                <reactant item="wire" quantity="5"/>
+                <reactant item="heavy_oil_residue" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_diluted_packaged_fuel" duration="2" building="refinery" alternate="true">
+            <outputs>
+                <reactant item="packaged_fuel" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="heavy_oil_residue" quantity="1"/>
+                <reactant item="packaged_water" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_electrode_aluminum_scrap" duration="4" building="refinery" alternate="true">
+            <outputs>
+                <reactant item="aluminum_scrap" quantity="20"/>
+                <reactant item="water" quantity="7"/>
+            </outputs>
+            <inputs>
+                <reactant item="alumina_solution" quantity="12"/>
+                <reactant item="petroleum_coke" quantity="4"/>
+            </inputs>
+        </recipe>
+        <recipe id="_fuel" alternate="true" duration="6" building="refinery">
+            <outputs>
+                <reactant item="fuel" quantity="4"/>
+                <reactant item="polymer_resin" quantity="3"/>
+            </outputs>
+            <inputs>
+                <reactant item="crude_oil" quantity="6"/>
+            </inputs>
+        </recipe>
+        <recipe id="_heavy_oil_residue" alternate="true" duration="6" building="refinery">
+            <outputs>
+                <reactant item="heavy_oil_residue" quantity="4"/>
+                <reactant item="polymer_resin" quantity="2"/>
+
+            </outputs>
+            <inputs>
+                <reactant item="crude_oil" quantity="3"/>
+            </inputs>
+        </recipe>
+        <recipe id="_liquid_biofuel" duration="4" alternate="false" building="refinery">
+            <outputs>
+                <reactant item="liquid_biofuel" quantity="4"/>
+            </outputs>
+            <inputs>
+                <reactant item="water" quantity="3"/>
+                <reactant item="solid_biofuel" quantity="6"/>
+            </inputs>
+        </recipe>
+        <recipe id="_petroleum_coke" duration="6" alternate="false" building="refinery">
+            <outputs>
+                <reactant item="petroleum_coke" quantity="12"/>
+            </outputs>
+            <inputs>
+                <reactant item="heavy_oil_residue" quantity="4"/>
+            </inputs>
+        </recipe>
+        <recipe id="_plastic" alternate="false" duration="6" building="refinery">
+            <outputs>
+                <reactant item="plastic" quantity="2"/>
+                <reactant item="heavy_oil_residue" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="crude_oil" quantity="3"/>
+            </inputs>
+        </recipe>
+        <recipe id="_polyester_fabric" duration="12" building="refinery" alternate="true">
+            <outputs>
+                <reactant item="fabric" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="polymer_resin" quantity="16"/>
+                <reactant item="water" quantity="10"/>
+            </inputs>
+        </recipe>
+        <recipe id="_polymer_resin" duration="6" building="refinery" alternate="true">
+            <outputs>
+                <reactant item="polymer_resin" quantity="13"/>
+                <reactant item="heavy_oil_residue" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="crude_oil" quantity="6"/>
+            </inputs>
+        </recipe>
+        <recipe id="_pure_caterium_ingot" duration="5" alternate="true" building="refinery">
+            <outputs>
+                <reactant item="caterium_ingot" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="caterium_ore" quantity="2"/>
+                <reactant item="water" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_pure_copper_ingot" duration="24" alternate="true" building="refinery">
+            <outputs>
+                <reactant item="copper_ingot" quantity="15"/>
+            </outputs>
+            <inputs>
+                <reactant item="copper_ore" quantity="6"/>
+                <reactant item="water" quantity="4"/>
+            </inputs>
+        </recipe>
+        <recipe id="_pure_iron_ingot" duration="12" alternate="true" building="refinery">
+            <outputs>
+                <reactant item="iron_ingot" quantity="13"/>
+            </outputs>
+            <inputs>
+                <reactant item="iron_ore" quantity="7"/>
+                <reactant item="water" quantity="4"/>
+            </inputs>
+        </recipe>
+        <recipe id="_pure_quartz_crystal" duration="8" alternate="true" building="refinery">
+            <outputs>
+                <reactant item="quartz_crystal" quantity="7"/>
+            </outputs>
+            <inputs>
+                <reactant item="raw_quartz" quantity="9"/>
+                <reactant item="water" quantity="5"/>
+            </inputs>
+        </recipe>
+        <recipe id="_recycled_plastic" alternate="true" duration="12" building="refinery">
+            <outputs>
+                <reactant item="plastic" quantity="12"/>
+            </outputs>
+            <inputs>
+                <reactant item="rubber" quantity="6"/>
+                <reactant item="fuel" quantity="6"/>
+            </inputs>
+        </recipe>
+        <recipe id="_recycled_rubber" duration="12" building="refinery" alternate="true">
+            <outputs>
+                <reactant item="rubber" quantity="12"/>
+            </outputs>
+            <inputs>
+                <reactant item="plastic" quantity="6"/>
+                <reactant item="fuel" quantity="6"/>
+            </inputs>
+        </recipe>
+        <recipe id="_residual_fuel" duration="6" alternate="false" building="refinery">
+            <outputs>
+                <reactant item="fuel" quantity="4"/>
+            </outputs>
+            <inputs>
+                <reactant item="heavy_oil_residue" quantity="6"/>
+            </inputs>
+        </recipe>
+        <recipe id="_residual_plastic" duration="6" alternate="false" building="refinery">
+            <outputs>
+                <reactant item="plastic" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="polymer_resin" quantity="6"/>
+                <reactant item="water" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_residual_rubber" duration="6" alternate="false" building="refinery">
+            <outputs>
+                <reactant item="rubber" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="polymer_resin" quantity="4"/>
+                <reactant item="water" quantity="4"/>
+            </inputs>
+        </recipe>
+        <recipe id="_rubber" alternate="false" duration="6" building="refinery">
+            <outputs>
+                <reactant item="rubber" quantity="2"/>
+                <reactant item="heavy_oil_residue" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="crude_oil" quantity="3"/>
+            </inputs>
+        </recipe>
+        <recipe id="_sloppy_alumina" duration="3" alternate="true" building="refinery">
+            <outputs>
+                <reactant item="alumina_solution" quantity="12"/>
+            </outputs>
+            <inputs>
+                <reactant item="bauxite" quantity="10"/>
+                <reactant item="water" quantity="10"/>
+            </inputs>
+        </recipe>
+        <recipe id="_steamed_copper_sheet" duration="8" alternate="true" building="refinery">
+            <outputs>
+                <reactant item="copper_sheet" quantity="3"/>
+            </outputs>
+            <inputs>
+                <reactant item="copper_ingot" quantity="3"/>
+                <reactant item="water" quantity="3"/>
+            </inputs>
+        </recipe>
+        <recipe id="_sulfuric_acid" duration="6" building="refinery" alternate="false">
+            <outputs>
+                <reactant item="sulfuric_acid" quantity="5"/>
+            </outputs>
+            <inputs>
+                <reactant item="sulfur" quantity="5"/>
+                <reactant item="water" quantity="5"/>
+            </inputs>
+        </recipe>
+        <recipe id="_turbo_heavy_fuel" duration="8" building="refinery" alternate="true">
+            <outputs>
+                <reactant item="turbofuel" quantity="4"/>
+            </outputs>
+            <inputs>
+                <reactant item="heavy_oil_residue" quantity="5"/>
+                <reactant item="compacted_coal" quantity="4"/>
+            </inputs>
+        </recipe>
+        <recipe id="_turbofuel" duration="16" building="refinery" alternate="true">
+            <outputs>
+                <reactant item="turbofuel" quantity="5"/>
+            </outputs>
+            <inputs>
+                <reactant item="fuel" quantity="6"/>
+                <reactant item="compacted_coal" quantity="4"/>
+            </inputs>
+        </recipe>
+        <recipe id="_wet_concrete" duration="3" alternate="true" building="refinery">
+            <outputs>
+                <reactant item="concrete" quantity="4"/>
+            </outputs>
+            <inputs>
+                <reactant item="limestone" quantity="6"/>
+                <reactant item="water" quantity="5"/>
+            </inputs>
+        </recipe>
+
+
+        <recipe id="_battery" duration="6" building="blender" alternate="false">
+            <outputs>
+                <reactant item="battery" quantity="2"/>
+                <reactant item="water" quantity="3"/>
+            </outputs>
+            <inputs>
+                <reactant item="sulfuric_acid" quantity="5"/>
+                <reactant item="alumina_solution" quantity="4"/>
+                <reactant item="aluminum_casing" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_cooling_device" duration="32" building="blender" alternate="true">
+            <outputs>
+                <reactant item="cooling_system" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="heat_sink" quantity="5"/>
+                <reactant item="motor" quantity="1"/>
+                <reactant item="nitrogen_gas" quantity="24"/>
+            </inputs>
+        </recipe>
+        <recipe id="_cooling_system" duration="10" building="blender" alternate="false">
+            <outputs>
+                <reactant item="cooling_system" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="heat_sink" quantity="2"/>
+                <reactant item="rubber" quantity="2"/>
+                <reactant item="water" quantity="5"/>
+                <reactant item="nitrogen_gas" quantity="25"/>
+            </inputs>
+        </recipe>
+        <recipe id="_diluted_fuel" duration="6" building="blender" alternate="true">
+            <outputs>
+                <reactant item="fuel" quantity="10"/>
+            </outputs>
+            <inputs>
+                <reactant item="heavy_oil_residue" quantity="5"/>
+                <reactant item="water" quantity="10"/>
+            </inputs>
+        </recipe>
+        <recipe id="_encased_uranium_cell" duration="12" building="blender" alternate="false">
+            <outputs>
+                <reactant item="encased_uranium_cell" quantity="5"/>
+                <reactant item="sulfuric_acid" quantity="2"/>
+            </outputs>
+            <inputs>
+                <reactant item="uranium" quantity="10"/>
+                <reactant item="concrete" quantity="3"/>
+                <reactant item="sulfuric_acid" quantity="8"/>
+            </inputs>
+        </recipe>
+        <recipe id="_fertile_uranium" duration="12" building="blender" alternate="true">
+            <outputs>
+                <reactant item="non_fissible_uranium" quantity="20"/>
+                <reactant item="water" quantity="8"/>
+            </outputs>
+            <inputs>
+                <reactant item="uranium" quantity="5"/>
+                <reactant item="uranium_waste" quantity="5"/>
+                <reactant item="nitric_acid" quantity="3"/>
+                <reactant item="sulfuric_acid" quantity="5"/>
+            </inputs>
+        </recipe>
+        <recipe id="_fused_modular_frame" duration="40" building="blender" alternate="false">
+            <outputs>
+                <reactant item="fused_modular_frame" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="heavy_modular_frame" quantity="1"/>
+                <reactant item="aluminum_casing" quantity="50"/>
+                <reactant item="nitrogen_gas" quantity="25"/>
+            </inputs>
+        </recipe>
+        <recipe id="_heat_fused_frame" duration="20" building="blender" alternate="true">
+            <outputs>
+                <reactant item="fused_modular_frame" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="heavy_modular_frame" quantity="1"/>
+                <reactant item="aluminum_ingot" quantity="50"/>
+                <reactant item="nitric_acid" quantity="8"/>
+                <reactant item="fuel" quantity="10"/>
+            </inputs>
+        </recipe>
+        <recipe id="_instant_scrap" duration="6" building="blender" alternate="true">
+            <outputs>
+                <reactant item="aluminum_scrap" quantity="30"/>
+                <reactant item="water" quantity="5"/>
+            </outputs>
+            <inputs>
+                <reactant item="bauxite" quantity="15"/>
+                <reactant item="coal" quantity="10"/>
+                <reactant item="sulfuric_acid" quantity="5"/>
+                <reactant item="water" quantity="6"/>
+            </inputs>
+        </recipe>
+        <recipe id="_nitric_acid" duration="6" building="blender" alternate="false">
+            <outputs>
+                <reactant item="nitric_acid" quantity="3"/>
+            </outputs>
+            <inputs>
+                <reactant item="nitrogen_gas" quantity="12"/>
+                <reactant item="water" quantity="3"/>
+                <reactant item="iron_plate" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_non_fissible_uranium" duration="24" building="blender" alternate="false">
+            <outputs>
+                <reactant item="non_fissible_uranium" quantity="20"/>
+                <reactant item="water" quantity="6"/>
+            </outputs>
+            <inputs>
+                <reactant item="uranium_waste" quantity="15"/>
+                <reactant item="silica" quantity="10"/>
+                <reactant item="nitric_acid" quantity="6"/>
+                <reactant item="sulfuric_acid" quantity="6"/>
+            </inputs>
+        </recipe>
+        <recipe id="_turbo_blend_fuel" duration="8" building="blender" alternate="true">
+            <outputs>
+                <reactant item="turbofuel" quantity="6"/>
+            </outputs>
+            <inputs>
+                <reactant item="fuel" quantity="2"/>
+                <reactant item="heavy_oil_residue" quantity="4"/>
+                <reactant item="sulfur" quantity="3"/>
+                <reactant item="petroleum_coke" quantity="3"/>
+            </inputs>
+        </recipe>
+
+        <recipe id="_caterium_ingot" duration="4" building="smelter" alternate="false">
+            <outputs>
+                <reactant item="caterium_ingot" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="caterium_ore" quantity="3"/>
+            </inputs>
+        </recipe>
+        <recipe id="_copper_ingot" duration="2" building="smelter" alternate="false">
+            <outputs>
+                <reactant item="copper_ingot" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="copper_ore" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_iron_ingot" duration="2" building="smelter" alternate="false">
+            <outputs>
+                <reactant item="iron_ingot" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="iron_ore" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_pure_aluminum_ingot" duration="2" building="smelter" alternate="true">
+            <outputs>
+                <reactant item="aluminum_ingot" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="aluminum_scrap" quantity="2"/>
+            </inputs>
+
+        </recipe>
+
+        <recipe id="_aluminum_ingot" duration="4" building="foundry" alternate="false">
+            <outputs>
+                <reactant item="aluminum_ingot" quantity="4"/>
+            </outputs>
+            <inputs>
+                <reactant item="aluminum_scrap" quantity="6"/>
+                <reactant item="silica" quantity="5"/>
+            </inputs>
+        </recipe>
+        <recipe id="_coke_steel_ingot" duration="12" building="foundry" alternate="true">
+            <outputs>
+                <reactant item="steel_ingot" quantity="20"/>
+            </outputs>
+            <inputs>
+                <reactant item="iron_ore" quantity="15"/>
+                <reactant item="petroleum_coke" quantity="15"/>
+            </inputs>
+        </recipe>
+        <recipe id="_compacted_steel_ingot" duration="16" building="foundry" alternate="true">
+            <outputs>
+                <reactant item="steel_ingot" quantity="10"/>
+            </outputs>
+            <inputs>
+                <reactant item="iron_ore" quantity="6"/>
+                <reactant item="compacted_coal" quantity="3"/>
+            </inputs>
+        </recipe>
+        <recipe id="_copper_alloy_ingot" duration="12" building="foundry" alternate="true">
+            <outputs>
+                <reactant item="copper_ingot" quantity="20"/>
+            </outputs>
+            <inputs>
+                <reactant item="copper_ore" quantity="10"/>
+                <reactant item="iron_ore" quantity="5"/>
+            </inputs>
+        </recipe>
+        <recipe id="_iron_alloy_ingot" duration="6" building="foundry" alternate="true">
+            <outputs>
+                <reactant item="iron_ingot" quantity="5"/>
+            </outputs>
+            <inputs>
+                <reactant item="iron_ore" quantity="2"/>
+                <reactant item="copper_ore" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_solid_steel_ingot" duration="3" building="foundry" alternate="true">
+            <outputs>
+                <reactant item="steel_ingot" quantity="3"/>
+            </outputs>
+            <inputs>
+                <reactant item="iron_ingot" quantity="2"/>
+                <reactant item="coal" quantity="2"/>
+            </inputs>
+        </recipe>
+        <recipe id="_steel_ingot" duration="4" building="foundry" alternate="false">
+            <outputs>
+                <reactant item="steel_ingot" quantity="3"/>
+            </outputs>
+            <inputs>
+                <reactant item="iron_ore" quantity="3"/>
+                <reactant item="coal" quantity="3"/>
+            </inputs>
+        </recipe>
+
+        <recipe id="_instant_plutonium_cell" duration="120" building="particle_accelerator" alternate="true">
+            <outputs>
+                <reactant item="encased_plutonium_cell" quantity="20"/>
+            </outputs>
+            <inputs>
+                <reactant item="non_fissible_uranium" quantity="150"/>
+                <reactant item="aluminum_casing" quantity="20"/>
+            </inputs>
+        </recipe>
+        <recipe id="_nuclear_pasta" duration="120" building="particle_accelerator" alternate="false">
+            <outputs>
+                <reactant item="nuclear_pasta" quantity="1"/>
+            </outputs>
+            <inputs>
+                <reactant item="copper_powder" quantity="200"/>
+                <reactant item="pressure_conversion_cube" quantity="1"/>
+            </inputs>
+        </recipe>
+        <recipe id="_plutonium_pellet" duration="60" building="particle_accelerator" alternate="false">
+            <outputs>
+                <reactant item="plutonium_pellet" quantity="30"/>
+            </outputs>
+            <inputs>
+                <reactant item="non_fissible_uranium" quantity="100"/>
+                <reactant item="uranium_waste" quantity="25"/>
+            </inputs>
+        </recipe>
+        <recipe id="_uranium_waste" duration="300" building="nuclear_power_plant" alternate="false">
+            <outputs>
+                <reactant item="uranium_waste" quantity="50"/>
+            </outputs>
+            <inputs>
+                <reactant item="uranium_fuel_rod" quantity="1"/>
+                <reactant item="water" quantity="1500"/>
+            </inputs>
+        </recipe>
+
+    </recipes>
+</book>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="pero:book" xmlns:p="pero:book" blockDefault="#all" elementFormDefault="qualified">
+
+    <xsd:element name="book" type="p:Book"/>
+
+
+    <xsd:complexType name="Book">
+        <xsd:sequence>
+            <xsd:element name="buildings" minOccurs="1" maxOccurs="1" type="p:Buildings"/>
+            <xsd:element name="items" minOccurs="1" maxOccurs="1" type="p:Items"/>
+            <xsd:element name="recipes" minOccurs="1" maxOccurs="1" type="p:Recipes"/>
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" use="required"/>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="Buildings">
+        <xsd:sequence>
+            <xsd:choice maxOccurs="unbounded">
+                <xsd:element name="processor" minOccurs="1" maxOccurs="unbounded" type="p:Processor"/>
+                <xsd:element name="extractor" minOccurs="1" maxOccurs="unbounded" type="p:Extractor"/>
+            </xsd:choice>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="Items">
+        <xsd:sequence>
+            <xsd:choice maxOccurs="unbounded">
+                <xsd:element name="resource" minOccurs="1" maxOccurs="unbounded" type="p:Resource"/>
+                <xsd:element name="item" minOccurs="1" maxOccurs="unbounded" type="p:Item"/>
+            </xsd:choice>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="Recipes">
+        <xsd:sequence>
+            <xsd:element name="recipe" maxOccurs="unbounded" type="p:Recipe"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="Building">
+        <xsd:attribute name="id" type="xsd:ID" use="required"/>
+        <xsd:attribute name="type" use="required">
+            <xsd:simpleType>
+                <xsd:restriction>
+                    <xsd:enumeration value="builder"/>
+                    <xsd:enumeration value="miner"/>
+                    <xsd:enumeration value="oil_extractor"/>
+                    <xsd:enumeration value="water_extractor"/>
+                    <xsd:enumeration value="resource_well_extractor"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute name="power-usage" type="xsd:int" use="required"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="Processor">
+        <xsd:complexContent>
+            <xsd:extension base="p:Building">
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="Extractor">
+        <xsd:complexContent>
+            <xsd:extension base="p:Building">
+                <xsd:attribute name="normal-extraction-rate" type="xsd:int" use="required"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="Item">
+        <xsd:attribute name="id" type="xsd:ID" use="required"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="Resource">
+        <xsd:attribute name="id" type="xsd:ID" use="required"/>
+        <xsd:attribute name="impure" type="xsd:int" default="-1" use="optional"/>
+        <xsd:attribute name="normal" type="xsd:int" default="-1" use="optional"/>
+        <xsd:attribute name="pure" type="xsd:int" default="-1" use="optional"/>
+        <xsd:attribute name="extractor" use="required">
+            <xsd:simpleType>
+                <xsd:restriction>
+                    <xsd:enumeration value="miner"/>
+                    <xsd:enumeration value="oil_extractor"/>
+                    <xsd:enumeration value="water_extractor"/>
+                    <xsd:enumeration value="manual"/>
+                    <xsd:enumeration value="resource_well_extractor"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="Reactant">
+        <xsd:attribute name="item" type="xsd:IDREF" use="required"/>
+        <xsd:attribute name="quantity" type="xsd:int" use="required"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="Reactants">
+        <xsd:sequence>
+            <xsd:element name="reactant" type="p:Reactant" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="Recipe">
+        <xsd:all>
+            <xsd:element name="inputs" type="p:Reactants"/>
+            <xsd:element name="outputs" type="p:Reactants"/>
+        </xsd:all>
+        <xsd:attribute name="id" type="xsd:ID" use="required"/>
+        <xsd:attribute name="duration" type="xsd:int" use="required"/>
+        <xsd:attribute name="building" type="xsd:IDREF" use="required"/>
+        <xsd:attribute name="alternate" type="xsd:boolean" use="required"/>
+    </xsd:complexType>
+
+</xsd:schema>
