@@ -14,6 +14,7 @@ mod problem_output;
 mod solver;
 pub mod error;
 pub mod factory;
+pub mod production;
 
 
 fn main() -> Result<()> {
@@ -31,7 +32,7 @@ fn main() -> Result<()> {
             "iron_rod".to_string() => 30
         },
         available_items: hashmap! {
-            "iron_ingot".to_string() => 0
+            "iron_ingot".to_string() => 240
         }};
 
 
