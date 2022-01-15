@@ -140,7 +140,7 @@
     },
     {
       "id": "nitrogen_gas",
-      "extractor": "resource_well_extractor",
+      "extractor": "resource_well_pressurizer",
       "impure": 2,
       "normal": 7,
       "pure": 36

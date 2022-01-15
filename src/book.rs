@@ -1,8 +1,8 @@
 use std::collections::HashSet;
-use crate::dto::filtered_book::FilteredBook;
-use crate::dto::recipe::Recipe;
 use crate::error::Result;
-use crate::dto::item::Item;
+use crate::model::filtered_book::FilteredBook;
+use crate::model::item::Item;
+use crate::model::recipe::Recipe;
 
 pub trait Book {
 
@@ -10,12 +10,9 @@ pub trait Book {
 
     fn number_of_recipes(&self) -> usize;
 
-    fn get_item_index(&self, item_id:&str) -> Result<usize>;
+    fn get_involved_items(&self) -> Result<HashSet<Item>>;
 
     fn get_item_by_id(&self, item_id:&str) -> Result<&Item>;
-
-    fn get_involved_item_indices(&self) -> Result<HashSet<usize>>;
-
 
 }
 

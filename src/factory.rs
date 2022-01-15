@@ -2,8 +2,8 @@ use std::ops::{Mul};
 use good_lp::Variable;
 use crate::book::Book;
 use crate::error::Result;
-use crate::dto::reactant::Reactant;
-use crate::dto::recipe::Recipe;
+use crate::model::reactant::Reactant;
+use crate::model::recipe::Recipe;
 use crate::problem_input::ProblemInput;
 use crate::production::Production;
 
@@ -49,12 +49,12 @@ impl<'a> Factory<'a> {
         self.update_quantity_for_reactants(recipe_index, |r| r.outputs(), 1)
     }
 
-    fn update_quantity_for_reactants(&mut self, recipe_index: usize, getter: fn(&Recipe) -> &Vec<Reactant>, factor: i32) -> Result<()> {
+    fn update_quantity_for_reactants(&mut self, recipe_index: usize, getter: fn(&Recipe) -> &[Reactant], factor: i32) -> Result<()> {
         let recipe = self.book.get_recipe(recipe_index)?;
         let amount = &self.recipe_amounts[recipe_index];
 
         for reactant in getter(recipe) {
-            let item = self.book.get_item_by_id(reactant.item_id())?;
+            let item = reactant.item();
 
             let use_quantity = amount.mul((reactant.quantity() as i32) * factor);
             self.production.add(item,use_quantity);

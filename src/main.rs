@@ -1,13 +1,12 @@
 use maplit::hashmap;
 use crate::book::FilterableBook;
-use crate::dto::reference_book::ReferenceBook;
 use crate::solver::solve;
 use crate::error::Result;
-use crate::dto::full_book::FullBook;
-use crate::dto::recipe::Recipe;
+use crate::model::full_book::FullBook;
+use crate::model::recipe::Recipe;
 use crate::problem_input::ProblemInput;
 
-pub mod dto;
+pub mod model;
 mod book;
 mod problem_input;
 mod problem_output;
@@ -36,8 +35,7 @@ fn main() -> Result<()> {
         }};
 
 
-    let result = solve(&input, &book)?;
-
+    let result = solve(&input, &book).unwrap();
     println!("{}", result);
 
     Ok(())

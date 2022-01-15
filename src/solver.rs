@@ -4,7 +4,7 @@ use crate::problem_input::ProblemInput;
 use crate::problem_output::ProblemOutput;
 use crate::error::Result;
 use crate::factory::Factory;
-use crate::dto::recipe::Recipe;
+use crate::model::recipe::Recipe;
 
 pub fn solve<'a>(input: &ProblemInput, book: &'a dyn Book) -> Result<ProblemOutput<'a>> {
     let mut variables = ProblemVariables::new();
@@ -34,8 +34,8 @@ pub fn solve<'a>(input: &ProblemInput, book: &'a dyn Book) -> Result<ProblemOutp
     let used_recipes = recipe_amount
         .into_iter()
         .enumerate()
-        .map(|(i, variable)| Ok((book.get_recipe(i)?, result.value(variable))))
-        .collect::<Result<Vec<(&Recipe, f64)>>>()?;
+        .map(|(i, variable)| Ok((book.get_recipe(i)?.clone(), result.value(variable))))
+        .collect::<Result<Vec<(Recipe, f64)>>>()?;
 
 
     Ok(ProblemOutput { book, used_recipes })

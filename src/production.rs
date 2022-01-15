@@ -2,15 +2,15 @@ use std::collections::HashMap;
 use std::ops::Sub;
 use good_lp::{Constraint, Expression, IntoAffineExpression};
 use crate::book::Book;
-use crate::dto::item::Item;
+use crate::model::item::Item;
 use crate::ProblemInput;
 
 pub struct Production<'a> {
     _book: &'a dyn Book,
     input:&'a ProblemInput,
-    resources: HashMap<&'a str, Expression>,
-    leftovers: HashMap<&'a str, Expression>,
-    targets: HashMap<&'a str, Expression>,
+    resources: HashMap<Item, Expression>,
+    leftovers: HashMap<Item, Expression>,
+    targets: HashMap<Item, Expression>,
 }
 
 impl<'a> Production<'a> {
@@ -31,9 +31,9 @@ impl<'a> Production<'a> {
     pub fn compute_constraints(&self) -> Vec<Constraint> {
         let mut result = vec![];
 
-        for (item_id, produced_quantity) in &self.targets {
+        for (item, produced_quantity) in &self.targets {
             let expression = Expression::from_other_affine(produced_quantity);
-            let quantity = self.input.get_requested_quantity(item_id).unwrap();
+            let quantity = self.input.get_requested_quantity(item).unwrap();
             result.push(expression.eq(quantity as f64));
         }
 
@@ -45,16 +45,19 @@ impl<'a> Production<'a> {
         result
     }
 
-    pub fn add<RHS>(&mut self, item:&'a Item, value:RHS) where RHS: IntoAffineExpression {
-        let requested_item = self.input.is_requested_item(item.get_id());
+    pub fn add<RHS>(&mut self, item:& Item, value:RHS) where RHS: IntoAffineExpression {
+        let requested_item = self.input.is_requested_item(item);
         let quantities = match (item,requested_item) {
             (Item::Resource(_),_) => &mut self.resources,
             (Item::Product(_),false) => &mut self.leftovers,
             (Item::Product(_),true) => &mut self.targets,
         };
 
-        let entry = quantities.entry(item.get_id()).or_default();
-        *entry += value;
+        match quantities.get_mut(item) {
+            None => {quantities.insert(item.clone(), Expression::from_other_affine(value));},
+            Some(exp) => *exp+=value
+        };
+
     }
 }
 

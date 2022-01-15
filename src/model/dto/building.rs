@@ -1,4 +1,5 @@
 use serde::Deserialize;
+use crate::model::building::{Building, Extractor, Processor};
 
 #[derive(Deserialize,Debug)]
 #[serde(untagged)]
@@ -12,22 +13,42 @@ pub enum BuildingDto {
 #[derive(Deserialize,Debug)]
 pub struct ExtractorDto {
     #[serde(rename(deserialize = "id"))]
-    _id:String,
+    pub id:String,
     #[serde(rename(deserialize = "type"))]
-    _kind:String,
+    pub kind:String,
     #[serde(rename(deserialize = "power-usage"))]
-    _power_usage:i32,
-    #[serde(rename(deserialize = "power-extraction"))]
-    _normal_extraction_rate:u32
+    pub power_usage:i32,
+    #[serde(rename(deserialize = "normal-extraction-rate"))]
+    pub normal_extraction_rate:u32
 }
 
 #[derive(Deserialize,Debug)]
 pub struct ProcessorDto {
     #[serde(rename(deserialize = "id"))]
-    _id:String,
+    pub id:String,
     #[serde(rename(deserialize = "type"))]
-    _kind:String,
+    pub kind:String,
     #[serde(rename(deserialize = "power-usage"))]
-    _power_usage:i32
+    pub power_usage:i32
 
+}
+
+impl ProcessorDto {
+    fn create_processor(&self) -> Processor {
+        Processor::new(self.id.clone(), self.kind.clone(), self.power_usage)
+    }
+}
+
+impl ExtractorDto {
+    fn create_extractor(&self) -> Extractor {
+        Extractor::new(self.id.clone(), self.kind.clone(), self.power_usage, self.normal_extraction_rate) }
+}
+
+impl BuildingDto {
+    pub fn create_building(&self) -> Building {
+        match self {
+            BuildingDto::Extractor(e) => Building::Extractor(e.create_extractor()),
+            BuildingDto::Processor(p) => Building::Processor(p.create_processor())
+        }
+    }
 }

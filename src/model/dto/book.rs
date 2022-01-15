@@ -1,29 +1,45 @@
-use crate::dto::item::ItemDto;
 use serde::Deserialize;
 use serde_json::Error;
-use crate::dto::building::BuildingDto;
-use crate::dto::recipe::RecipeDto;
+use crate::{FullBook, Recipe};
+use crate::model::dto::building::BuildingDto;
+use crate::model::dto::factory::Factory;
+use crate::model::dto::item::ItemDto;
+use crate::model::dto::recipe::RecipeDto;
 
 
-#[derive(Deserialize,Debug)]
+#[derive(Deserialize, Debug)]
 #[allow(dead_code)]
-pub(crate) struct BookDto {
-    pub name:String,
-    pub buildings:Vec<BuildingDto>,
-    pub items:Vec<ItemDto>,
-    pub recipes:Vec<RecipeDto>
+pub struct BookDto {
+    pub name: String,
+    pub buildings: Vec<BuildingDto>,
+    pub items: Vec<ItemDto>,
+    pub recipes: Vec<RecipeDto>,
 }
 
 impl BookDto {
-    pub(crate) fn parse() -> Result<BookDto,Error> {
+    pub(crate) fn parse() -> Result<BookDto, Error> {
         let book = include_str!("book_update5.json");
         serde_json::from_str(book)
     }
 }
 
+impl BookDto {
+    pub(crate) fn to_full_book(&self) -> crate::error::Result<FullBook> {
+        let factory = Factory::create(self)?;
+
+        let recipes:crate::error::Result<Vec<Recipe>> = self.recipes.iter()
+            .map(|r| factory.convert_recipe(r))
+            .collect();
+
+
+        Ok(FullBook::new(factory.to_items(), recipes?))
+    }
+}
+
+
 #[cfg(test)]
 mod tests {
-    use crate::BookDto;
+    use crate::model::dto::book::BookDto;
 
     #[test]
     fn check_deserialization() {

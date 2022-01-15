@@ -1,29 +1,33 @@
 use std::fmt::Formatter;
-use serde::Deserialize;
+use crate::model::item::Item;
 
-#[derive(Deserialize,Debug)]
-pub struct ReactantDto {
-    #[serde(rename(deserialize = "item"))]
-    item_id:String,
-    #[serde(rename(deserialize = "quantity"))]
+#[derive(Clone)]
+pub struct Reactant {
+    item:Item,
     quantity:u32,
 }
 
-impl ReactantDto {
+impl Reactant {
 
-    pub fn item_id(&self) -> &str {
-        &self.item_id
+    pub fn item(&self) -> &Item {
+        &self.item
     }
 
     pub fn quantity(&self) -> u32 {
         self.quantity
     }
+
+    pub fn new(item: Item, quantity: u32) -> Self {
+        Reactant { item, quantity }
+    }
+
 }
 
-impl ReactantDto {
+impl Reactant {
+
     pub fn format(&self, f:&mut Formatter<'_>, amount:f64) -> std::fmt::Result {
         let quantity = (self.quantity as f64) * amount;
-        f.write_fmt(format_args!("{:.4}x{}", quantity, self.item_id))
+        f.write_fmt(format_args!("{:.4}x{}", quantity, self.item))
     }
 
 }

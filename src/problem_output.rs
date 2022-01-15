@@ -1,10 +1,10 @@
 use std::fmt::{Display, Formatter, Write};
 use crate::book::Book;
-use crate::dto::recipe::Recipe;
+use crate::model::recipe::Recipe;
 
 pub struct ProblemOutput<'a> {
     pub book:&'a dyn Book,
-    pub used_recipes:Vec<(&'a Recipe,f64)>
+    pub used_recipes:Vec<(Recipe, f64)>
 }
 
 

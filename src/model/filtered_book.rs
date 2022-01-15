@@ -1,12 +1,9 @@
 use std::collections::HashSet;
 use crate::book::{Book, FilterableBook};
-use crate::dto::full_book::FullBook;
-use crate::dto::recipe::RecipeDto;
 use crate::error::{Error, Result};
-use crate::dto::item::ItemDto;
-use crate::model::dto::full_book::FullBook;
-use crate::model::dto::item::ItemDto;
-use crate::model::dto::recipe::RecipeDto;
+use crate::model::full_book::FullBook;
+use crate::model::item::Item;
+use crate::Recipe;
 
 pub struct FilteredBook<'a> {
     full_book: &'a FullBook,
@@ -14,13 +11,13 @@ pub struct FilteredBook<'a> {
 }
 
 impl<'a> FilteredBook<'a> {
-    pub fn new(full_book: &'a FullBook, filtered_recipes: Vec<usize>) -> Self {
-        FilteredBook { full_book, filtered_recipe_indices: filtered_recipes }
+    pub fn new(full_book: &'a FullBook, filtered_recipe_indices: Vec<usize>) -> Self {
+        FilteredBook { full_book, filtered_recipe_indices }
     }
 }
 
 impl FilterableBook for FilteredBook<'_> {
-    fn filter(&self, predicate: &impl Fn(&RecipeDto) -> bool) -> Result<FilteredBook> {
+    fn filter(&self, predicate: &impl Fn(&Recipe) -> bool) -> Result<FilteredBook> {
         let mut new_recipes = Vec::<usize>::new();
 
         for index in &self.filtered_recipe_indices {
@@ -34,7 +31,7 @@ impl FilterableBook for FilteredBook<'_> {
 }
 
 impl Book for FilteredBook<'_> {
-    fn get_recipe(&self, recipe_index: usize) -> Result<&RecipeDto> {
+    fn get_recipe(&self, recipe_index: usize) -> Result<&Recipe> {
         self.filtered_recipe_indices
             .get(recipe_index)
             .ok_or_else(|| Error::InvalidRecipeIndex(recipe_index))
@@ -45,30 +42,26 @@ impl Book for FilteredBook<'_> {
         self.filtered_recipe_indices.len()
     }
 
-    fn get_item_index(&self, item_id: &str) -> Result<usize> {
-        self.full_book.get_item_index(item_id)
-    }
-
-    fn get_item_by_id(&self, item_id: &str) -> Result<&ItemDto> {
-        self.full_book.get_item_by_id(item_id)
-    }
-
-    fn get_involved_item_indices(&self) -> crate::error::Result<HashSet<usize>> {
-        let mut result = HashSet::<usize>::new();
+    fn get_involved_items(&self) -> crate::error::Result<HashSet<Item>> {
+        let mut result = HashSet::<Item>::new();
 
         for i in &self.filtered_recipe_indices {
             let recipe = self.full_book.get_recipe(*i)?;
-            for index in recipe.get_involved_item_indices(self.full_book) {
-                result.insert(index?);
+            for item in recipe.get_involved_items() {
+                result.insert(item.clone());
             }
         }
 
         Ok(result)
     }
+
+    fn get_item_by_id(&self, item_id: &str) -> Result<&Item> {
+        self.full_book.get_item_by_id(item_id)
+    }
 }
 
 impl FilteredBook<'_> {
-    fn recipe_matches(&self, recipe_index: usize, predicate: &impl Fn(&RecipeDto) -> bool) -> Result<bool> {
+    fn recipe_matches(&self, recipe_index: usize, predicate: &impl Fn(&Recipe) -> bool) -> Result<bool> {
         self.get_recipe(recipe_index).map(|r| predicate(r))
     }
 }

@@ -1,29 +1,33 @@
 use std::fmt::{Display, Formatter};
-use crate::dto::reactant::ReactantDto;
-use serde::Deserialize;
-use crate::book::Book;
-use crate::dto::full_book::FullBook;
-use crate::error::Result;
-use crate::model::dto::reactant::ReactantDto;
+use crate::model::building::Building;
+use crate::model::item::Item;
+use crate::model::reactant::Reactant;
 
-#[derive(Deserialize, Debug)]
+#[derive(Clone)]
 #[allow(dead_code)]
-pub struct RecipeDto {
+pub struct Recipe {
     id: String,
     duration: u32,
-    building: String,
+    building: Building,
     alternate: bool,
-    inputs: Vec<ReactantDto>,
-    outputs: Vec<ReactantDto>,
+    inputs: Vec<Reactant>,
+    outputs: Vec<Reactant>,
 }
 
-impl Display for RecipeDto {
+impl Recipe {
+    pub fn new(id: String, duration: u32, building: Building, alternate: bool, inputs: Vec<Reactant>, outputs: Vec<Reactant>) -> Self {
+        Recipe { id, duration, building, alternate, inputs, outputs }
+    }
+}
+
+impl Display for Recipe {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         self.format(f,1f64)
     }
 }
 
-impl RecipeDto {
+impl Recipe {
+
     pub fn format(&self, f:&mut Formatter<'_>, amount:f64) -> std::fmt::Result {
         for (i,reactant) in self.inputs.iter().enumerate() {
             if i != 0 {
@@ -45,44 +49,44 @@ impl RecipeDto {
 }
 
 
-impl RecipeDto {
-    pub fn inputs(&self) -> &Vec<ReactantDto> {
-        &self.inputs
+impl Recipe {
+    pub fn building(&self) -> &Building {
+        &self.building
     }
-    pub fn outputs(&self) -> &Vec<ReactantDto> {
-        &self.outputs
-    }
-
 
     pub fn alternate(&self) -> bool {
         self.alternate
     }
+    pub fn inputs(&self) -> &[Reactant] {
+        &self.inputs
+    }
+    pub fn outputs(&self) -> &[Reactant]{
+        &self.outputs
+    }
 }
 
-impl RecipeDto {
+impl Recipe {
 
 
 
     //IMPROVE find a find to factorize the three methods below
     /// Retrieve the indices in the referenceBook of the items
     /// involved in this recipe
-    pub fn get_involved_item_indices<'a>(&'a self, book: &'a FullBook) -> impl Iterator<Item=Result<usize>>  + 'a {
-        self.get_input_item_indices(book).chain(self.get_output_item_indices(book))
+    pub fn get_involved_items<'a>(&'a self) -> impl Iterator<Item=&Item>  + 'a {
+        self.get_input_items().chain(self.get_output_items())
     }
 
 
-    pub fn get_input_item_indices<'a>(&'a self, book: &'a FullBook) -> impl Iterator<Item=Result<usize>>  + 'a {
+    pub fn get_input_items<'a>(&'a self) -> impl Iterator<Item=&Item>  + 'a {
         self.inputs
             .iter()
-            .map(|i| i.item_id())
-            .map(|id| book.get_item_index(id))
+            .map(|i| i.item())
     }
 
-    pub fn get_output_item_indices<'a>(&'a self, book: &'a FullBook) -> impl Iterator<Item=Result<usize>>  + 'a {
+    pub fn get_output_items<'a>(&'a self) -> impl Iterator<Item=&Item>  + 'a {
         self.outputs
             .iter()
-            .map(|i| i.item_id())
-            .map(|id| book.get_item_index(id))
+            .map(|i| i.item())
     }
 
 }

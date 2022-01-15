@@ -1,7 +1,6 @@
-pub mod book;
-pub mod item;
-pub mod recipe;
-pub mod reactant;
-pub mod building;
-pub mod filtered_book;
-pub mod full_book;
+pub(crate) mod book;
+pub(crate) mod item;
+pub(crate) mod recipe;
+pub(crate) mod reactant;
+pub(crate) mod building;
+pub(crate) mod factory;

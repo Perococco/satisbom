@@ -4,6 +4,8 @@ use crate::error::Error::BookDeserializationError;
 #[derive(Debug)]
 pub enum Error {
     UnknownItem(String),
+    UnknownBuilding(String),
+    InvalidBuilding(String),
     InvalidRecipeIndex(usize),
     ResolutionError(ResolutionError),
     BookDeserializationError(serde_json::Error),

@@ -1,40 +1,35 @@
 use std::collections::{HashMap, HashSet};
-use crate::dto::item::ItemDto;
 use crate::book::{Book, FilterableBook};
-use crate::dto::filtered_book::FilteredBook;
-use crate::dto::recipe::RecipeDto;
-use crate::error::Result;
-use crate::error::Error;
+use crate::error::{Error, Result};
 use crate::error::Error::{InvalidRecipeIndex};
-use crate::BookDto;
 use crate::model::dto::book::BookDto;
-use crate::model::dto::filtered_book::FilteredBook;
-use crate::model::dto::recipe::RecipeDto;
+use crate::model::filtered_book::FilteredBook;
+use crate::model::item::Item;
+use crate::model::recipe::Recipe;
 
 
 pub struct FullBook {
-    reference_book: BookDto,
-    item_index_per_id:HashMap<String,usize>,
-
+    items:HashMap<String,Item>,
+    recipes:Vec<Recipe>,
 }
 
 
 impl FullBook {
 
     pub fn create() -> Result<Self> {
-        let reference_book = BookDto::parse()?;
-        let mut item_index_per_id = HashMap::new();
-        for (index,item) in reference_book.items.iter().enumerate() {
-            item_index_per_id.insert(item.get_id().to_string(),index);
-        }
+        let dto = BookDto::parse()?;
+        dto.to_full_book()
+    }
 
-        Ok(FullBook{reference_book, item_index_per_id})
+
+    pub fn new(items: HashMap<String, Item>, recipes: Vec<Recipe>) -> Self {
+        FullBook { items, recipes }
     }
 }
 
 impl FilterableBook for FullBook {
-    fn filter(&self, predicate: &impl Fn(&RecipeDto) -> bool) -> Result<FilteredBook> {
-        let filtered_recipes = self.reference_book.recipes
+    fn filter(&self, predicate: &impl Fn(&Recipe) -> bool) -> Result<FilteredBook> {
+        let filtered_recipes = self.recipes
             .iter()
             .enumerate()
             .filter(|(_, r)| predicate(r))
@@ -46,29 +41,24 @@ impl FilterableBook for FullBook {
 
 impl Book for FullBook {
 
-    fn get_recipe(&self, recipe_index: usize) -> Result<&RecipeDto> {
-        self.reference_book.recipes.get(recipe_index).ok_or_else(|| InvalidRecipeIndex(recipe_index))
+    fn get_recipe(&self, recipe_index: usize) -> Result<&Recipe> {
+        self.recipes.get(recipe_index).ok_or_else(|| InvalidRecipeIndex(recipe_index))
     }
 
     fn number_of_recipes(&self) -> usize {
-        self.reference_book.recipes.len()
+        self.recipes.len()
     }
 
-    fn get_item_index(&self, item_id:&str) -> Result<usize> {
-        self.item_index_per_id
-            .get(item_id)
+    fn get_involved_items(&self) -> crate::error::Result<HashSet<Item>> {
+        Ok(self.recipes
+            .iter()
+            .flat_map(|r| r.get_involved_items())
             .cloned()
-            .ok_or_else(|| Error::UnknownItem(item_id.to_string()))
+            .collect())
     }
 
-    fn get_item_by_id(&self, item_id: &str) -> Result<&ItemDto> {
-        self.get_item_index(item_id).map(|i| &self.reference_book.items[i])
-    }
-
-    fn get_involved_item_indices(&self) -> Result<HashSet<usize>> {
-        self.reference_book.recipes
-            .iter().flat_map(|r| r.get_involved_item_indices(self))
-            .collect()
+    fn get_item_by_id(&self, item_id:&str) -> Result<&Item> {
+        self.items.get(item_id).ok_or_else(|| Error::UnknownItem(item_id.to_string()))
     }
 }
 

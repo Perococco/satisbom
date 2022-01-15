@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use crate::model::item::Item;
 
 pub struct ProblemInput {
     pub requested_output:HashMap<String,u32>,
@@ -8,8 +9,8 @@ pub struct ProblemInput {
 }
 
 impl ProblemInput {
-    pub(crate) fn is_available_item(&self, item_id: &str) -> bool {
-        self.available_items.contains_key(item_id)
+    pub(crate) fn is_available_item(&self, item: &Item) -> bool {
+        self.available_items.contains_key(item.id())
     }
 }
 
@@ -19,12 +20,12 @@ impl ProblemInput {
         &self.available_items
     }
 
-    pub fn get_requested_quantity(&self, item_id:&str) -> Option<u32> {
-        self.requested_output.get(item_id).cloned()
+    pub fn get_requested_quantity(&self, item:&Item) -> Option<u32> {
+        self.requested_output.get(item.id()).cloned()
     }
 
-    pub fn is_requested_item(&self, item_id:&str) -> bool {
-        self.requested_output.contains_key(item_id)
+    pub fn is_requested_item(&self, item:&Item) -> bool {
+        self.requested_output.contains_key(item.id())
     }
 }
 
