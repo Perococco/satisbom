@@ -1,5 +1,5 @@
 use good_lp::{default_solver, Expression, SolverModel, ProblemVariables, Variable, variable, Solution};
-use crate::book::Book;
+use crate::model::book::Book;
 use crate::problem_input::ProblemInput;
 use crate::problem_output::ProblemOutput;
 use crate::error::Result;

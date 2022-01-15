@@ -1,5 +1,5 @@
 use std::collections::HashSet;
-use crate::book::{Book, FilterableBook};
+use crate::model::book::{Book, FilterableBook};
 use crate::error::{Error, Result};
 use crate::model::full_book::FullBook;
 use crate::model::item::Item;

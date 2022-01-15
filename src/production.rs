@@ -1,7 +1,7 @@
 use std::collections::HashMap;
-use std::ops::Sub;
+use std::ops::{Add, Sub};
 use good_lp::{Constraint, Expression, IntoAffineExpression};
-use crate::book::Book;
+use crate::model::book::Book;
 use crate::model::item::Item;
 use crate::ProblemInput;
 
@@ -11,21 +11,24 @@ pub struct Production<'a> {
     resources: HashMap<Item, Expression>,
     leftovers: HashMap<Item, Expression>,
     targets: HashMap<Item, Expression>,
+    available: HashMap<Item, Expression>,
 }
 
 impl<'a> Production<'a> {
 
     pub(crate) fn new(book:&'a dyn Book, input:&'a ProblemInput) -> Self {
-        Production{_book:book,input,resources:Default::default(),leftovers:Default::default(),targets:Default::default(),}
+        Production{_book:book,input,
+            resources:Default::default(),
+            leftovers:Default::default(),
+            targets:Default::default(),
+            available:Default::default()}
     }
 
     pub fn objective(&self) -> Expression {
         let sum_of_resources:Expression = self.resources.values().sum();
-        let sum_of_left_overs:Expression = self.leftovers.iter()
-            .filter(|(id,_)| !self.input.is_available_item(id))
-            .map(|(_,e)| e)
-            .sum();
-        sum_of_resources.sub(sum_of_left_overs)
+
+        let sum_of_available_items:Expression = self.available.values().sum();
+        sum_of_resources.add(sum_of_available_items)
     }
 
     pub fn compute_constraints(&self) -> Vec<Constraint> {
@@ -42,15 +45,22 @@ impl<'a> Production<'a> {
             result.push(expression.geq(0));
         }
         
+        for (_,produced_quantity) in &self.available {
+            let expression = Expression::from_other_affine(produced_quantity);
+            result.push(expression.geq(0));
+        }
+
         result
     }
 
     pub fn add<RHS>(&mut self, item:& Item, value:RHS) where RHS: IntoAffineExpression {
         let requested_item = self.input.is_requested_item(item);
-        let quantities = match (item,requested_item) {
-            (Item::Resource(_),_) => &mut self.resources,
-            (Item::Product(_),false) => &mut self.leftovers,
-            (Item::Product(_),true) => &mut self.targets,
+        let available_item = self.input.is_available_item(item);
+        let quantities = match (item, requested_item, available_item) {
+            (Item::Resource(_),_,_) => &mut self.resources,
+            (Item::Product(_),false, false) => &mut self.leftovers,
+            (Item::Product(_),false, true) => &mut self.available,
+            (Item::Product(_),true, _) => &mut self.targets,
         };
 
         match quantities.get_mut(item) {

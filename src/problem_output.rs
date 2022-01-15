@@ -1,5 +1,5 @@
 use std::fmt::{Display, Formatter, Write};
-use crate::book::Book;
+use crate::model::book::Book;
 use crate::model::recipe::Recipe;
 
 pub struct ProblemOutput<'a> {

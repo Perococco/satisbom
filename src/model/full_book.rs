@@ -1,5 +1,5 @@
 use std::collections::{HashMap, HashSet};
-use crate::book::{Book, FilterableBook};
+use crate::model::book::{Book, FilterableBook};
 use crate::error::{Error, Result};
 use crate::error::Error::{InvalidRecipeIndex};
 use crate::model::dto::book::BookDto;

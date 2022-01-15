@@ -1,6 +1,6 @@
 use std::ops::{Mul};
 use good_lp::Variable;
-use crate::book::Book;
+use crate::model::book::Book;
 use crate::error::Result;
 use crate::model::reactant::Reactant;
 use crate::model::recipe::Recipe;
