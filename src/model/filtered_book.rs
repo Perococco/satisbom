@@ -1,9 +1,12 @@
 use std::collections::HashSet;
 use crate::book::{Book, FilterableBook};
 use crate::dto::full_book::FullBook;
-use crate::dto::recipe::Recipe;
+use crate::dto::recipe::RecipeDto;
 use crate::error::{Error, Result};
-use crate::dto::item::Item;
+use crate::dto::item::ItemDto;
+use crate::model::dto::full_book::FullBook;
+use crate::model::dto::item::ItemDto;
+use crate::model::dto::recipe::RecipeDto;
 
 pub struct FilteredBook<'a> {
     full_book: &'a FullBook,
@@ -17,7 +20,7 @@ impl<'a> FilteredBook<'a> {
 }
 
 impl FilterableBook for FilteredBook<'_> {
-    fn filter(&self, predicate: &impl Fn(&Recipe) -> bool) -> Result<FilteredBook> {
+    fn filter(&self, predicate: &impl Fn(&RecipeDto) -> bool) -> Result<FilteredBook> {
         let mut new_recipes = Vec::<usize>::new();
 
         for index in &self.filtered_recipe_indices {
@@ -31,7 +34,7 @@ impl FilterableBook for FilteredBook<'_> {
 }
 
 impl Book for FilteredBook<'_> {
-    fn get_recipe(&self, recipe_index: usize) -> Result<&Recipe> {
+    fn get_recipe(&self, recipe_index: usize) -> Result<&RecipeDto> {
         self.filtered_recipe_indices
             .get(recipe_index)
             .ok_or_else(|| Error::InvalidRecipeIndex(recipe_index))
@@ -46,7 +49,7 @@ impl Book for FilteredBook<'_> {
         self.full_book.get_item_index(item_id)
     }
 
-    fn get_item_by_id(&self, item_id: &str) -> Result<&Item> {
+    fn get_item_by_id(&self, item_id: &str) -> Result<&ItemDto> {
         self.full_book.get_item_by_id(item_id)
     }
 
@@ -65,7 +68,7 @@ impl Book for FilteredBook<'_> {
 }
 
 impl FilteredBook<'_> {
-    fn recipe_matches(&self, recipe_index: usize, predicate: &impl Fn(&Recipe) -> bool) -> Result<bool> {
+    fn recipe_matches(&self, recipe_index: usize, predicate: &impl Fn(&RecipeDto) -> bool) -> Result<bool> {
         self.get_recipe(recipe_index).map(|r| predicate(r))
     }
 }

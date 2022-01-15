@@ -2,19 +2,19 @@ use serde::Deserialize;
 
 #[derive(Deserialize,Debug)]
 #[serde(untagged)]
-pub enum Item {
-    Resource(Resource),
-    Product(Product),
+pub enum ItemDto {
+    Resource(ResourceDto),
+    Product(ProductDto),
 }
 
 #[derive(Deserialize,Debug)]
-pub struct Product {
+pub struct ProductDto {
     id:String
 }
 
 #[derive(Deserialize,Debug)]
 #[allow(dead_code)]
-pub struct Resource {
+pub struct ResourceDto {
     id:String,
     extractor:String,
     impure:Option<u32>,
@@ -22,11 +22,11 @@ pub struct Resource {
     pure:Option<u32>,
 }
 
-impl Item {
+impl ItemDto {
     pub fn get_id(&self) -> &str {
         match self {
-            Item::Resource(r) => &r.id,
-            Item::Product(i) => &i.id
+            ItemDto::Resource(r) => &r.id,
+            ItemDto::Product(i) => &i.id
         }
     }
 }

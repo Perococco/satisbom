@@ -2,14 +2,14 @@ use std::fmt::Formatter;
 use serde::Deserialize;
 
 #[derive(Deserialize,Debug)]
-pub struct Reactant {
+pub struct ReactantDto {
     #[serde(rename(deserialize = "item"))]
     item_id:String,
     #[serde(rename(deserialize = "quantity"))]
     quantity:u32,
 }
 
-impl Reactant {
+impl ReactantDto {
 
     pub fn item_id(&self) -> &str {
         &self.item_id
@@ -20,7 +20,7 @@ impl Reactant {
     }
 }
 
-impl Reactant {
+impl ReactantDto {
     pub fn format(&self, f:&mut Formatter<'_>, amount:f64) -> std::fmt::Result {
         let quantity = (self.quantity as f64) * amount;
         f.write_fmt(format_args!("{:.4}x{}", quantity, self.item_id))

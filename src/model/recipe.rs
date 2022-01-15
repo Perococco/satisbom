@@ -1,28 +1,29 @@
 use std::fmt::{Display, Formatter};
-use crate::dto::reactant::Reactant;
+use crate::dto::reactant::ReactantDto;
 use serde::Deserialize;
 use crate::book::Book;
 use crate::dto::full_book::FullBook;
 use crate::error::Result;
+use crate::model::dto::reactant::ReactantDto;
 
 #[derive(Deserialize, Debug)]
 #[allow(dead_code)]
-pub struct Recipe {
+pub struct RecipeDto {
     id: String,
     duration: u32,
     building: String,
     alternate: bool,
-    inputs: Vec<Reactant>,
-    outputs: Vec<Reactant>,
+    inputs: Vec<ReactantDto>,
+    outputs: Vec<ReactantDto>,
 }
 
-impl Display for Recipe {
+impl Display for RecipeDto {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         self.format(f,1f64)
     }
 }
 
-impl Recipe {
+impl RecipeDto {
     pub fn format(&self, f:&mut Formatter<'_>, amount:f64) -> std::fmt::Result {
         for (i,reactant) in self.inputs.iter().enumerate() {
             if i != 0 {
@@ -44,11 +45,11 @@ impl Recipe {
 }
 
 
-impl Recipe {
-    pub fn inputs(&self) -> &Vec<Reactant> {
+impl RecipeDto {
+    pub fn inputs(&self) -> &Vec<ReactantDto> {
         &self.inputs
     }
-    pub fn outputs(&self) -> &Vec<Reactant> {
+    pub fn outputs(&self) -> &Vec<ReactantDto> {
         &self.outputs
     }
 
@@ -58,7 +59,7 @@ impl Recipe {
     }
 }
 
-impl Recipe {
+impl RecipeDto {
 
 
 

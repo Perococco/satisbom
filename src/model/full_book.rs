@@ -1,16 +1,19 @@
 use std::collections::{HashMap, HashSet};
-use crate::dto::item::Item;
+use crate::dto::item::ItemDto;
 use crate::book::{Book, FilterableBook};
 use crate::dto::filtered_book::FilteredBook;
-use crate::dto::recipe::Recipe;
+use crate::dto::recipe::RecipeDto;
 use crate::error::Result;
 use crate::error::Error;
 use crate::error::Error::{InvalidRecipeIndex};
-use crate::ReferenceBook;
+use crate::BookDto;
+use crate::model::dto::book::BookDto;
+use crate::model::dto::filtered_book::FilteredBook;
+use crate::model::dto::recipe::RecipeDto;
 
 
 pub struct FullBook {
-    reference_book:ReferenceBook,
+    reference_book: BookDto,
     item_index_per_id:HashMap<String,usize>,
 
 }
@@ -19,7 +22,7 @@ pub struct FullBook {
 impl FullBook {
 
     pub fn create() -> Result<Self> {
-        let reference_book = ReferenceBook::parse()?;
+        let reference_book = BookDto::parse()?;
         let mut item_index_per_id = HashMap::new();
         for (index,item) in reference_book.items.iter().enumerate() {
             item_index_per_id.insert(item.get_id().to_string(),index);
@@ -30,7 +33,7 @@ impl FullBook {
 }
 
 impl FilterableBook for FullBook {
-    fn filter(&self, predicate: &impl Fn(&Recipe) -> bool) -> Result<FilteredBook> {
+    fn filter(&self, predicate: &impl Fn(&RecipeDto) -> bool) -> Result<FilteredBook> {
         let filtered_recipes = self.reference_book.recipes
             .iter()
             .enumerate()
@@ -43,7 +46,7 @@ impl FilterableBook for FullBook {
 
 impl Book for FullBook {
 
-    fn get_recipe(&self, recipe_index: usize) -> Result<&Recipe> {
+    fn get_recipe(&self, recipe_index: usize) -> Result<&RecipeDto> {
         self.reference_book.recipes.get(recipe_index).ok_or_else(|| InvalidRecipeIndex(recipe_index))
     }
 
@@ -58,7 +61,7 @@ impl Book for FullBook {
             .ok_or_else(|| Error::UnknownItem(item_id.to_string()))
     }
 
-    fn get_item_by_id(&self, item_id: &str) -> Result<&Item> {
+    fn get_item_by_id(&self, item_id: &str) -> Result<&ItemDto> {
         self.get_item_index(item_id).map(|i| &self.reference_book.items[i])
     }
 

@@ -1,4 +1,4 @@
-pub mod reference_book;
+pub mod book;
 pub mod item;
 pub mod recipe;
 pub mod reactant;

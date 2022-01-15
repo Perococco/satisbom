@@ -2,15 +2,15 @@ use serde::Deserialize;
 
 #[derive(Deserialize,Debug)]
 #[serde(untagged)]
-pub enum Building {
-    Extractor(Extractor),
-    Processor(Processor)
+pub enum BuildingDto {
+    Extractor(ExtractorDto),
+    Processor(ProcessorDto)
 }
 
 
 
 #[derive(Deserialize,Debug)]
-pub struct Extractor {
+pub struct ExtractorDto {
     #[serde(rename(deserialize = "id"))]
     _id:String,
     #[serde(rename(deserialize = "type"))]
@@ -22,7 +22,7 @@ pub struct Extractor {
 }
 
 #[derive(Deserialize,Debug)]
-pub struct Processor {
+pub struct ProcessorDto {
     #[serde(rename(deserialize = "id"))]
     _id:String,
     #[serde(rename(deserialize = "type"))]
