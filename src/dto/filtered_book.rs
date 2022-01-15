@@ -1,9 +1,9 @@
 use std::collections::HashSet;
 use crate::book::{Book, FilterableBook};
-use crate::input::full_book::FullBook;
-use crate::input::recipe::Recipe;
+use crate::dto::full_book::FullBook;
+use crate::dto::recipe::Recipe;
 use crate::error::{Error, Result};
-use crate::input::item::Item;
+use crate::dto::item::Item;
 
 pub struct FilteredBook<'a> {
     full_book: &'a FullBook,

@@ -1,8 +1,8 @@
-use crate::input::item::Item;
+use crate::dto::item::Item;
 use serde::Deserialize;
 use serde_json::Error;
-use crate::input::building::Building;
-use crate::input::recipe::Recipe;
+use crate::dto::building::Building;
+use crate::dto::recipe::Recipe;
 
 
 #[derive(Deserialize,Debug)]

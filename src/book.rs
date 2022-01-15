@@ -1,8 +1,8 @@
 use std::collections::HashSet;
-use crate::input::filtered_book::FilteredBook;
-use crate::input::recipe::Recipe;
+use crate::dto::filtered_book::FilteredBook;
+use crate::dto::recipe::Recipe;
 use crate::error::Result;
-use crate::input::item::Item;
+use crate::dto::item::Item;
 
 pub trait Book {
 

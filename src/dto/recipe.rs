@@ -1,8 +1,8 @@
 use std::fmt::{Display, Formatter};
-use crate::input::reactant::Reactant;
+use crate::dto::reactant::Reactant;
 use serde::Deserialize;
 use crate::book::Book;
-use crate::input::full_book::FullBook;
+use crate::dto::full_book::FullBook;
 use crate::error::Result;
 
 #[derive(Deserialize, Debug)]

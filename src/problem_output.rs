@@ -1,6 +1,6 @@
 use std::fmt::{Display, Formatter, Write};
 use crate::book::Book;
-use crate::input::recipe::Recipe;
+use crate::dto::recipe::Recipe;
 
 pub struct ProblemOutput<'a> {
     pub book:&'a dyn Book,

@@ -4,7 +4,7 @@ use crate::problem_input::ProblemInput;
 use crate::problem_output::ProblemOutput;
 use crate::error::Result;
 use crate::factory::Factory;
-use crate::input::recipe::Recipe;
+use crate::dto::recipe::Recipe;
 
 pub fn solve<'a>(input: &ProblemInput, book: &'a dyn Book) -> Result<ProblemOutput<'a>> {
     let mut variables = ProblemVariables::new();

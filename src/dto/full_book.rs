@@ -1,8 +1,8 @@
 use std::collections::{HashMap, HashSet};
-use crate::input::item::Item;
+use crate::dto::item::Item;
 use crate::book::{Book, FilterableBook};
-use crate::input::filtered_book::FilteredBook;
-use crate::input::recipe::Recipe;
+use crate::dto::filtered_book::FilteredBook;
+use crate::dto::recipe::Recipe;
 use crate::error::Result;
 use crate::error::Error;
 use crate::error::Error::{InvalidRecipeIndex};

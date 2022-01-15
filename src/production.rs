@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::ops::Sub;
 use good_lp::{Constraint, Expression, IntoAffineExpression};
 use crate::book::Book;
-use crate::input::item::Item;
+use crate::dto::item::Item;
 use crate::ProblemInput;
 
 pub struct Production<'a> {

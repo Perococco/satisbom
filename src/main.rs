@@ -1,13 +1,13 @@
 use maplit::hashmap;
 use crate::book::FilterableBook;
-use crate::input::reference_book::ReferenceBook;
+use crate::dto::reference_book::ReferenceBook;
 use crate::solver::solve;
 use crate::error::Result;
-use crate::input::full_book::FullBook;
-use crate::input::recipe::Recipe;
+use crate::dto::full_book::FullBook;
+use crate::dto::recipe::Recipe;
 use crate::problem_input::ProblemInput;
 
-pub mod input;
+pub mod dto;
 mod book;
 mod problem_input;
 mod problem_output;

@@ -2,8 +2,8 @@ use std::ops::{Mul};
 use good_lp::Variable;
 use crate::book::Book;
 use crate::error::Result;
-use crate::input::reactant::Reactant;
-use crate::input::recipe::Recipe;
+use crate::dto::reactant::Reactant;
+use crate::dto::recipe::Recipe;
 use crate::problem_input::ProblemInput;
 use crate::production::Production;
 
