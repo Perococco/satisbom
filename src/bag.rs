@@ -1,10 +1,9 @@
-use std::collections::HashMap;
 use std::hash::Hash;
 use std::ops::{AddAssign, SubAssign};
-use hashlink::linked_hash_map::Iter;
+use hashlink::linked_hash_map::{Iter, Values};
 use hashlink::linked_hash_map::IntoIter;
 use hashlink::LinkedHashMap;
-use crate::{Amount, AmountF64, AmountRatio, Bom};
+use crate::{Amount, AmountF64, AmountRatio};
 
 pub trait Bag<K, V> {
     fn add(&mut self, key: K, value: V);
@@ -34,7 +33,7 @@ impl <K,V> AddAssign for HashBag<K,V>
     }
 }
 
-impl <K,V> SubAssign for HashBag<K,V>
+impl <K,V> SubAssign<HashBag<K,V>> for HashBag<K,V>
     where K:Eq+ Hash, V:AddAssign<V> + SubAssign<V> + Amount +Default{
     fn sub_assign(&mut self, rhs: Self) {
         for (k, v) in rhs.into_iter() {
@@ -73,7 +72,7 @@ impl<K, V> Bag<K, V> for HashBag<K, V>
 
 impl<K, V> HashBag<K, V> where V: Amount {
     pub fn clean(&mut self) {
-        self.map.retain(|k,v| !v.is_nil())
+        self.map.retain(|_,v| !v.is_nil())
     }
 }
 
@@ -81,11 +80,14 @@ impl<K, V> HashBag<K, V> {
     pub fn iter(&self) -> Iter<K, V> {
         self.map.iter()
     }
+    pub fn values(&self) -> Values<K,V> { self.map.values() }
 }
 
+impl <K,V> IntoIterator for HashBag<K,V> {
+    type Item = (K,V);
+    type IntoIter = IntoIter<K, V>;
 
-impl<K, V> HashBag<K, V> {
-    pub fn into_iter(self) -> IntoIter<K, V> {
+    fn into_iter(self) -> Self::IntoIter {
         self.map.into_iter()
     }
 }
@@ -117,8 +119,8 @@ impl <K:Eq+Hash> FromIterator<(K,f64)> for HashBag<K,AmountF64>  {
 
 
 
-impl <K> Into<HashBag<K,AmountRatio>> for HashBag<K,AmountF64> where K:Eq+Hash {
-    fn into(self) -> HashBag<K,AmountRatio> {
-        self.into_iter().map(|(k,v) | (k,v.into())).collect()
+impl <K> From<HashBag<K,AmountF64>> for HashBag<K,AmountRatio> where K:Eq+Hash {
+    fn from(from: HashBag<K, AmountF64>) -> Self {
+        from.into_iter().map(|(k,v) | (k,v.into())).collect()
     }
 }

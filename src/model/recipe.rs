@@ -2,7 +2,7 @@ use std::fmt::{Display, Formatter};
 use std::hash::{Hash, Hasher};
 use term::StdoutTerminal;
 use crate::amount::{Amount, AmountF64};
-use crate::colors::{DEFAULT_COLOR, DURATION_COLOR};
+use crate::colors::{DEFAULT_COLOR};
 use crate::model::building::Building;
 use crate::model::item::Item;
 use crate::model::reactant::Reactant;
@@ -63,18 +63,18 @@ impl Recipe {
     pub fn display<T>(&self, term:&mut StdoutTerminal, amount:&T) -> crate::error::Result<()> where T:Amount{
         for (i,reactant) in self.inputs.iter().enumerate() {
             if i != 0 {
-                term.fg(DEFAULT_COLOR);
+                term.fg(DEFAULT_COLOR)?;
                 write!(term," + ")?;
             }
             reactant.display(term, amount)?;
         };
 
-        term.fg(DURATION_COLOR);
+        term.fg(DEFAULT_COLOR)?;
         write!(term," -> ")?;
 
         for (i,reactant) in self.outputs.iter().enumerate() {
             if i != 0 {
-                term.fg(DURATION_COLOR);
+                term.fg(DEFAULT_COLOR)?;
                 write!(term," + ")?;
             }
             reactant.display(term, amount)?;

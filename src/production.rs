@@ -1,7 +1,7 @@
-use std::collections::HashMap;
 use std::ops::Add;
 
 use good_lp::{Constraint, Expression, IntoAffineExpression};
+use crate::bag::{Bag, HashBag};
 
 use crate::model::book::Book;
 use crate::model::item::Item;
@@ -10,10 +10,10 @@ use crate::ProblemInput;
 pub struct Production<'a> {
     _book: &'a dyn Book,
     input:&'a ProblemInput,
-    resources: HashMap<Item, Expression>,
-    leftovers: HashMap<Item, Expression>,
-    targets: HashMap<Item, Expression>,
-    available: HashMap<Item, Expression>,
+    resources: HashBag<Item, Expression>,
+    leftovers: HashBag<Item, Expression>,
+    targets: HashBag<Item, Expression>,
+    available: HashBag<Item, Expression>,
 }
 
 impl<'a> Production<'a> {
@@ -36,7 +36,7 @@ impl<'a> Production<'a> {
     pub fn compute_constraints(&self) -> Vec<Constraint> {
         let mut result = vec![];
 
-        for (item, produced_quantity) in &self.targets {
+        for (item, produced_quantity) in self.targets.iter() {
             let expression = Expression::from_other_affine(produced_quantity);
             let quantity = self.input.get_requested_quantity(item).unwrap();
             result.push(expression.geq(quantity as f64));
@@ -65,23 +65,21 @@ impl<'a> Production<'a> {
             (Item::Product(_),true, _) => &mut self.targets,
         };
 
-        match quantities.get_mut(item) {
-            None => {quantities.insert(item.clone(), Expression::from_other_affine(value));},
-            Some(exp) => *exp+=value
-        };
+        quantities.add(item.clone(), Expression::from_other_affine(value));
 
     }
 
-    pub fn resources(&self) -> &HashMap<Item, Expression> {
+
+    pub fn resources(&self) -> &HashBag<Item, Expression> {
         &self.resources
     }
-    pub fn leftovers(&self) -> &HashMap<Item, Expression> {
+    pub fn leftovers(&self) -> &HashBag<Item, Expression> {
         &self.leftovers
     }
-    pub fn targets(&self) -> &HashMap<Item, Expression> {
+    pub fn targets(&self) -> &HashBag<Item, Expression> {
         &self.targets
     }
-    pub fn available(&self) -> &HashMap<Item, Expression> {
+    pub fn available(&self) -> &HashBag<Item, Expression> {
         &self.available
     }
 }

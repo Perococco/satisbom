@@ -1,4 +1,3 @@
-use std::collections::HashMap;
 use good_lp::{default_solver, Expression, ProblemVariables, Solution, SolverModel, Variable, variable};
 use good_lp::solvers::lp_solvers::LpSolution;
 
@@ -31,7 +30,7 @@ pub fn solve(input: &ProblemInput, book: &dyn Book) -> Result<Bom<AmountF64>> {
 
     let solution = variables.solve()?;
 
-    let mut used_recipes = recipe_amount
+    let used_recipes = recipe_amount
         .into_iter()
         .enumerate()
         .map(|(i, variable)| Ok((book.get_recipe(i)?.clone(), solution.value(variable))))
@@ -47,10 +46,10 @@ pub fn solve(input: &ProblemInput, book: &dyn Book) -> Result<Bom<AmountF64>> {
 
     let mut resources = evaluate(production.resources(), &solution, -1f64);
     resources+= available?;
-    resources-= evaluate(production.available(), &solution,1f64);;
+    resources-= evaluate(production.available(), &solution,1f64);
 
     let mut leftovers = evaluate(production.leftovers(), &solution,1f64);
-    leftovers+= evaluate(production.available(), &solution,1f64);;
+    leftovers+= evaluate(production.available(), &solution,1f64);
 
 
 
@@ -58,7 +57,7 @@ pub fn solve(input: &ProblemInput, book: &dyn Book) -> Result<Bom<AmountF64>> {
 }
 
 
-fn evaluate(items:&HashMap<Item,Expression>, result:&LpSolution, factor:f64) -> HashBag<Item,AmountF64> {
+fn evaluate(items:&HashBag<Item,Expression>, result:&LpSolution, factor:f64) -> HashBag<Item,AmountF64> {
     let mut bag:HashBag<Item,AmountF64> = items.iter().map(|(item, e)| (item.clone(), e.eval_with(result) * factor)).collect();
     bag.clean();
     bag

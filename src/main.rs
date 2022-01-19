@@ -28,9 +28,9 @@ fn main() -> crate::error::Result<()> {
 
     let bom:Bom<AmountRatio> = optimize()?.into();
 
-    bom.display(t.as_mut());
+    bom.display(t.as_mut())?;
 
-    t.reset().unwrap();
+    t.reset()?;
 
     Ok(())
 }
@@ -38,7 +38,7 @@ fn main() -> crate::error::Result<()> {
 fn optimize() -> Result<Bom<AmountF64>> {
     let full_book = FullBook::create()?;
 
-    let filter:fn(&Recipe) -> bool = |r| true || !r.alternate();
+    let filter:fn(&Recipe) -> bool = |r| !r.alternate();
 
     let book = full_book.filter(&filter)?;
 

@@ -1,10 +1,8 @@
-use std::collections::HashMap;
-use std::error::Error;
 use std::fmt::{Display, Formatter, Write};
 use term::StdoutTerminal;
 use crate::amount::{Amount, AmountF64, AmountRatio};
 use crate::bag::{Bag, HashBag};
-use crate::colors::{AMOUNT_COLOR, CONSTRUCTOR_COLOR, DEFAULT_COLOR, DURATION_COLOR, RECIPE_NAME_COLOR};
+use crate::colors::{CONSTRUCTOR_COLOR, DEFAULT_COLOR, DURATION_COLOR, RECIPE_NAME_COLOR};
 use crate::model::building::Building;
 use crate::model::item::Item;
 use crate::model::recipe::Recipe;
@@ -99,12 +97,12 @@ impl <T:Amount> Bom<T> {
     pub fn display(&self, term:&mut StdoutTerminal) -> crate::error::Result<()> {
         term.fg(DEFAULT_COLOR)?;
 
-        display_item_list(term,"To get:",&self.targets);
-        display_item_list(term,"You need:",&self.requirements);
-        display_item_list(term,"Leftovers:",&self.leftovers);
+        display_item_list(term,"To get:",&self.targets)?;
+        display_item_list(term,"You need:",&self.requirements)?;
+        display_item_list(term,"Leftovers:",&self.leftovers)?;
 
-        writeln!(term,"=== Recipes ===");
-        writeln!(term,"  {:>7} - {:<26} {:>3} {:>7} {}", "#", "Name", "sec" ,"# Cons.","Detail")?;
+        writeln!(term,"=== Recipes ===")?;
+        writeln!(term,"  {:>7} - {:<26} {:>3} {:>7} Detail", "#", "Name", "sec" ,"# Cons.")?;
         writeln!(term,"---------------------------------------------------------")?;
 
         for (recipe, amount) in self.recipes.iter() {
