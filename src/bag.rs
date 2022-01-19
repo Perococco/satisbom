@@ -1,10 +1,11 @@
-use std::collections::HashMap;
 use std::hash::Hash;
 use std::ops::{AddAssign, SubAssign};
+
 use hashlink::linked_hash_map::{Iter, Values};
 use hashlink::linked_hash_map::IntoIter;
 use hashlink::LinkedHashMap;
-use crate::{Amount, AmountF64, AmountRatio};
+
+use crate::constants::is_not_nil;
 
 pub trait Bag<K, V> {
     fn add_item(&mut self, key: K, value: V);
@@ -40,8 +41,9 @@ impl<K, V> HashBag<K, V> {
     }
 }
 
-impl <K,V> AddAssign<&HashBag<K,V>> for HashBag<K,V>
-    where K:Eq+ Hash+Clone, V:AddAssign<V> + SubAssign<V> + Amount +Default+Clone{
+
+impl <K> AddAssign<&HashBag<K,f64>> for HashBag<K,f64>
+    where K:Eq+ Hash+Clone {
     fn add_assign(&mut self, rhs: &Self) {
         for (k, v) in rhs.iter() {
             self.add_item(k.clone(), v.clone())
@@ -50,8 +52,8 @@ impl <K,V> AddAssign<&HashBag<K,V>> for HashBag<K,V>
     }
 }
 
-impl <K,V> SubAssign<&HashBag<K,V>> for HashBag<K,V>
-    where K:Eq+ Hash+Clone, V:AddAssign<V> + SubAssign<V> + Amount +Default+Clone{
+impl <K> SubAssign<&HashBag<K,f64>> for HashBag<K,f64>
+    where K:Eq+ Hash+Clone {
     fn sub_assign(&mut self, rhs: &Self) {
         for (k, v) in rhs.iter() {
             self.remove_item(k.clone(), v.clone())
@@ -87,9 +89,9 @@ impl<K, V> Bag<K, V> for HashBag<K, V>
     }
 }
 
-impl<K, V> HashBag<K, V> where V: Amount {
+impl<K> HashBag<K, f64>  {
     pub fn clean(&mut self) {
-        self.map.retain(|_,v| !v.is_nil())
+        self.map.retain(|_,v| is_not_nil(*v))
     }
 }
 
@@ -122,33 +124,3 @@ impl <K,V> FromIterator<(K,V)> for HashBag<K,V> where K:Eq+Hash, V:AddAssign<V> 
 }
 
 
-impl <K:Eq+Hash> FromIterator<(K,f64)> for HashBag<K,AmountF64>  {
-    fn from_iter<T: IntoIterator<Item=(K, f64)>>(iter: T) -> Self {
-        let mut bag = HashBag::default();
-        for (k,v) in iter {
-            bag.add_item(k,AmountF64::from(v))
-        }
-        bag.clean();
-        bag
-    }
-}
-
-
-
-
-impl <K> From<HashBag<K,AmountF64>> for HashBag<K,AmountRatio> where K:Eq+Hash {
-    fn from(from: HashBag<K, AmountF64>) -> Self {
-        from.into_iter()
-            .filter(|(_,v)| !v.is_nil())
-            .map(|(k,v) | (k,v.into())).collect()
-    }
-}
-
-impl <K> From<HashMap<K,u32>> for HashBag<K,AmountF64> where K:Eq+Hash {
-    fn from(from: HashMap<K, u32>) -> Self {
-        from.into_iter()
-            .filter(|(_,v)| *v != 0)
-            .map(|(k,v) | (k,AmountF64::from(v)))
-            .collect()
-    }
-}

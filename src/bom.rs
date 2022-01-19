@@ -1,23 +1,23 @@
 use std::fmt::{Display, Formatter, Write};
 use term::StdoutTerminal;
-use crate::amount::{Amount, AmountF64, AmountRatio};
 use crate::bag::{Bag, HashBag};
 use crate::colors::{CONSTRUCTOR_COLOR, DEFAULT_COLOR, DURATION_COLOR, RECIPE_NAME_COLOR};
+use crate::constants::is_nil;
 use crate::model::building::Building;
 use crate::model::item::Item;
 use crate::model::recipe::Recipe;
 use crate::production::Production;
 
-pub struct Bom<T> where T : Amount {
-    pub targets:HashBag<Item,T>,
-    pub requirements:HashBag<Item,T>,
-    pub leftovers:HashBag<Item,T>,
-    pub recipes:HashBag<Recipe, T>,
-    pub buildings:HashBag<Building,T>
+pub struct Bom {
+    pub targets:HashBag<Item,f64>,
+    pub requirements:HashBag<Item,f64>,
+    pub leftovers:HashBag<Item,f64>,
+    pub recipes:HashBag<Recipe, f64>,
+    pub buildings:HashBag<Building, f64>
 }
 
-impl Bom<AmountF64> {
-    pub(crate) fn create(recipies: HashBag<Recipe, AmountF64>, production: Production<AmountF64>) -> Bom<AmountF64> {
+impl Bom {
+    pub(crate) fn create(recipes: HashBag<Recipe, f64>, production: Production<f64>) -> Bom {
         let mut requirements = production.resources().clone();
         requirements += production.available_items();
         requirements -= production.available_left();
@@ -25,24 +25,14 @@ impl Bom<AmountF64> {
         let mut leftovers = production.leftovers().clone();
         leftovers += production.available_left();
 
-        Bom::new(production.targets().clone(), requirements, leftovers, recipies)
-    }
-}
 
-
-impl Bom<AmountF64> {
-
-    pub fn new(targets:HashBag<Item,AmountF64>,
-               requirements:HashBag<Item,AmountF64>,
-               leftovers:HashBag<Item,AmountF64>,
-               recipes:HashBag<Recipe,AmountF64>) -> Self {
-        let mut buildings :HashBag<Building,AmountF64> = Default::default();
+        let mut buildings :HashBag<Building,f64> = Default::default();
 
         let v:Vec<&str> = vec!["s"];
         v.iter();
 
         recipes.iter()
-            .map(|(r, amount)| (r.building(), amount.per_minute(r.duration())))
+            .map(|(r, amount)| (r.building(), amount / r.nb_per_minute()))
             .fold(&mut buildings, |bag, (b, amount)| {
                 bag.add_item(b.clone(), amount);
                 bag
@@ -51,18 +41,18 @@ impl Bom<AmountF64> {
 
         buildings.clean();
 
-        Bom{targets,requirements,leftovers,recipes,buildings}
+        let targets = production.targets().clone();
 
+        Bom{targets,requirements,leftovers,recipes,buildings}
     }
 }
 
-
-impl <T : Amount> Display for Bom<T>  {
+impl Display for Bom  {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
 
         for (recipe,amount) in self.recipes.iter() {
-            if !amount.is_nil() {
-                recipe.format(f,amount)?;
+            if is_nil(*amount) {
+                recipe.format(f,*amount)?;
                 f.write_char('\n')?;
             }
         };
@@ -76,21 +66,8 @@ impl <T : Amount> Display for Bom<T>  {
     }
 }
 
-impl From<Bom<AmountF64>> for Bom<AmountRatio> {
-    fn from(bom_f64: Bom<AmountF64>) -> Self {
-        let buildings = bom_f64.buildings.into();
-        let recipes:HashBag<Recipe,AmountRatio> = bom_f64.recipes.into();
-        let targets = bom_f64.targets.into();
-        let requirements = bom_f64.requirements.into();
-        let leftovers = bom_f64.leftovers.into();
 
-
-        Bom{targets,requirements,recipes,leftovers,buildings}
-    }
-}
-
-
-fn display_item_list<T>(term:&mut StdoutTerminal, header:&str,items:&HashBag<Item,T>) -> crate::error::Result<()> where T:ToString {
+fn display_item_list(term:&mut StdoutTerminal, header:&str,items:&HashBag<Item,f64>) -> crate::error::Result<()> {
     if items.is_empty() {
         return Ok(());
     }
@@ -105,7 +82,7 @@ fn display_item_list<T>(term:&mut StdoutTerminal, header:&str,items:&HashBag<Ite
 }
 
 
-impl <T:Amount> Bom<T> {
+impl Bom {
 
 
     pub fn display(&self, term:&mut StdoutTerminal) -> crate::error::Result<()> {
@@ -120,7 +97,7 @@ impl <T:Amount> Bom<T> {
         writeln!(term,"---------------------------------------------------------")?;
 
         for (recipe, amount) in self.recipes.iter() {
-            let nb_need = amount.per_minute(recipe.duration());
+            let nb_need = amount / recipe.nb_per_minute();
             term.fg(DEFAULT_COLOR)?;
             write!(term,"  {:>7.7}",amount.to_string())?;
             write!(term," - ")?;
@@ -131,7 +108,7 @@ impl <T:Amount> Bom<T> {
             term.fg(CONSTRUCTOR_COLOR)?;
             write!(term," {:>7} ", nb_need.to_string())?;
 
-            recipe.display(term, amount)?;
+            recipe.display(term, *amount)?;
             writeln!(term)?
         }
 

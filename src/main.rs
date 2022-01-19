@@ -2,7 +2,6 @@ use maplit::hashmap;
 
 use model::book::FilterableBook;
 
-use crate::amount::{Amount, AmountF64, AmountRatio};
 use crate::bom::Bom;
 use crate::error::Result;
 use crate::model::full_book::FullBook;
@@ -17,16 +16,16 @@ mod solver;
 pub mod error;
 pub mod factory;
 pub mod production;
-mod amount;
 pub mod bag;
 pub mod colors;
+mod constants;
 
 
 fn main() -> crate::error::Result<()> {
 
     let mut t = term::stdout().unwrap();
 
-    let bom:Bom<AmountF64> = optimize()?.into();
+    let bom:Bom = optimize()?;
 
     bom.display(t.as_mut())?;
 
@@ -35,7 +34,7 @@ fn main() -> crate::error::Result<()> {
     Ok(())
 }
 
-fn optimize() -> Result<Bom<AmountF64>> {
+fn optimize() -> Result<Bom> {
     let full_book = FullBook::create()?;
 
     let filter:fn(&Recipe) -> bool = |r| true || !r.alternate();

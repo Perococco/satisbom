@@ -7,11 +7,11 @@ use crate::bag::{Bag, HashBag};
 
 use crate::model::book::Book;
 use crate::model::item::Item;
-use crate::{AmountF64, ProblemInput};
+use crate::ProblemInput;
 
 pub struct Production<T> {
-    requested_output: HashBag<Item, AmountF64>,
-    available_items: HashBag<Item, AmountF64>,
+    requested_output: HashBag<Item, f64>,
+    available_items: HashBag<Item, f64>,
     resources: HashBag<Item, T>,
     leftovers: HashBag<Item, T>,
     targets: HashBag<Item, T>,
@@ -19,10 +19,10 @@ pub struct Production<T> {
 }
 
 impl<T> Production<T> {
-    pub fn requested_output(&self) -> &HashBag<Item, AmountF64> {
+    pub fn requested_output(&self) -> &HashBag<Item, f64> {
         &self.requested_output
     }
-    pub fn available_items(&self) -> &HashBag<Item, AmountF64> {
+    pub fn available_items(&self) -> &HashBag<Item, f64> {
         &self.available_items
     }
     pub fn resources(&self) -> &HashBag<Item, T> {
@@ -69,7 +69,8 @@ impl Production<Expression> {
             let expression = Expression::from_other_affine(produced_quantity);
             let quantity = self.requested_output
                 .get(item)
-                .map(|a| a.value()).unwrap_or(0f64);
+                .cloned()
+                .unwrap_or(0f64);
             result.push(expression.geq(quantity as f64));
         }
 
@@ -103,15 +104,15 @@ impl Production<Expression> {
 
 }
 
-fn convert_input(input:&HashMap<String,u32>, book:&dyn Book) -> crate::error::Result<HashBag<Item,AmountF64>>{
+fn convert_input(input:&HashMap<String,u32>, book:&dyn Book) -> crate::error::Result<HashBag<Item,f64>>{
         input.iter()
-            .map(|(item_id,amount)| Ok((book.get_item_by_id(item_id)?.clone(),AmountF64::from(*amount))))
+            .map(|(item_id,amount)| Ok((book.get_item_by_id(item_id)?.clone(),*amount as f64)))
             .collect()
 }
 
 impl Production<Expression>  {
 
-    pub fn evaluate(self, solution:&LpSolution) -> Production<AmountF64> {
+    pub fn evaluate(self, solution:&LpSolution) -> Production<f64> {
         let targets = evaluate(&self.targets, solution,1f64);
         let resources = evaluate(&self.resources, solution, -1f64);
         let leftovers = evaluate(&self.leftovers, solution,1f64);
@@ -125,8 +126,8 @@ impl Production<Expression>  {
     }
 }
 
-fn evaluate(items:&HashBag<Item,Expression>, result:&LpSolution, factor:f64) -> HashBag<Item,AmountF64> {
-    let mut bag:HashBag<Item,AmountF64> = items.iter().map(|(item, e)| (item.clone(), e.eval_with(result) * factor)).collect();
+fn evaluate(items:&HashBag<Item,Expression>, result:&LpSolution, factor:f64) -> HashBag<Item,f64> {
+    let mut bag:HashBag<Item,f64> = items.iter().map(|(item, e)| (item.clone(), e.eval_with(result) * factor)).collect();
     bag.clean();
     bag
 }

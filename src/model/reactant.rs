@@ -1,7 +1,6 @@
 use std::fmt::Formatter;
 use term::StdoutTerminal;
 
-use crate::amount::Amount;
 use crate::colors::{AMOUNT_COLOR, DEFAULT_COLOR, ITEM_COLOR};
 use crate::model::item::Item;
 
@@ -33,14 +32,14 @@ impl Reactant {
 
 impl Reactant {
 
-    pub fn format<T>(&self, f:&mut Formatter<'_>, amount:&T) -> std::fmt::Result where T:Amount {
-        let quantity = amount.multiply(self.quantity);
+    pub fn format(&self, f:&mut Formatter<'_>, amount:f64) -> std::fmt::Result {
+        let quantity = amount * (self.quantity as f64);
         f.write_fmt(format_args!("{:.4}x{}", quantity, self.item))
     }
 
 
-    pub fn display<T>(&self, term:&mut StdoutTerminal, amount:&T) -> crate::error::Result<()> where T:Amount {
-        let quantity = amount.multiply(self.quantity);
+    pub fn display(&self, term:&mut StdoutTerminal, amount:f64) -> crate::error::Result<()> {
+        let quantity = amount * (self.quantity as f64);
         term.fg(AMOUNT_COLOR)?;
         write!(term,"{}",quantity)?;
         term.fg(DEFAULT_COLOR)?;

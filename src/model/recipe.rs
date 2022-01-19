@@ -1,7 +1,6 @@
 use std::fmt::{Display, Formatter};
 use std::hash::{Hash, Hasher};
 use term::StdoutTerminal;
-use crate::amount::{Amount, AmountF64};
 use crate::colors::{DEFAULT_COLOR};
 use crate::model::building::Building;
 use crate::model::item::Item;
@@ -41,6 +40,10 @@ impl Recipe {
     pub fn duration(&self) -> u32 {
         self.duration
     }
+
+    pub fn nb_per_minute(&self) -> f64 {
+        1f64/(self.duration as f64)
+    }
 }
 
 impl Recipe {
@@ -53,14 +56,13 @@ impl Recipe {
 
 impl Display for Recipe {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let one:AmountF64 = 1.into();
-        self.format(f,&one)
+        self.format(f,1f64)
     }
 }
 
 
 impl Recipe {
-    pub fn display<T>(&self, term:&mut StdoutTerminal, amount:&T) -> crate::error::Result<()> where T:Amount{
+    pub fn display(&self, term:&mut StdoutTerminal, amount:f64) -> crate::error::Result<()> {
         for (i,reactant) in self.inputs.iter().enumerate() {
             if i != 0 {
                 term.fg(DEFAULT_COLOR)?;
@@ -85,7 +87,7 @@ impl Recipe {
 
 impl Recipe {
 
-    pub fn format<T>(&self, f:&mut Formatter<'_>, amount:&T) -> std::fmt::Result where T:Amount{
+    pub fn format(&self, f:&mut Formatter<'_>, amount:f64) -> std::fmt::Result{
         for (i,reactant) in self.inputs.iter().enumerate() {
             if i != 0 {
                 f.write_str(" + ")?;
