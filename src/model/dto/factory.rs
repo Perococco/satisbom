@@ -15,7 +15,7 @@ pub struct Factory {
 }
 
 impl Factory {
-    pub fn to_items(self) -> HashMap<String,Item> {
+    pub fn into_items(self) -> HashMap<String,Item> {
         self.items
     }
 }

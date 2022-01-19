@@ -7,19 +7,19 @@ use crate::model::recipe::Recipe;
 use crate::problem_input::ProblemInput;
 use crate::production::Production;
 
-pub struct Factory<'a> {
-    book: &'a dyn Book,
-    input:&'a ProblemInput,
+pub struct Factory<'a,'b> {
+    book: &'b dyn Book,
+    input:&'b ProblemInput,
     recipe_amounts: &'a [Variable],
-    production: Production<'a>,
+    production: Production<'b>,
 }
 
 
-impl Factory<'_> {
-    pub fn compute_production<'a>(book: &'a dyn Book,
-                                  input:&'a ProblemInput,
-                                  recipe_amounts: &'a [Variable]) -> Result<Production<'a>> {
-        let mut factory = Factory { book:book, input, recipe_amounts, production: Production::new(book,input) };
+impl Factory<'_,'_> {
+    pub fn compute_production<'a,'b>(book: &'b dyn Book,
+                                  input:&'b ProblemInput,
+                                  recipe_amounts: &'a [Variable]) -> Result<Production<'b>> {
+        let mut factory = Factory { book, input, recipe_amounts, production: Production::new(book, input) };
 
         factory.compute()?;
 
@@ -29,7 +29,7 @@ impl Factory<'_> {
 }
 
 
-impl<'a> Factory<'a> {
+impl<'a,'b> Factory<'a,'b> {
     fn compute(&mut self) -> Result<()> {
 
         for recipe_index in 0..self.book.number_of_recipes() {

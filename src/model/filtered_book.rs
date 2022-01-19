@@ -34,7 +34,7 @@ impl Book for FilteredBook<'_> {
     fn get_recipe(&self, recipe_index: usize) -> Result<&Recipe> {
         self.filtered_recipe_indices
             .get(recipe_index)
-            .ok_or_else(|| Error::InvalidRecipeIndex(recipe_index))
+            .ok_or(Error::InvalidRecipeIndex(recipe_index))
             .and_then(|i| self.full_book.get_recipe(*i))
     }
 
@@ -62,6 +62,6 @@ impl Book for FilteredBook<'_> {
 
 impl FilteredBook<'_> {
     fn recipe_matches(&self, recipe_index: usize, predicate: &impl Fn(&Recipe) -> bool) -> Result<bool> {
-        self.get_recipe(recipe_index).map(|r| predicate(r))
+        self.get_recipe(recipe_index).map(predicate)
     }
 }

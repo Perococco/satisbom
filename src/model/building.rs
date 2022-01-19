@@ -1,11 +1,11 @@
 
-#[derive(Clone,Eq,PartialEq)]
+#[derive(Clone,Eq,PartialEq,Hash)]
 pub enum Building {
     Extractor(Extractor),
     Processor(Processor),
 }
 
-#[derive(Clone,Eq,PartialEq)]
+#[derive(Clone,Eq,PartialEq,Debug, Hash)]
 #[allow(dead_code)]
 pub struct Extractor {
     id: String,
@@ -14,7 +14,7 @@ pub struct Extractor {
     normal_extraction_rate: u32,
 }
 
-#[derive(Clone,Eq,PartialEq)]
+#[derive(Clone,Eq,PartialEq, Hash)]
 #[allow(dead_code)]
 pub struct Processor {
     id: String,

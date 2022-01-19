@@ -10,7 +10,7 @@ use crate::model::recipe::Recipe;
 
 pub struct FullBook {
     items:HashMap<String,Item>,
-    recipes:Vec<Recipe>,
+    recipes:Vec<Recipe>
 }
 
 
@@ -42,7 +42,7 @@ impl FilterableBook for FullBook {
 impl Book for FullBook {
 
     fn get_recipe(&self, recipe_index: usize) -> Result<&Recipe> {
-        self.recipes.get(recipe_index).ok_or_else(|| InvalidRecipeIndex(recipe_index))
+        self.recipes.get(recipe_index).ok_or(InvalidRecipeIndex(recipe_index))
     }
 
     fn number_of_recipes(&self) -> usize {

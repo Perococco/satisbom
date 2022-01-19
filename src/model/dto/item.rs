@@ -31,8 +31,8 @@ impl ItemDto {
 
     pub fn create_item(&self, buildings:&HashMap<String,Building>) -> Result<Item> {
         match self {
-            ItemDto::Resource(r) => r.create_resource(buildings).map(|r| Item::Resource(r)),
-            ItemDto::Product(p) => p.create_product().map(|p| Item::Product(p))
+            ItemDto::Resource(r) => r.create_resource(buildings).map(Item::Resource),
+            ItemDto::Product(p) => p.create_product().map(Item::Product)
         }
     }
 }

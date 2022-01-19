@@ -1,18 +1,33 @@
 = Goals
 
+* [*] Be able to specify available items (produced currently )
+
 * Get the "best" recipes to produces some given input resources
-  - "best" : give a criteria (by default -> using the minimal resources)
-  - display the required buildings
-  - display the estimated maximal consumption
+  - [*] "best" : give a criteria (by default -> using the minimal resources)
+  - [ ] put a maximal limit on available resources
+
+* Output the result
+  - [*] Sort the recipe list in order of complexity
+  - [*] display result as a fraction
+  - [*] display the required buildings
+  - [ ] display the estimated maximal consumption
+
+
+* [*] Find a crate to display text with color
+* [ ] Improve output readability
+
+
+* [ ] Find a crate to handle program arguments
 
 * Be able to provide the requested input
-  - from command line
-  -from a file
+  - [ ] from command line
+  - [ ] from a file
 
 * Be able to select the alternative recipes to use
-  - from command line
-  - from a JSON file
+  - [ ] from command line
+  - [ ] from a JSON file
 
-* Be able to specify available items (produced currently )
 
-* PNG output
+* Output in different format
+  - [ ] Dot format
+  - [ ] PNG output

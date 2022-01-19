@@ -3,18 +3,19 @@ use std::hash::{Hash, Hasher};
 
 use crate::model::building::Extractor;
 
-#[derive(Clone,Hash,Eq)]
+#[derive(Clone,Eq,Debug)]
 pub enum Item {
     Resource(Resource),
     Product(Product),
 }
 
-#[derive(Clone,Eq,PartialEq)]
+#[derive(Clone,Eq,Debug)]
 pub struct Product {
     id:String
 }
 
-#[derive(Clone,Eq,PartialEq)]
+#[derive(Clone,Eq, Debug)]
+#[allow(dead_code)]
 pub struct Resource {
     id:String,
     extractor:Extractor,
@@ -33,6 +34,15 @@ impl PartialEq for Item {
     }
 }
 
+impl Hash for Item {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        match self {
+            Item::Resource(r) => r.hash(state),
+            Item::Product(p) => p.hash(state)
+        }
+    }
+}
+
 impl Hash for Resource {
     fn hash<H: Hasher>(&self, state: &mut H) {
         state.write_i8(0);
@@ -40,10 +50,22 @@ impl Hash for Resource {
     }
 }
 
+impl PartialEq for Resource {
+    fn eq(&self, other: &Self) -> bool {
+        self.id.eq(&other.id)
+    }
+}
+
 impl Hash for Product {
     fn hash<H: Hasher>(&self, state: &mut H) {
         state.write_i8(1);
         self.id.hash(state);
+    }
+}
+
+impl PartialEq for Product {
+    fn eq(&self, other: &Self) -> bool {
+        self.id.eq(&other.id)
     }
 }
 

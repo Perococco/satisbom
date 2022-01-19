@@ -1,24 +1,44 @@
 use maplit::hashmap;
+
 use model::book::FilterableBook;
-use crate::solver::solve;
+
+use crate::amount::{Amount, AmountF64, AmountRatio};
+use crate::bom::Bom;
 use crate::error::Result;
 use crate::model::full_book::FullBook;
 use crate::model::recipe::Recipe;
 use crate::problem_input::ProblemInput;
+use crate::solver::solve;
 
 pub mod model;
 mod problem_input;
-mod problem_output;
+mod bom;
 mod solver;
 pub mod error;
 pub mod factory;
 pub mod production;
+mod amount;
+pub mod bag;
+pub mod colors;
 
 
-fn main() -> Result<()> {
+fn main() -> crate::error::Result<()> {
+
+    let mut t = term::stdout().unwrap();
+
+    let bom:Bom<AmountRatio> = optimize()?.into();
+
+    bom.display(t.as_mut());
+
+    t.reset().unwrap();
+
+    Ok(())
+}
+
+fn optimize() -> Result<Bom<AmountF64>> {
     let full_book = FullBook::create()?;
 
-    let filter:fn(&Recipe) -> bool = |r| !r.alternate();
+    let filter:fn(&Recipe) -> bool = |r| true || !r.alternate();
 
     let book = full_book.filter(&filter)?;
 
@@ -26,16 +46,15 @@ fn main() -> Result<()> {
 
     let input = ProblemInput{
         requested_output: hashmap! {
-            "iron_plate".to_string() => 60,
-            "iron_rod".to_string() => 30
+            "plastic".to_string() => 0,
+            "rubber".to_string() => 0,
+            "turbofuel".to_string() => 60
         },
         available_items: hashmap! {
-            "iron_ingot".to_string() => 130
         }};
 
 
-    let result = solve(&input, &book).unwrap();
-    println!("{}", result);
+    let bom = solve(&input, &book).unwrap();
 
-    Ok(())
+    Ok(bom)
 }

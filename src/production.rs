@@ -1,6 +1,8 @@
 use std::collections::HashMap;
-use std::ops::{Add, Sub};
+use std::ops::Add;
+
 use good_lp::{Constraint, Expression, IntoAffineExpression};
+
 use crate::model::book::Book;
 use crate::model::item::Item;
 use crate::ProblemInput;
@@ -37,15 +39,15 @@ impl<'a> Production<'a> {
         for (item, produced_quantity) in &self.targets {
             let expression = Expression::from_other_affine(produced_quantity);
             let quantity = self.input.get_requested_quantity(item).unwrap();
-            result.push(expression.eq(quantity as f64));
+            result.push(expression.geq(quantity as f64));
         }
 
-        for (_,produced_quantity) in &self.leftovers {
+        for produced_quantity in self.leftovers.values() {
             let expression = Expression::from_other_affine(produced_quantity);
             result.push(expression.geq(0));
         }
         
-        for (_,produced_quantity) in &self.available {
+        for produced_quantity in self.available.values() {
             let expression = Expression::from_other_affine(produced_quantity);
             result.push(expression.geq(0));
         }
@@ -68,6 +70,19 @@ impl<'a> Production<'a> {
             Some(exp) => *exp+=value
         };
 
+    }
+
+    pub fn resources(&self) -> &HashMap<Item, Expression> {
+        &self.resources
+    }
+    pub fn leftovers(&self) -> &HashMap<Item, Expression> {
+        &self.leftovers
+    }
+    pub fn targets(&self) -> &HashMap<Item, Expression> {
+        &self.targets
+    }
+    pub fn available(&self) -> &HashMap<Item, Expression> {
+        &self.available
     }
 }
 
