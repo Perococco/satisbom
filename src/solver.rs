@@ -1,5 +1,4 @@
 use good_lp::{default_solver, Expression, ProblemVariables, Solution, SolverModel, Variable, variable};
-use good_lp::solvers::lp_solvers::LpSolution;
 
 use crate::amount::AmountF64;
 use crate::bag::HashBag;
@@ -7,7 +6,6 @@ use crate::bom::Bom;
 use crate::error::Result;
 use crate::factory::Factory;
 use crate::model::book::Book;
-use crate::model::item::Item;
 use crate::model::recipe::Recipe;
 use crate::problem_input::ProblemInput;
 
@@ -38,27 +36,15 @@ pub fn solve(input: &ProblemInput, book: &dyn Book) -> Result<Bom<AmountF64>> {
 
 
 
+    let production = production.evaluate(&solution);
 
-    let targets = evaluate(production.targets(), &solution,1f64);
-    let available:Result<HashBag<Item,AmountF64>> = input.available_items.iter()
-        .map(|(k,v) | Ok((book.get_item_by_id(k)?.clone(),AmountF64::from(*v))))
-        .collect();
-
-    let mut resources = evaluate(production.resources(), &solution, -1f64);
-    resources+= available?;
-    resources-= evaluate(production.available(), &solution,1f64);
-
-    let mut leftovers = evaluate(production.leftovers(), &solution,1f64);
-    leftovers+= evaluate(production.available(), &solution,1f64);
+    // let targets = evaluate(production.targets(), &solution,1f64);
+    // let available:Result<HashBag<Item,AmountF64>> = input.available_items.iter()
+    //     .map(|(k,v) | Ok((book.get_item_by_id(k)?.clone(),AmountF64::from(*v))))
+    //     .collect();
 
 
-
-    Ok(Bom::new(targets, resources, leftovers,used_recipes))
+    Ok(Bom::create(used_recipes, production))
 }
 
 
-fn evaluate(items:&HashBag<Item,Expression>, result:&LpSolution, factor:f64) -> HashBag<Item,AmountF64> {
-    let mut bag:HashBag<Item,AmountF64> = items.iter().map(|(item, e)| (item.clone(), e.eval_with(result) * factor)).collect();
-    bag.clean();
-    bag
-}

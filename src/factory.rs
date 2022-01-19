@@ -1,5 +1,5 @@
 use std::ops::{Mul};
-use good_lp::Variable;
+use good_lp::{Expression, Variable};
 use crate::model::book::Book;
 use crate::error::Result;
 use crate::model::reactant::Reactant;
@@ -11,15 +11,15 @@ pub struct Factory<'a,'b> {
     book: &'b dyn Book,
     input:&'b ProblemInput,
     recipe_amounts: &'a [Variable],
-    production: Production<'b>,
+    production: Production<'b,Expression>,
 }
 
 
 impl Factory<'_,'_> {
     pub fn compute_production<'a,'b>(book: &'b dyn Book,
                                   input:&'b ProblemInput,
-                                  recipe_amounts: &'a [Variable]) -> Result<Production<'b>> {
-        let mut factory = Factory { book, input, recipe_amounts, production: Production::new(book, input) };
+                                  recipe_amounts: &'a [Variable]) -> Result<Production<'b,Expression>> {
+        let mut factory = Factory { book, input, recipe_amounts, production: Production::new(book, input)? };
 
         factory.compute()?;
 

@@ -1,35 +1,68 @@
+use std::collections::HashMap;
 use std::ops::Add;
 
 use good_lp::{Constraint, Expression, IntoAffineExpression};
+use good_lp::solvers::lp_solvers::LpSolution;
 use crate::bag::{Bag, HashBag};
 
 use crate::model::book::Book;
 use crate::model::item::Item;
-use crate::ProblemInput;
+use crate::{AmountF64, ProblemInput};
 
-pub struct Production<'a> {
-    _book: &'a dyn Book,
+pub struct Production<'a,T> {
+    book: &'a dyn Book,
     input:&'a ProblemInput,
-    resources: HashBag<Item, Expression>,
-    leftovers: HashBag<Item, Expression>,
-    targets: HashBag<Item, Expression>,
-    available: HashBag<Item, Expression>,
+    requested_output: HashBag<Item, AmountF64>,
+    available_items: HashBag<Item, AmountF64>,
+    resources: HashBag<Item, T>,
+    leftovers: HashBag<Item, T>,
+    targets: HashBag<Item, T>,
+    available_left: HashBag<Item, T>,
 }
 
-impl<'a> Production<'a> {
+impl<'a, T> Production<'a, T> {
+    pub fn requested_output(&self) -> &HashBag<Item, AmountF64> {
+        &self.requested_output
+    }
+    pub fn available_items(&self) -> &HashBag<Item, AmountF64> {
+        &self.available_items
+    }
+    pub fn resources(&self) -> &HashBag<Item, T> {
+        &self.resources
+    }
+    pub fn leftovers(&self) -> &HashBag<Item, T> {
+        &self.leftovers
+    }
+    pub fn targets(&self) -> &HashBag<Item, T> {
+        &self.targets
+    }
+    pub fn available_left(&self) -> &HashBag<Item, T> {
+        &self.available_left
+    }
+}
 
-    pub(crate) fn new(book:&'a dyn Book, input:&'a ProblemInput) -> Self {
-        Production{_book:book,input,
-            resources:Default::default(),
-            leftovers:Default::default(),
-            targets:Default::default(),
-            available:Default::default()}
+
+impl<'a> Production<'a,Expression> {
+
+    pub(crate) fn new(book:&'a dyn Book, input:&'a ProblemInput) -> crate::error::Result<Self> {
+        let requested_output = convert_input(&input.requested_output,book)?;
+        let available_items = convert_input(&input.available_items,book)?;
+        Ok(Production {
+            book,
+            input,
+            requested_output,
+            available_items,
+            resources: Default::default(),
+            leftovers: Default::default(),
+            targets: Default::default(),
+            available_left: Default::default(),
+        })
     }
 
     pub fn objective(&self) -> Expression {
         let sum_of_resources:Expression = self.resources.values().sum();
 
-        let sum_of_available_items:Expression = self.available.values().sum();
+        let sum_of_available_items:Expression = self.available_left.values().sum();
         sum_of_resources.add(sum_of_available_items)
     }
 
@@ -38,7 +71,9 @@ impl<'a> Production<'a> {
 
         for (item, produced_quantity) in self.targets.iter() {
             let expression = Expression::from_other_affine(produced_quantity);
-            let quantity = self.input.get_requested_quantity(item).unwrap();
+            let quantity = self.requested_output
+                .get(item)
+                .map(|a| a.value()).unwrap_or(0f64);
             result.push(expression.geq(quantity as f64));
         }
 
@@ -47,7 +82,7 @@ impl<'a> Production<'a> {
             result.push(expression.geq(0));
         }
         
-        for produced_quantity in self.available.values() {
+        for produced_quantity in self.available_left.values() {
             let expression = Expression::from_other_affine(produced_quantity);
             result.push(expression.geq(0));
         }
@@ -56,31 +91,47 @@ impl<'a> Production<'a> {
     }
 
     pub fn add<RHS>(&mut self, item:& Item, value:RHS) where RHS: IntoAffineExpression {
-        let requested_item = self.input.is_requested_item(item);
-        let available_item = self.input.is_available_item(item);
+        let requested_item = self.requested_output.contains_key(item);
+        let available_item = self.available_items.contains_key(item);
         let quantities = match (item, requested_item, available_item) {
             (Item::Resource(_),_,_) => &mut self.resources,
             (Item::Product(_),false, false) => &mut self.leftovers,
-            (Item::Product(_),false, true) => &mut self.available,
+            (Item::Product(_),false, true) => &mut self.available_left,
             (Item::Product(_),true, _) => &mut self.targets,
         };
 
-        quantities.add(item.clone(), Expression::from_other_affine(value));
+        quantities.add_item(item.clone(), Expression::from_other_affine(value));
 
     }
 
 
-    pub fn resources(&self) -> &HashBag<Item, Expression> {
-        &self.resources
-    }
-    pub fn leftovers(&self) -> &HashBag<Item, Expression> {
-        &self.leftovers
-    }
-    pub fn targets(&self) -> &HashBag<Item, Expression> {
-        &self.targets
-    }
-    pub fn available(&self) -> &HashBag<Item, Expression> {
-        &self.available
+}
+
+fn convert_input(input:&HashMap<String,u32>, book:&dyn Book) -> crate::error::Result<HashBag<Item,AmountF64>>{
+        input.iter()
+            .map(|(item_id,amount)| Ok((book.get_item_by_id(item_id)?.clone(),AmountF64::from(*amount))))
+            .collect()
+}
+
+impl <'a> Production<'a,Expression>  {
+
+    pub fn evaluate(self, solution:&LpSolution) -> Production<'a,AmountF64> {
+        let targets = evaluate(&self.targets, solution,1f64);
+        let resources = evaluate(&self.resources, solution, -1f64);
+        let leftovers = evaluate(&self.leftovers, solution,1f64);
+        let available = evaluate(&self.available_left, solution, 1f64);
+
+
+        Production{
+            book:self.book, input:self.input,
+            available_items:self.available_items,
+            requested_output:self.requested_output,
+            resources,leftovers,targets, available_left: available }
     }
 }
 
+fn evaluate(items:&HashBag<Item,Expression>, result:&LpSolution, factor:f64) -> HashBag<Item,AmountF64> {
+    let mut bag:HashBag<Item,AmountF64> = items.iter().map(|(item, e)| (item.clone(), e.eval_with(result) * factor)).collect();
+    bag.clean();
+    bag
+}

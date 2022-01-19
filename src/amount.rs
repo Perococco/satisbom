@@ -16,6 +16,12 @@ pub struct AmountF64 {
     value:f64,
 }
 
+impl AmountF64 {
+    pub(crate) fn value(&self) -> f64 {
+        self.value
+    }
+}
+
 impl AddAssign for AmountF64 {
     fn add_assign(&mut self, rhs: Self) {
         *self = AmountF64{value:self.value+rhs.value};
@@ -52,6 +58,12 @@ impl Display for AmountF64 {
 
 impl From<u32> for AmountF64 {
     fn from(value: u32) -> Self {
+        AmountF64{value:value as f64}
+    }
+}
+
+impl From<i32> for AmountF64 {
+    fn from(value: i32) -> Self {
         AmountF64{value:value as f64}
     }
 }

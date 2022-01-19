@@ -6,6 +6,7 @@ use crate::colors::{CONSTRUCTOR_COLOR, DEFAULT_COLOR, DURATION_COLOR, RECIPE_NAM
 use crate::model::building::Building;
 use crate::model::item::Item;
 use crate::model::recipe::Recipe;
+use crate::production::Production;
 
 pub struct Bom<T> where T : Amount {
     pub targets:HashBag<Item,T>,
@@ -13,6 +14,19 @@ pub struct Bom<T> where T : Amount {
     pub leftovers:HashBag<Item,T>,
     pub recipes:HashBag<Recipe, T>,
     pub buildings:HashBag<Building,T>
+}
+
+impl Bom<AmountF64> {
+    pub(crate) fn create(recipies: HashBag<Recipe, AmountF64>, production: Production<AmountF64>) -> Bom<AmountF64> {
+        let mut requirements = production.resources().clone();
+        requirements += production.available_items();
+        requirements -= production.available_left();
+
+        let mut leftovers = production.leftovers().clone();
+        leftovers += production.available_left();
+
+        Bom::new(production.targets().clone(), requirements, leftovers, recipies)
+    }
 }
 
 
@@ -30,7 +44,7 @@ impl Bom<AmountF64> {
         recipes.iter()
             .map(|(r, amount)| (r.building(), amount.per_minute(r.duration())))
             .fold(&mut buildings, |bag, (b, amount)| {
-                bag.add(b.clone(), amount);
+                bag.add_item(b.clone(), amount);
                 bag
             }
             );
@@ -108,7 +122,7 @@ impl <T:Amount> Bom<T> {
         for (recipe, amount) in self.recipes.iter() {
             let nb_need = amount.per_minute(recipe.duration());
             term.fg(DEFAULT_COLOR)?;
-            write!(term,"  {:>7.2}",amount.to_string())?;
+            write!(term,"  {:>7.7}",amount.to_string())?;
             write!(term," - ")?;
             term.fg(RECIPE_NAME_COLOR)?;
             write!(term,"{:<26}", recipe.id())?;
