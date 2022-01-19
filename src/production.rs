@@ -9,9 +9,7 @@ use crate::model::book::Book;
 use crate::model::item::Item;
 use crate::{AmountF64, ProblemInput};
 
-pub struct Production<'a,T> {
-    book: &'a dyn Book,
-    input:&'a ProblemInput,
+pub struct Production<T> {
     requested_output: HashBag<Item, AmountF64>,
     available_items: HashBag<Item, AmountF64>,
     resources: HashBag<Item, T>,
@@ -20,7 +18,7 @@ pub struct Production<'a,T> {
     available_left: HashBag<Item, T>,
 }
 
-impl<'a, T> Production<'a, T> {
+impl<T> Production<T> {
     pub fn requested_output(&self) -> &HashBag<Item, AmountF64> {
         &self.requested_output
     }
@@ -42,14 +40,12 @@ impl<'a, T> Production<'a, T> {
 }
 
 
-impl<'a> Production<'a,Expression> {
+impl Production<Expression> {
 
-    pub(crate) fn new(book:&'a dyn Book, input:&'a ProblemInput) -> crate::error::Result<Self> {
+    pub(crate) fn new(book:&dyn Book, input:&ProblemInput) -> crate::error::Result<Self> {
         let requested_output = convert_input(&input.requested_output,book)?;
         let available_items = convert_input(&input.available_items,book)?;
         Ok(Production {
-            book,
-            input,
             requested_output,
             available_items,
             resources: Default::default(),
@@ -113,9 +109,9 @@ fn convert_input(input:&HashMap<String,u32>, book:&dyn Book) -> crate::error::Re
             .collect()
 }
 
-impl <'a> Production<'a,Expression>  {
+impl Production<Expression>  {
 
-    pub fn evaluate(self, solution:&LpSolution) -> Production<'a,AmountF64> {
+    pub fn evaluate(self, solution:&LpSolution) -> Production<AmountF64> {
         let targets = evaluate(&self.targets, solution,1f64);
         let resources = evaluate(&self.resources, solution, -1f64);
         let leftovers = evaluate(&self.leftovers, solution,1f64);
@@ -123,7 +119,6 @@ impl <'a> Production<'a,Expression>  {
 
 
         Production{
-            book:self.book, input:self.input,
             available_items:self.available_items,
             requested_output:self.requested_output,
             resources,leftovers,targets, available_left: available }

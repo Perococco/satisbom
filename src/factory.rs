@@ -11,14 +11,14 @@ pub struct Factory<'a,'b> {
     book: &'b dyn Book,
     input:&'b ProblemInput,
     recipe_amounts: &'a [Variable],
-    production: Production<'b,Expression>,
+    production: Production<Expression>,
 }
 
 
 impl Factory<'_,'_> {
     pub fn compute_production<'a,'b>(book: &'b dyn Book,
                                   input:&'b ProblemInput,
-                                  recipe_amounts: &'a [Variable]) -> Result<Production<'b,Expression>> {
+                                  recipe_amounts: &'a [Variable]) -> Result<Production<Expression>> {
         let mut factory = Factory { book, input, recipe_amounts, production: Production::new(book, input)? };
 
         factory.compute()?;
