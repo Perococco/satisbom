@@ -19,10 +19,38 @@ pub struct Product {
 pub struct Resource {
     id:String,
     extractor:Extractor,
-    impure:Option<u32>,
-    normal:Option<u32>,
-    pure:Option<u32>,
+    nodes:Option<Nodes>,
 }
+
+impl Item {
+    pub fn as_resource(&self) -> Option<&Resource> {
+        match self {
+            Item::Resource(r) => Some(r),
+            Item::Product(_) => None
+        }
+    }
+}
+
+impl Resource {
+    pub fn nodes(&self) -> Option<&Nodes> {
+        self.nodes.as_ref()
+    }
+}
+
+#[derive(Clone,Eq, Debug)]
+pub struct Nodes {
+    impure: u32,
+    normal: u32,
+    pure: u32,
+}
+
+impl Nodes {
+    pub fn new(impure: u32, normal: u32, pure: u32) -> Self {
+        Nodes { impure, normal, pure }
+    }
+}
+
+
 
 impl PartialEq for Item {
     fn eq(&self, other: &Self) -> bool {
@@ -56,6 +84,12 @@ impl PartialEq for Resource {
     }
 }
 
+impl PartialEq for Nodes {
+    fn eq(&self, other: &Self) -> bool {
+        self.impure == other.impure && self.normal == other.normal && self.pure == other.pure
+    }
+}
+
 impl Hash for Product {
     fn hash<H: Hasher>(&self, state: &mut H) {
         state.write_i8(1);
@@ -78,8 +112,18 @@ impl Display for Item {
 
 
 impl Resource {
-    pub fn new(id: String, extractor: Extractor, impure: Option<u32>, normal: Option<u32>, pure: Option<u32>) -> Self {
-        Resource { id, extractor, impure, normal, pure }
+    pub fn new(id: String, extractor: Extractor, nodes:Option<Nodes>) -> Self {
+        Resource { id, extractor, nodes }
+    }
+
+    pub fn max_quantity(&self) -> Option<u32> {
+        self.nodes().map(|n| n.max_quantity())
+    }
+}
+
+impl Nodes {
+    pub fn max_quantity(&self) -> u32 {
+        self.impure*300 + self.normal*600 + self.pure*780
     }
 }
 

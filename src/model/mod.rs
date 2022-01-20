@@ -8,3 +8,6 @@ pub mod full_book;
 pub mod filtered_book;
 pub mod book;
 pub mod recipe_complexity;
+pub mod bom;
+pub mod bom_printer;
+pub mod ratio_approx;

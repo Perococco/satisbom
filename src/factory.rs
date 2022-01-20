@@ -1,65 +1,92 @@
-use std::ops::{Mul};
-use good_lp::{Expression, Variable};
+use std::collections::HashMap;
+use std::ops::{Mul, Neg};
+use good_lp::{Expression, ProblemVariables, Variable, variable};
+use hashlink::LinkedHashMap;
 use crate::model::book::Book;
 use crate::error::Result;
-use crate::model::reactant::Reactant;
+use crate::model::item::Item;
 use crate::model::recipe::Recipe;
 use crate::problem_input::ProblemInput;
-use crate::production::Production;
+use crate::problem::Problem;
 
-pub struct Factory<'a,'b> {
+pub struct Factory<'b> {
     book: &'b dyn Book,
-    input:&'b ProblemInput,
-    recipe_amounts: &'a [Variable],
-    production: Production<Expression>,
+    input: &'b ProblemInput,
+    variables: ProblemVariables,
+    recipes: LinkedHashMap<Recipe, Variable>,
 }
 
 
-impl Factory<'_,'_> {
-    pub fn compute_production<'a,'b>(book: &'b dyn Book,
-                                  input:&'b ProblemInput,
-                                  recipe_amounts: &'a [Variable]) -> Result<Production<Expression>> {
-        let mut factory = Factory { book, input, recipe_amounts, production: Production::new(book, input)? };
+impl Factory<'_> {
+    pub fn create_problem<'b>(input: &'b ProblemInput, book: &'b dyn Book) -> Result<Problem> {
+        let mut variables = ProblemVariables::new();
 
-        factory.compute()?;
+        let mut recipes = LinkedHashMap::new();
+        let nb_recipes = book.number_of_recipes();
+        for recipe_index in 0..nb_recipes {
+            let recipe = book.get_recipe(recipe_index)?;
+            let definition = variables.add(variable().min(0));
+            recipes.insert(recipe.clone(), definition);
+        }
 
-
-        Ok(factory.production)
+        Factory {
+            book,
+            input,
+            variables,
+            recipes,
+        }.create()
     }
 }
 
 
-impl<'a,'b> Factory<'a,'b> {
-    fn compute(&mut self) -> Result<()> {
+impl<'b> Factory<'b> {
+    fn create(self) -> Result<Problem> {
+        let mut items = HashMap::new();
 
-        for recipe_index in 0..self.book.number_of_recipes() {
-            self.add_quantity_for_one_recipe(recipe_index)?
+        let target_items = convert_map(self.input.target_items(), self.book)?;
+        let available_items = convert_map(self.input.available_items(), self.book)?;
+
+        for (recipe, variable) in &(self.recipes) {
+            for input in recipe.inputs() {
+                let quantity = variable.mul(input.quantity());
+                remove_item_quantity(&mut items, input.item(), quantity)
+            }
+            for output in recipe.outputs() {
+                let quantity = variable.mul(output.quantity());
+                add_item_quantity(&mut items, output.item(), quantity)
+            }
         }
 
-        for (item_id, available) in &self.input.available_items {
-            let item = self.book.get_item_by_id(item_id)?;
-            self.production.add(item,*available);
+        for (item, count) in &available_items {
+            add_item_quantity(&mut items, item, Expression::from(*count))
         }
 
-        Ok(())
+
+        Ok(Problem::new(self.variables, target_items, available_items, self.recipes, items))
     }
+}
 
-    fn add_quantity_for_one_recipe(&mut self, recipe_index: usize) -> Result<()> {
-        self.update_quantity_for_reactants(recipe_index, |r| r.inputs(), -1)?;
-        self.update_quantity_for_reactants(recipe_index, |r| r.outputs(), 1)
+fn add_item_quantity(items: &mut HashMap<Item, Expression>, item: &Item, value: Expression) {
+    match items.get_mut(item) {
+        Some(e) => { *e += value; }
+        None => { items.insert(item.clone(), value); }
     }
+}
 
-    fn update_quantity_for_reactants(&mut self, recipe_index: usize, getter: fn(&Recipe) -> &[Reactant], factor: i32) -> Result<()> {
-        let recipe = self.book.get_recipe(recipe_index)?;
-        let amount = &self.recipe_amounts[recipe_index];
-
-        for reactant in getter(recipe) {
-            let item = reactant.item();
-
-            let use_quantity = amount.mul((reactant.quantity() as i32) * factor);
-            self.production.add(item,use_quantity);
-        };
-
-        Ok(())
+fn remove_item_quantity(items: &mut HashMap<Item, Expression>, item: &Item, value: Expression) {
+    match items.get_mut(item) {
+        Some(e) => { *e -= value; }
+        None => { items.insert(item.clone(), value.neg()); }
     }
+}
+
+
+fn convert_map(items: &HashMap<String, u32>, book: &dyn Book) -> Result<HashMap<Item, f64>> {
+    let mut result = HashMap::new();
+    for (item_id, quantity) in items {
+        let item = book.get_item_by_id(item_id)?.clone();
+        result.insert(item, *quantity as f64);
+    };
+
+    Ok(result)
 }

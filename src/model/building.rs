@@ -1,11 +1,11 @@
 
-#[derive(Clone,Eq,PartialEq,Hash)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 pub enum Building {
     Extractor(Extractor),
     Processor(Processor),
 }
 
-#[derive(Clone,Eq,PartialEq,Debug, Hash)]
+#[derive(Clone, Eq, PartialEq, Debug, Hash)]
 #[allow(dead_code)]
 pub struct Extractor {
     id: String,
@@ -14,12 +14,21 @@ pub struct Extractor {
     normal_extraction_rate: u32,
 }
 
-#[derive(Clone,Eq,PartialEq, Hash)]
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 #[allow(dead_code)]
 pub struct Processor {
     id: String,
     kind: String,
     power_usage: i32,
+}
+
+impl Building {
+    pub fn power_usage(&self) -> i32 {
+        match self {
+            Building::Extractor(e) => e.power_usage as i32,
+            Building::Processor(p) => p.power_usage as i32
+        }
+    }
 }
 
 

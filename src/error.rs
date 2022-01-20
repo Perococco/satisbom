@@ -1,9 +1,10 @@
 use good_lp::ResolutionError;
-use crate::error::Error::{BookDeserializationError, IoError, TermError};
+use crate::error::Error::{BookDeserializationError, FmtError, IoError, TermError};
 
 #[derive(Debug)]
 pub enum Error {
     IoError(std::io::Error),
+    FmtError(std::fmt::Error),
     TermError(term::Error),
     UnknownItem(String),
     UnknownBuilding(String),
@@ -25,6 +26,12 @@ impl From<term::Error> for Error {
 impl From<std::io::Error> for Error {
     fn from(e: std::io::Error) -> Self {
         IoError(e)
+    }
+}
+
+impl From<std::fmt::Error> for Error {
+    fn from(e: std::fmt::Error) -> Self {
+        FmtError(e)
     }
 }
 

@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use serde::Deserialize;
 use crate::model::building::Building;
-use crate::model::item::{Item, Product, Resource};
+use crate::model::item::{Item, Nodes, Product, Resource};
 use crate::error::{Error,Result};
 
 
@@ -22,10 +22,11 @@ pub struct ProductDto {
 pub struct ResourceDto {
     id: String,
     extractor: String,
-    impure: Option<u32>,
-    normal: Option<u32>,
-    pure: Option<u32>,
+    impure: i32,
+    normal: i32,
+    pure: i32,
 }
+
 
 impl ItemDto {
 
@@ -44,10 +45,26 @@ impl ResourceDto {
 
         let extractor = buildings.get(id).ok_or_else(|| Error::UnknownBuilding(self.extractor.to_string()))?;
 
+        let impure = to_u32(self.impure);
+        let normal = to_u32(self.normal);
+        let pure = to_u32(self.pure);
+
+        let total = impure + normal + pure;
+
+        let nodes = if total == 0 {None} else {Some(Nodes::new(impure,normal,pure))};
+
         match extractor {
-            Building::Extractor(e) => Ok(Resource::new(self.id.clone(), e.clone(), self.impure, self.normal, self.pure)),
+            Building::Extractor(e) => Ok(Resource::new(self.id.clone(), e.clone(), nodes)),
             Building::Processor(_) => Err(Error::InvalidBuilding(self.extractor.to_string()))
         }
+    }
+}
+
+fn to_u32(value:i32) -> u32 {
+    if value <= 0 {
+        0
+    } else {
+        value as u32
     }
 }
 

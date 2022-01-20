@@ -5,7 +5,6 @@ use crate::model::dto::building::BuildingDto;
 use crate::model::dto::factory::Factory;
 use crate::model::dto::item::ItemDto;
 use crate::model::dto::recipe::RecipeDto;
-use crate::model::recipe_complexity::compute_complexity;
 
 
 #[derive(Deserialize, Debug)]
@@ -32,15 +31,7 @@ impl BookDto {
             .map(|r| factory.convert_recipe(r))
             .collect();
 
-        let mut recipes = recipes?;
-
-        let complexities = compute_complexity(&recipes);
-
-
-        recipes.sort_by(|r1, r2| complexities.get(r1.id()).cmp(&complexities.get(r2.id())));
-
-
-        Ok(FullBook::new(factory.into_items(), recipes))
+        Ok(FullBook::new(factory.into_items(), recipes?))
     }
 }
 

@@ -50,6 +50,12 @@
       "power-usage": 75
     },
     {
+      "type": "miner",
+      "id": "manual",
+      "power-usage": 0,
+      "normal-extraction-rate": 0
+    },
+    {
       "type": "builder",
       "id": "particle_accelerator",
       "power-usage": 1000

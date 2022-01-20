@@ -1,10 +1,12 @@
 use std::fmt::{Display, Formatter};
 use std::hash::{Hash, Hasher};
-use term::StdoutTerminal;
 use crate::colors::{DEFAULT_COLOR};
+use crate::model::bom_printer::BomPrinter;
 use crate::model::building::Building;
 use crate::model::item::Item;
 use crate::model::reactant::Reactant;
+
+use std::fmt::Write;
 
 #[derive(Clone)]
 #[allow(dead_code)]
@@ -42,8 +44,10 @@ impl Recipe {
     }
 
     pub fn nb_per_minute(&self) -> f64 {
-        1f64/(self.duration as f64)
+        60f64/(self.duration as f64)
     }
+
+
 }
 
 impl Recipe {
@@ -62,7 +66,7 @@ impl Display for Recipe {
 
 
 impl Recipe {
-    pub fn display(&self, term:&mut StdoutTerminal, amount:f64) -> crate::error::Result<()> {
+    pub fn display(&self, term:&mut BomPrinter, amount:f64) -> crate::error::Result<()> {
         for (i,reactant) in self.inputs.iter().enumerate() {
             if i != 0 {
                 term.fg(DEFAULT_COLOR)?;

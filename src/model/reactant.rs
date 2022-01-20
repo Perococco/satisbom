@@ -1,7 +1,8 @@
 use std::fmt::Formatter;
-use term::StdoutTerminal;
+use std::fmt::Write;
 
 use crate::colors::{AMOUNT_COLOR, DEFAULT_COLOR, ITEM_COLOR};
+use crate::model::bom_printer::BomPrinter;
 use crate::model::item::Item;
 
 #[derive(Clone)]
@@ -38,7 +39,7 @@ impl Reactant {
     }
 
 
-    pub fn display(&self, term:&mut StdoutTerminal, amount:f64) -> crate::error::Result<()> {
+    pub fn display(&self, term:&mut BomPrinter, amount:f64) -> crate::error::Result<()> {
         let quantity = amount * (self.quantity as f64);
         term.fg(AMOUNT_COLOR)?;
         write!(term,"{}",quantity)?;
