@@ -1,7 +1,7 @@
 use std::collections::HashMap;
-use std::fmt::{Display, Formatter, Write};
+use std::fmt::{Display, Error, Formatter};
 use hashlink::LinkedHashMap;
-use crate::constants::is_nil;
+use crate::AmountFormat;
 use crate::model::bom_printer::BomPrinter;
 use crate::model::building::Building;
 use crate::model::item::Item;
@@ -37,7 +37,7 @@ impl Bom {
 }
 
 fn sort_recipes(recipes: HashMap<Recipe, f64>) -> LinkedHashMap<Recipe,f64> {
-    let mut recipes_vec:Vec<Recipe> = recipes.keys().map(|r| r.clone()).collect();
+    let mut recipes_vec:Vec<Recipe> = recipes.keys().cloned().collect();
     let complexity = compute_complexity(&recipes_vec);
 
     recipes_vec.sort_by(|r1,r2| complexity.get(r1.id()).cmp(&complexity.get(r2.id())));
@@ -53,21 +53,11 @@ fn sort_recipes(recipes: HashMap<Recipe, f64>) -> LinkedHashMap<Recipe,f64> {
     r
 }
 
+
 impl Display for Bom {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        for (recipe, amount) in self.recipes.iter() {
-            if is_nil(*amount) {
-                recipe.format(f, *amount)?;
-                f.write_char('\n')?;
-            }
-        };
-
-        f.write_str("-----\n")?;
-        for (building, amount) in self.buildings.iter() {
-            f.write_fmt(format_args!("{:<22} {}\n", building.id(), amount))?;
-        }
-
-        Ok(())
+        let mut printer = BomPrinter::with_formatter(f,AmountFormat::F64);
+        self.display(&mut printer).map_err(|_| Error)
     }
 }
 

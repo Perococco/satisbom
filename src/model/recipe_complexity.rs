@@ -56,7 +56,7 @@ impl ItemComplexity {
         let mut visited = HashSet::new();
 
         for item in &helper.items {
-            compute_item_complexity(item,&helper,&mut complexities,&mut visited);
+            compute_item_complexity(item,helper,&mut complexities,&mut visited);
         };
 
         ItemComplexity{complexities}

@@ -26,7 +26,7 @@ fn main() -> crate::error::Result<()> {
 
     let bom:Bom = optimize()?;
 
-    let mut printer = BomPrinter::with_term( AmountFormat::Ratio);
+    let mut printer = BomPrinter::with_term( AmountFormat::F64);
 
     bom.display(&mut printer)?;
 
@@ -37,7 +37,7 @@ fn main() -> crate::error::Result<()> {
 fn optimize() -> Result<Bom> {
     let full_book = FullBook::create()?;
 
-    let filter:fn(&Recipe) -> bool = |r| true || r.id().eq("_pure_iron_ingot");
+    let filter:fn(&Recipe) -> bool = |_| true;
 
     let book = full_book.filter(&filter)?;
 

@@ -1,6 +1,6 @@
 use core::fmt;
 use std::collections::HashMap;
-use std::fmt::{Arguments, Error, Write};
+use std::fmt::{Arguments, Error, Formatter, Write};
 use hashlink::LinkedHashMap;
 use term::color::Color;
 use term::StdoutTerminal;
@@ -9,7 +9,7 @@ use crate::model::building::Building;
 use crate::model::item::Item;
 use crate::model::ratio_approx::ratio_approximate;
 use crate::model::reactant::Reactant;
-use crate::Recipe;
+use crate::{Recipe};
 
 pub enum AmountFormat {
     F64,
@@ -22,7 +22,6 @@ pub struct BomPrinter<'a> {
     amount_format: AmountFormat,
 }
 
-
 impl<'a> BomPrinter<'a> {
     pub fn fg(&mut self, color: Color) -> term::Result<()> {
         if let Some(t) = self.term.as_deref_mut() {
@@ -30,6 +29,10 @@ impl<'a> BomPrinter<'a> {
         } else {
             Ok(())
         }
+    }
+
+    pub(crate) fn with_formatter(formatter:&'a mut Formatter<'_>, amount_format:AmountFormat) -> Self {
+        BomPrinter{writer:Some(formatter), term:None, amount_format}
     }
 
     pub fn with_term(amount_format: AmountFormat) -> Self {
@@ -47,6 +50,7 @@ impl<'a> BomPrinter<'a> {
 
 impl BomPrinter<'_> {
     pub fn display_buildings(&mut self, buildings: &HashMap<Building, u32>) -> crate::error::Result<()> {
+        self.fg(DEFAULT_COLOR)?;
         writeln!(self, "=== Buildings ===")?;
 
         let mut total = 0;
@@ -56,7 +60,7 @@ impl BomPrinter<'_> {
             total += power_needed
         };
 
-        writeln!(self, "{:>8}   {:>13} ({:9} MW)", "", "Total", total).map_err(|e| crate::error::Error::FmtError(e))
+        writeln!(self, "{:>8}   {:>13} ({:9} MW)", "", "Total", total).map_err(crate::error::Error::FmtError)
     }
 
     pub fn display_recipes(&mut self, recipes: &LinkedHashMap<Recipe, f64>) -> crate::error::Result<()> {
@@ -133,9 +137,16 @@ impl BomPrinter<'_> {
 
 impl BomPrinter<'_> {
     fn convert_amount(&self, amount: &f64) -> String {
+        let ratio = ratio_approximate(*amount);
         match self.amount_format {
-            AmountFormat::F64 => format!("{:.3}", (amount * 1000f64).round() / 1000f64),
-            AmountFormat::Ratio => ratio_approximate(*amount).to_string()
+            AmountFormat::F64 => {
+                if ratio.is_integer() {
+                    ratio.to_string()
+                } else {
+                    format!("{}", (amount * 1000f64).round() / 1000f64)
+                }
+            },
+            AmountFormat::Ratio => ratio.to_string()
         }
     }
 }
@@ -162,7 +173,7 @@ impl std::fmt::Write for BomPrinter<'_> {
         }
     }
 
-    fn write_fmt(self: &mut Self, args: Arguments<'_>) -> fmt::Result {
+    fn write_fmt(&mut self, args: Arguments<'_>) -> fmt::Result {
         if let Some(w) = self.writer.as_deref_mut() {
             w.write_fmt(args)
         } else if let Some(t) = self.term.as_deref_mut() {
