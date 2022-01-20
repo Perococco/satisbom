@@ -4,7 +4,7 @@ use std::fmt::{Arguments, Error, Formatter, Write};
 use hashlink::LinkedHashMap;
 use term::color::Color;
 use term::StdoutTerminal;
-use crate::colors::{AMOUNT_COLOR, CONSTRUCTOR_COLOR, DEFAULT_COLOR, DURATION_COLOR, ITEM_COLOR, RECIPE_NAME_COLOR};
+use crate::colors::{AMOUNT_COLOR, CONSTRUCTOR_COLOR, DURATION_COLOR, ITEM_COLOR, RECIPE_NAME_COLOR};
 use crate::model::building::Building;
 use crate::model::item::Item;
 use crate::model::ratio_approx::ratio_approximate;
@@ -50,7 +50,7 @@ impl<'a> BomPrinter<'a> {
 
 impl BomPrinter<'_> {
     pub fn display_buildings(&mut self, buildings: &HashMap<Building, u32>) -> crate::error::Result<()> {
-        self.fg(DEFAULT_COLOR)?;
+        self.reset()?;
         writeln!(self, "=== Buildings ===")?;
 
         let mut total = 0;
@@ -64,13 +64,14 @@ impl BomPrinter<'_> {
     }
 
     pub fn display_recipes(&mut self, recipes: &LinkedHashMap<Recipe, f64>) -> crate::error::Result<()> {
+        self.reset()?;
         writeln!(self, "=== Recipes ===")?;
         writeln!(self, "  {:>7} - {:<26} {:>3} {:>7} Detail", "#", "Name", "sec", "# Cons.")?;
         writeln!(self, "---------------------------------------------------------")?;
 
         for (recipe, amount) in recipes.iter() {
             let nb_need = amount / recipe.nb_per_minute();
-            self.fg(DEFAULT_COLOR)?;
+            self.reset()?;
             write!(self, "  {:>7}", self.convert_amount(amount))?;
             write!(self, " - ")?;
             self.fg(RECIPE_NAME_COLOR)?;
@@ -91,7 +92,7 @@ impl BomPrinter<'_> {
             return Ok(());
         }
 
-        self.fg(DEFAULT_COLOR)?;
+        self.reset()?;
         writeln!(self, "{}", header)?;
         for (item, amount) in items.iter() {
             write!(self, "{:>8} - {item}", self.convert_amount(amount))?;
@@ -104,18 +105,18 @@ impl BomPrinter<'_> {
     pub fn display_recipe(&mut self, recipe: &Recipe, amount: f64) -> crate::error::Result<()> {
         for (i, reactant) in recipe.inputs().iter().enumerate() {
             if i != 0 {
-                self.fg(DEFAULT_COLOR)?;
+                self.reset()?;
                 write!(self, " + ")?;
             }
             self.display_reactant(reactant, amount)?;
         };
 
-        self.fg(DEFAULT_COLOR)?;
+        self.reset()?;
         write!(self, " -> ")?;
 
         for (i, reactant) in recipe.outputs().iter().enumerate() {
             if i != 0 {
-                self.fg(DEFAULT_COLOR)?;
+                self.reset()?;
                 write!(self, " + ")?;
             }
             self.display_reactant(reactant, amount)?;
@@ -127,7 +128,7 @@ impl BomPrinter<'_> {
         let quantity = amount * (reactant.quantity() as f64);
         self.fg(AMOUNT_COLOR)?;
         write!(self, "{}", self.convert_amount(&quantity))?;
-        self.fg(DEFAULT_COLOR)?;
+        self.reset()?;
         write!(self, "*")?;
         self.fg(ITEM_COLOR)?;
         write!(self, "{}", reactant.item())?;
