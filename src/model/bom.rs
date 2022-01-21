@@ -1,5 +1,6 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::fmt::{Display, Error, Formatter};
+use dot::Edges;
 use hashlink::LinkedHashMap;
 use crate::AmountFormat;
 use crate::model::bom_printer::BomPrinter;
@@ -15,6 +16,13 @@ pub struct Bom {
     pub recipes: LinkedHashMap<Recipe, f64>,
     pub buildings: HashMap<Building, u32>,
 }
+
+impl Bom {
+    pub(crate) fn get_targeted_amount(&self, item: &Item) -> Option<&f64> {
+        self.targets.get(item)
+    }
+}
+
 
 impl Bom {
     pub fn new(targets: HashMap<Item, f64>, requirements: HashMap<Item, f64>, leftovers: HashMap<Item, f64>, recipes: HashMap<Recipe, f64>) -> Self {
@@ -33,6 +41,22 @@ impl Bom {
         let recipes = sort_recipes(recipes);
 
         Bom { targets, requirements, leftovers, recipes, buildings }
+    }
+}
+
+
+impl Bom {
+    pub fn get_recipes_by_input_item(&self) -> HashMap<Item, Vec<Recipe>> {
+        let mut result = HashMap::new();
+
+        for recipe in self.recipes.keys() {
+            for input in recipe.inputs() {
+                result.entry(input.item().clone()).or_insert(vec![]).push(recipe.clone())
+            }
+        }
+
+        result
+
     }
 }
 

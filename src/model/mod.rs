@@ -11,3 +11,5 @@ pub mod recipe_complexity;
 pub mod bom;
 pub mod bom_printer;
 pub mod ratio_approx;
+
+pub mod dot;
