@@ -1,9 +1,8 @@
 use std::collections::HashMap;
-use std::fmt::{Display, Error, Formatter};
 
 use hashlink::LinkedHashMap;
 
-use crate::{AmountFormat, FilterableBook, FullBook, ProblemInput};
+use crate::{FilterableBook, FullBook, ProblemInput};
 use crate::factory::Factory;
 use crate::model::bom_printer::BomPrinter;
 use crate::model::building::Building;
@@ -13,7 +12,7 @@ use crate::model::recipe_complexity::compute_complexity;
 
 pub struct Bom {
     pub targets: HashMap<Item, f64>,
-    pub availables: HashMap<Item, f64>,
+    pub available_items: HashMap<Item, f64>,
     pub requirements: HashMap<Item, f64>,
     pub leftovers: HashMap<Item, f64>,
     pub recipes: LinkedHashMap<Recipe, f64>,
@@ -38,7 +37,7 @@ impl Bom {
 
 impl Bom {
     pub fn new(targets: HashMap<Item, f64>,
-               availables: HashMap<Item, f64>,
+               available_items: HashMap<Item, f64>,
                requirements: HashMap<Item, f64>,
                leftovers: HashMap<Item, f64>,
                recipes: HashMap<Recipe, f64>) -> Self {
@@ -56,7 +55,7 @@ impl Bom {
 
         let recipes = sort_recipes(recipes);
 
-        Bom { targets, availables, requirements, leftovers, recipes, buildings }
+        Bom { targets, available_items, requirements, leftovers, recipes, buildings }
     }
 }
 
@@ -96,19 +95,11 @@ fn sort_recipes(recipes: HashMap<Recipe, f64>) -> LinkedHashMap<Recipe,f64> {
 }
 
 
-impl Display for Bom {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let mut printer = BomPrinter::with_formatter(f,AmountFormat::F64);
-        self.display(&mut printer).map_err(|_| Error)
-    }
-}
-
-
 impl Bom {
     pub fn display(&self, bp: &mut BomPrinter) -> crate::error::Result<()> {
 
         bp.display_items("To get:", &self.targets)?;
-        bp.display_items("With:", &self.availables)?;
+        bp.display_items("With:", &self.available_items)?;
         bp.display_items("You need:", &self.requirements)?;
         bp.display_items("Leftovers:", &self.leftovers)?;
 

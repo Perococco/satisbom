@@ -2,7 +2,31 @@ use std::ops::{Add, Neg};
 use num_rational::Ratio;
 use num_traits::Inv;
 
-pub fn ratio_approximate(value:f64) -> Ratio<i32> {
+#[derive(Copy, Clone)]
+pub enum AmountFormat {
+    F64,
+    Ratio,
+}
+
+impl AmountFormat {
+    pub fn format(&self, amount: &f64) -> String {
+        let ratio = ratio_approximate(*amount);
+        match self {
+            AmountFormat::F64 => {
+                if ratio.is_integer() {
+                    ratio.to_string()
+                } else {
+                    format!("{}", (amount * 1000f64).round() / 1000f64)
+                }
+            },
+            AmountFormat::Ratio => ratio.to_string()
+        }
+    }
+
+}
+
+
+fn ratio_approximate(value:f64) -> Ratio<i32> {
     if value < 0f64 {
         ratio_approximate(-value).neg()
     } else {
@@ -12,7 +36,7 @@ pub fn ratio_approximate(value:f64) -> Ratio<i32> {
     }
 }
 
-pub fn do_ratio_approximate(value:f64) -> Ratio<i32> {
+fn do_ratio_approximate(value:f64) -> Ratio<i32> {
     if value < 0f64 {
         return do_ratio_approximate(-value).neg();
     }

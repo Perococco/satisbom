@@ -1,21 +1,23 @@
 extern crate core;
 
 use std::collections::{HashMap, HashSet};
-use std::fmt::{Display, Formatter, Write};
+use std::fmt::{Display,  Formatter, Write};
 use std::fs::{File, read_to_string};
-use std::str::{from_utf8, FromStr};
+use std::str::FromStr;
 
 use clap::{AppSettings, Parser};
 use clap::ErrorKind::MissingRequiredArgument;
 use maplit::hashmap;
+use tempfile::{NamedTempFile};
 
 use bom_graph::Graph;
 use model::bom::Bom;
 use model::book::FilterableBook;
 
 use crate::error::{Error, Result};
-use crate::Error::Clap;
-use crate::model::bom_printer::{AmountFormat, BomPrinter};
+use crate::Error::{Clap};
+use crate::model::amount_format::AmountFormat;
+use crate::model::bom_printer::BomPrinter;
 use crate::model::full_book::FullBook;
 use crate::model::recipe::Recipe;
 use crate::model::recipe_complexity::sort_recipes;
@@ -70,11 +72,18 @@ pub struct BomArg {
     #[clap(short, long)]
     dump_file: Option<String>,
 
-    #[clap(short,long)]
-    filters:Option<String>,
+    #[clap(short, long)]
+    filters: Option<String>,
 
     #[clap(short = 'F', default_value_t = Format::Text, arg_enum)]
     format: Format,
+
+    #[clap(short = 'x', long)]
+    //force printing the bom on the standard output if the -output-file option is used
+    force_stdout: bool,
+
+    #[clap(short, long)]
+    output_file: Option<String>,
 
     #[clap(short, long)]
     use_ratio: bool,
@@ -107,19 +116,43 @@ impl BomArg {
     pub fn weight_by_abundance(&self) -> Option<bool> {
         self.weight_by_abundance
     }
+
+    fn parsed_filters(&self) -> Result<Option<RecipeFilter>> {
+        self.filters.as_ref()
+            .map(|f| parse_filter(f))
+            .map(|r| r.map(Some))
+            .unwrap_or(Ok(None))
+    }
+
+    fn parsed_reactants(&self) -> Result<HashMap<String, u32>> {
+        self.reactants.iter()
+            .map(|r| r.parse::<InputItem>())
+            .map(|r| r.map(|i| (i.name, i.quantity)))
+            .collect::<Result<HashMap<String, u32>>>()
+    }
+
+
+    pub fn force_stdout(&self) -> bool {
+        self.force_stdout
+    }
+    pub fn output_file(&self) -> &Option<String> {
+        &self.output_file
+    }
 }
 
 #[derive(Debug, clap::ArgEnum, Clone)]
 pub enum Format {
     Text,
     Dot,
+    Png,
 }
 
 impl Display for Format {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            Format::Text => write!(f,"txt"),
-            Format::Dot => write!(f,"dot"),
+            Format::Text => write!(f, "text"),
+            Format::Dot => write!(f, "dot"),
+            Format::Png => write!(f, "png"),
         }
     }
 }
@@ -156,9 +189,9 @@ impl FromStr for InputItem {
     type Err = Error;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        let (name,qty) = s.split_once("*").ok_or_else(|| Error::TargetParsingFailed(s.to_string()))?;
+        let (qty, name) = s.split_once(".").ok_or_else(|| Error::TargetParsingFailed(s.to_string()))?;
         let quantity = qty.parse::<u32>().map_err(|_| Error::TargetParsingFailed(s.to_string()))?;
-        Ok(InputItem{name:name.to_string(),quantity})
+        Ok(InputItem { name: name.to_string(), quantity })
     }
 }
 
@@ -167,21 +200,17 @@ fn bom(args: BomArg) -> crate::error::Result<()> {
         return Err(Clap(MissingRequiredArgument));
     };
 
-    let mut input = args.input_file().as_ref().map(|f| read_input(f)).unwrap_or_else(|| Ok(ProblemInput::default()))?;
+    let mut input = args.input_file()
+        .as_ref()
+        .map(|f| read_input(f))
+        .unwrap_or_else(|| Ok(ProblemInput::default()))?;
 
-    if let Some(ua) = args.weight_by_abundance {
+    let reactants = args.parsed_reactants()?;
+    let filters = args.parsed_filters()?;
+
+    if let Some(ua) = args.weight_by_abundance() {
         input.use_abundances = ua;
     }
-
-    let reactants = args.reactants.iter()
-        .map(|r| r.parse::<InputItem>())
-        .map(|r| r.map(|i| (i.name,i.quantity)))
-        .collect::<Result<HashMap<String,u32>>>()?;
-
-
-    let filters = args.filters().as_ref().map(|f| parse_filter(f))
-        .map(|r| r.map(Some))
-        .unwrap_or(Ok(None))?;
 
     if !reactants.is_empty() {
         input.target_items = reactants;
@@ -194,29 +223,67 @@ fn bom(args: BomArg) -> crate::error::Result<()> {
 
     if let Some(dump_file) = args.dump_file().as_ref() {
         let file = File::create(dump_file)?;
-        serde_json::to_writer(file,&input)?;
+        serde_json::to_writer_pretty(file, &input)?;
         Ok(())
-    }
-    else {
+    } else {
         let bom = Bom::optimized(&input)?;
+
+        let amount_format = if *args.use_ratio() { AmountFormat::Ratio } else { AmountFormat::F64 };
+
+        if args.output_file().is_some() && args.force_stdout() {
+            let mut printer = BomPrinter::with_term(amount_format);
+            bom.display(&mut printer)?;
+        }
+
 
         match &args.format {
             Format::Text => {
-                let use_ratio = args.use_ratio();
-                let mut printer = BomPrinter::with_term(if *use_ratio { AmountFormat::Ratio } else { AmountFormat::F64 });
+                let mut printer = if let Some(f) = args.output_file() {
+                    BomPrinter::with_file(File::create(format!("{}.txt", f))?, amount_format)
+                } else {
+                    BomPrinter::with_term(amount_format)
+                };
+
                 bom.display(&mut printer)
             }
             Format::Dot => {
-                let graph: Graph = Graph::new(&bom);
-                let mut write = vec![];
-                dot::render(&graph, &mut write)?;
-                let output = from_utf8(write.as_slice())?.to_string();
-                println!("{}", output);
+                let graph: Graph = Graph::new(&bom, amount_format);
+
+                if let Some(f) = args.output_file() {
+                    let mut file = File::create(format!("{}.dot", f))?;
+                    dot::render(&graph, &mut file)?;
+                } else {
+                    dot::render(&graph, &mut std::io::stdout())?;
+                };
+
+
                 Ok(())
+            }
+            Format::Png => {
+                let graph: Graph = Graph::new(&bom, amount_format);
+                let named_file = NamedTempFile::new()?;
+                dot::render(&graph, &mut named_file.as_file())?;
+
+                let output = std::process::Command::new("dot")
+                    .arg("-Tpng")
+                    .arg(named_file.path())
+                    .output()?;
+
+                if output.status.success() {
+                    use std::io::Write;
+                    if let Some(f) = args.output_file() {
+                        let mut file = File::create(format!("{}.png", f))?;
+                        file.write_all(&output.stdout)?;
+                    } else {
+                        std::io::stdout().write_all(&output.stdout)?;
+                    };
+                    Ok(())
+                } else {
+                    Err(Error::DotFailed)
+                }
             }
         }
     }
-
 }
 
 fn parse_filter(filter_str: &str) -> crate::error::Result<RecipeFilter> {
@@ -258,7 +325,11 @@ fn dump(args: DumpArg) -> crate::error::Result<()> {
             println!("{}", result);
             Ok(())
         }
-        Some(_) => todo!()
+        Some(file_name) => {
+            let file = File::create(file_name)?;
+            serde_json::to_writer_pretty(file, &input)?;
+            Ok(())
+        }
     }
 }
 
@@ -278,7 +349,7 @@ fn search(search_args: SearchArgs) -> crate::error::Result<()> {
             if should_display_header {
                 writer.reset()?;
                 should_display_header = false;
-                writeln!(writer,"=== Recipe ===")?;
+                writeln!(writer, "=== Recipe ===")?;
             }
             writer.reset()?;
             write!(writer, "{:<25}  : ", recipe.id())?;

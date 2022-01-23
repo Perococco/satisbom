@@ -1,23 +1,23 @@
 use core::fmt;
 use std::collections::HashMap;
-use std::fmt::{Arguments, Error, Formatter, Write};
+use std::fmt::{Arguments, Error};
+use std::fmt::Write;
+use std::fs::File;
+
 use hashlink::LinkedHashMap;
 use term::color::Color;
 use term::StdoutTerminal;
+
 use crate::colors::{AMOUNT_COLOR, CONSTRUCTOR_COLOR, DURATION_COLOR, ITEM_COLOR, RECIPE_NAME_COLOR};
+use crate::model::amount_format::AmountFormat;
 use crate::model::building::Building;
 use crate::model::item::Item;
-use crate::model::ratio_approx::ratio_approximate;
 use crate::model::reactant::Reactant;
-use crate::{Recipe};
-
-pub enum AmountFormat {
-    F64,
-    Ratio,
-}
+use crate::Recipe;
 
 pub struct BomPrinter<'a> {
-    writer: Option<&'a mut dyn Write>,
+    file: Option<File>,
+    writer: Option<&'a mut dyn std::fmt::Write>,
     term: Option<Box<StdoutTerminal>>,
     amount_format: AmountFormat,
 }
@@ -31,12 +31,19 @@ impl<'a> BomPrinter<'a> {
         }
     }
 
-    pub(crate) fn with_formatter(formatter:&'a mut Formatter<'_>, amount_format:AmountFormat) -> Self {
-        BomPrinter{writer:Some(formatter), term:None, amount_format}
+    pub(crate) fn with_file(file:File, amount_format:AmountFormat) -> Self {
+        BomPrinter{file:Some(file), writer:None, term:None, amount_format}
     }
 
+
+    #[allow(dead_code)]
+    pub(crate) fn with_writer(writer:&'a mut dyn std::fmt::Write, amount_format:AmountFormat) -> Self {
+        BomPrinter{file:None, writer:Some(writer), term:None, amount_format}
+    }
+
+
     pub fn with_term(amount_format: AmountFormat) -> Self {
-        BomPrinter { writer: None, term: Some(term::stdout().unwrap()), amount_format }
+        BomPrinter{file:None, writer: None, term: Some(term::stdout().unwrap()), amount_format }
     }
 
     pub fn reset(&mut self) -> term::Result<()> {
@@ -72,14 +79,14 @@ impl BomPrinter<'_> {
         for (recipe, amount) in recipes.iter() {
             let nb_need = amount / recipe.nb_per_minute();
             self.reset()?;
-            write!(self, "  {:>7}", self.convert_amount(amount))?;
+            write!(self, "  {:>7}", self.amount_format.format(amount))?;
             write!(self, " - ")?;
             self.fg(RECIPE_NAME_COLOR)?;
             write!(self, "{:<26}", recipe.id())?;
             self.fg(DURATION_COLOR)?;
             write!(self, " {:>3}", recipe.duration())?;
             self.fg(CONSTRUCTOR_COLOR)?;
-            write!(self, " {:>7} ", self.convert_amount(&nb_need))?;
+            write!(self, " {:>7} ", self.amount_format.format(&nb_need))?;
             self.display_recipe(recipe,*amount)?;
             writeln!(self)?
         };
@@ -95,7 +102,7 @@ impl BomPrinter<'_> {
         self.reset()?;
         writeln!(self, "{}", header)?;
         for (item, amount) in items.iter() {
-            write!(self, "{:>8} - {item}", self.convert_amount(amount))?;
+            write!(self, "{:>8} - {item}", self.amount_format.format(amount))?;
             writeln!(self)?;
         };
 
@@ -127,7 +134,7 @@ impl BomPrinter<'_> {
     pub fn display_reactant(&mut self, reactant: &Reactant, amount: f64) -> crate::error::Result<()> {
         let quantity = amount * (reactant.quantity() as f64);
         self.fg(AMOUNT_COLOR)?;
-        write!(self, "{}", self.convert_amount(&quantity))?;
+        write!(self, "{}", self.amount_format.format(&quantity))?;
         self.reset()?;
         write!(self, "*")?;
         self.fg(ITEM_COLOR)?;
@@ -136,29 +143,16 @@ impl BomPrinter<'_> {
     }
 }
 
-impl BomPrinter<'_> {
-    fn convert_amount(&self, amount: &f64) -> String {
-        let ratio = ratio_approximate(*amount);
-        match self.amount_format {
-            AmountFormat::F64 => {
-                if ratio.is_integer() {
-                    ratio.to_string()
-                } else {
-                    format!("{}", (amount * 1000f64).round() / 1000f64)
-                }
-            },
-            AmountFormat::Ratio => ratio.to_string()
-        }
-    }
-}
-
 
 impl std::fmt::Write for BomPrinter<'_> {
     fn write_str(&mut self, s: &str) -> fmt::Result {
+        use std::io::Write;
         if let Some(w) = self.writer.as_deref_mut() {
             w.write_str(s)
         } else if let Some(t) = self.term.as_deref_mut() {
             t.write_fmt(format_args!("{}", s)).map_err(|_| Error)
+        } else if let Some(f) = self.file.as_mut() {
+            f.write_fmt(format_args!("{}",s)).map_err(|_| Error)
         } else {
             Err(Error)
         }

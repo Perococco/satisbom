@@ -5,7 +5,7 @@ use dot::{Edges, GraphWalk, Id, Labeller, LabelText, Nodes, Style};
 use dot::LabelText::LabelStr;
 use dot::Style::{Filled};
 use crate::model::item::Item;
-use crate::{Bom, Recipe};
+use crate::{AmountFormat, Bom, Recipe};
 use crate::constants::is_nil;
 use crate::bom_graph::ItemType::{Intermediate, Required, Targeted};
 
@@ -56,11 +56,12 @@ impl Hash for Node {
 pub struct Graph {
     nodes: Vec<Node>,
     edges: Vec<(usize, usize)>,
+    amount_format:AmountFormat
 }
 
 impl Graph {
-    pub fn new(bom: &Bom) -> Self {
-        let mut factory = GraphFactory::new(bom);
+    pub fn new(bom: &Bom, amount_format:AmountFormat) -> Self {
+        let mut factory = GraphFactory::new(bom,amount_format);
         factory.build();
         factory.into()
     }
@@ -74,18 +75,19 @@ struct GraphFactory<'a> {
     node_index: HashMap<Node, usize>,
     nodes: Vec<Node>,
     edges: HashSet<(usize, usize)>,
+    amount_format:AmountFormat,
 }
 
 impl From<GraphFactory<'_>> for Graph {
     fn from(factory: GraphFactory<'_>) -> Self {
-        Graph { nodes: factory.nodes, edges: factory.edges.into_iter().collect() }
+        Graph { nodes: factory.nodes, edges: factory.edges.into_iter().collect() , amount_format:factory.amount_format}
     }
 }
 
 impl<'a> GraphFactory<'a> {
-    fn new(bom: &'a Bom) -> Self {
+    fn new(bom: &'a Bom, amount_format:AmountFormat) -> Self {
         let recipes_by_input_items = bom.get_recipes_by_input_item();
-        GraphFactory { bom, nodes: vec![], node_index: HashMap::new(), edges: HashSet::new(), recipes_by_input_items }
+        GraphFactory { bom, nodes: vec![], node_index: HashMap::new(), edges: HashSet::new(), recipes_by_input_items , amount_format}
     }
 }
 
@@ -250,7 +252,7 @@ impl<'a> Labeller<'a, Nd<'a>, Ed> for Graph {
             Node::Item(t, a,_) => (t.id().replace("_"," "),*a)
         };
 
-        let label = format!("{}\n{:.2}",name,a);
+        let label = format!("{}\n{}",name,self.amount_format.format(&a));
 
 
         LabelText::LabelStr(Cow::Owned(label))

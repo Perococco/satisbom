@@ -8,6 +8,7 @@ use crate::error::Error::{BookDeserialization, Fmt, Io, Term};
 #[derive(Debug)]
 pub enum Error {
     Io(std::io::Error),
+    DotFailed,
     TargetParsingFailed(String),
     Fmt(std::fmt::Error),
     Term(term::Error),
@@ -27,6 +28,7 @@ pub type Result<T> = std::result::Result<T,Error>;
 impl Display for Error {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let message = match self {
+            Error::DotFailed => "Could not execute dot executable".to_string(),
             Io(e) => format!("I/O error : {}", e),
             Error::TargetParsingFailed(e) => format!("fail to parse target '{}'",e),
             Fmt(e) => e.to_string(),
