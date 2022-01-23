@@ -1,3 +1,4 @@
+use std::cmp::Ordering;
 use std::collections::{HashMap, HashSet};
 use crate::Recipe;
 
@@ -199,5 +200,22 @@ pub fn compute_complexity(recipes: &[Recipe]) -> HashMap<String, u32> {
 
     recipe_complexity
 }
+pub fn sort_recipes(mut recipes: Vec<Recipe>) -> Vec<Recipe> {
+    let complexity = compute_complexity(&recipes);
+
+    recipes.sort_by(|r1,r2| {
+        let c1 = complexity.get(r1.id()).cloned().unwrap_or(0);
+        let c2 = complexity.get(r2.id()).cloned().unwrap_or(0);
+
+        let ord = c1.cmp(&c2);
+        match ord {
+            Ordering::Equal => r1.alternate().cmp(&r2.alternate()),
+            _ => ord
+        }
+    });
+
+    recipes
+}
+
 //
 //

@@ -60,7 +60,7 @@ impl BomPrinter<'_> {
             total += power_needed
         };
 
-        writeln!(self, "{:>8}   {:>13} ({:9} MW)", "", "Total", total).map_err(crate::error::Error::FmtError)
+        writeln!(self, "{:>8}   {:>13} ({:9} MW)", "", "Total", total).map_err(crate::error::Error::Fmt)
     }
 
     pub fn display_recipes(&mut self, recipes: &LinkedHashMap<Recipe, f64>) -> crate::error::Result<()> {

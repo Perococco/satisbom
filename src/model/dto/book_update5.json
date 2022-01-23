@@ -559,7 +559,7 @@
   ],
   "recipes": [
     {
-      "id": "_aluminum_casing",
+      "id": "aluminum_casing",
       "building": "constructor",
       "alternate": false,
       "duration": 2,
@@ -577,7 +577,7 @@
       ]
     },
     {
-      "id": "_biocoal",
+      "id": "biocoal",
       "building": "constructor",
       "alternate": true,
       "duration": 8,
@@ -595,7 +595,7 @@
       ]
     },
     {
-      "id": "_biomass_carapace",
+      "id": "biomass_carapace",
       "building": "constructor",
       "alternate": true,
       "duration": 4,
@@ -613,7 +613,7 @@
       ]
     },
     {
-      "id": "_biomass_organ",
+      "id": "biomass_organ",
       "building": "constructor",
       "alternate": true,
       "duration": 8,
@@ -631,7 +631,7 @@
       ]
     },
     {
-      "id": "_biomass_leaves",
+      "id": "biomass_leaves",
       "building": "constructor",
       "alternate": true,
       "duration": 5,
@@ -649,7 +649,7 @@
       ]
     },
     {
-      "id": "_biomass_mycelia",
+      "id": "biomass_mycelia",
       "building": "constructor",
       "alternate": true,
       "duration": 4,
@@ -667,7 +667,7 @@
       ]
     },
     {
-      "id": "_biomass_wood",
+      "id": "biomass_wood",
       "building": "constructor",
       "alternate": false,
       "duration": 4,
@@ -685,7 +685,7 @@
       ]
     },
     {
-      "id": "_cable",
+      "id": "cable",
       "building": "constructor",
       "alternate": false,
       "duration": 2,
@@ -703,7 +703,7 @@
       ]
     },
     {
-      "id": "_casted_screw",
+      "id": "casted_screw",
       "building": "constructor",
       "alternate": true,
       "duration": 24,
@@ -721,7 +721,7 @@
       ]
     },
     {
-      "id": "_caterium_wire",
+      "id": "caterium_wire",
       "building": "constructor",
       "alternate": true,
       "duration": 4,
@@ -739,7 +739,7 @@
       ]
     },
     {
-      "id": "_charcoal",
+      "id": "charcoal",
       "building": "constructor",
       "alternate": true,
       "duration": 4,
@@ -757,7 +757,7 @@
       ]
     },
     {
-      "id": "_color_cartridge",
+      "id": "color_cartridge",
       "building": "constructor",
       "alternate": false,
       "duration": 8,
@@ -775,7 +775,7 @@
       ]
     },
     {
-      "id": "_concrete",
+      "id": "concrete",
       "building": "constructor",
       "alternate": false,
       "duration": 4,
@@ -793,7 +793,7 @@
       ]
     },
     {
-      "id": "_copper_powder",
+      "id": "copper_powder",
       "building": "constructor",
       "alternate": false,
       "duration": 6,
@@ -811,7 +811,7 @@
       ]
     },
     {
-      "id": "_copper_sheet",
+      "id": "copper_sheet",
       "building": "constructor",
       "alternate": false,
       "duration": 6,
@@ -829,7 +829,7 @@
       ]
     },
     {
-      "id": "_empty_canister",
+      "id": "empty_canister",
       "building": "constructor",
       "alternate": false,
       "duration": 4,
@@ -847,7 +847,7 @@
       ]
     },
     {
-      "id": "_empty_fluid_tank",
+      "id": "empty_fluid_tank",
       "building": "constructor",
       "alternate": false,
       "duration": 1,
@@ -865,7 +865,7 @@
       ]
     },
     {
-      "id": "_iron_plate",
+      "id": "iron_plate",
       "building": "constructor",
       "alternate": false,
       "duration": 6,
@@ -883,7 +883,7 @@
       ]
     },
     {
-      "id": "_iron_rod",
+      "id": "iron_rod",
       "building": "constructor",
       "alternate": false,
       "duration": 4,
@@ -901,7 +901,7 @@
       ]
     },
     {
-      "id": "_iron_wire",
+      "id": "iron_wire",
       "building": "constructor",
       "alternate": true,
       "duration": 24,
@@ -919,7 +919,7 @@
       ]
     },
     {
-      "id": "_power_shard_1",
+      "id": "power_shard_1",
       "building": "constructor",
       "alternate": false,
       "duration": 8,
@@ -937,7 +937,7 @@
       ]
     },
     {
-      "id": "_power_shard_2",
+      "id": "power_shard_2",
       "building": "constructor",
       "alternate": false,
       "duration": 12,
@@ -955,7 +955,7 @@
       ]
     },
     {
-      "id": "_power_shard_3",
+      "id": "power_shard_3",
       "building": "constructor",
       "alternate": false,
       "duration": 24,
@@ -973,7 +973,7 @@
       ]
     },
     {
-      "id": "_quartz_crystal",
+      "id": "quartz_crystal",
       "building": "constructor",
       "alternate": false,
       "duration": 8,
@@ -991,7 +991,7 @@
       ]
     },
     {
-      "id": "_quickwire",
+      "id": "quickwire",
       "building": "constructor",
       "alternate": false,
       "duration": 5,
@@ -1009,7 +1009,7 @@
       ]
     },
     {
-      "id": "_screw",
+      "id": "screw",
       "building": "constructor",
       "alternate": false,
       "duration": 6,
@@ -1027,7 +1027,7 @@
       ]
     },
     {
-      "id": "_silica",
+      "id": "silica",
       "building": "constructor",
       "alternate": false,
       "duration": 8,
@@ -1045,7 +1045,7 @@
       ]
     },
     {
-      "id": "_solid_biofuel",
+      "id": "solid_biofuel",
       "building": "constructor",
       "alternate": false,
       "duration": 4,
@@ -1063,7 +1063,7 @@
       ]
     },
     {
-      "id": "_spiked_rebar",
+      "id": "spiked_rebar",
       "building": "constructor",
       "alternate": false,
       "duration": 4,
@@ -1081,7 +1081,7 @@
       ]
     },
     {
-      "id": "_steel_beam",
+      "id": "steel_beam",
       "building": "constructor",
       "alternate": false,
       "duration": 4,
@@ -1099,7 +1099,7 @@
       ]
     },
     {
-      "id": "_steel_canister",
+      "id": "steel_canister",
       "building": "constructor",
       "alternate": true,
       "duration": 3,
@@ -1117,7 +1117,7 @@
       ]
     },
     {
-      "id": "_steel_pipe",
+      "id": "steel_pipe",
       "building": "constructor",
       "alternate": false,
       "duration": 6,
@@ -1135,7 +1135,7 @@
       ]
     },
     {
-      "id": "_steel_rod",
+      "id": "steel_rod",
       "building": "constructor",
       "alternate": true,
       "duration": 5,
@@ -1153,7 +1153,7 @@
       ]
     },
     {
-      "id": "_steel_screw",
+      "id": "steel_screw",
       "building": "constructor",
       "alternate": true,
       "duration": 12,
@@ -1171,7 +1171,7 @@
       ]
     },
     {
-      "id": "_wire",
+      "id": "wire",
       "building": "constructor",
       "alternate": false,
       "duration": 4,
@@ -1189,7 +1189,7 @@
       ]
     },
     {
-      "id": "_adhered_iron_plate",
+      "id": "adhered_iron_plate",
       "building": "assembler",
       "alternate": true,
       "duration": 16,
@@ -1211,7 +1211,7 @@
       ]
     },
     {
-      "id": "_ai_limiter",
+      "id": "ai_limiter",
       "building": "assembler",
       "alternate": false,
       "duration": 12,
@@ -1233,7 +1233,7 @@
       ]
     },
     {
-      "id": "_alclad_aluminum_sheet",
+      "id": "alclad_aluminum_sheet",
       "building": "assembler",
       "alternate": false,
       "duration": 6,
@@ -1255,7 +1255,7 @@
       ]
     },
     {
-      "id": "_alclad_casing",
+      "id": "alclad_casing",
       "building": "assembler",
       "alternate": true,
       "duration": 8,
@@ -1277,7 +1277,7 @@
       ]
     },
     {
-      "id": "_assembly_director_system",
+      "id": "assembly_director_system",
       "building": "assembler",
       "alternate": false,
       "duration": 80,
@@ -1299,7 +1299,7 @@
       ]
     },
     {
-      "id": "_automated_wiring",
+      "id": "automated_wiring",
       "building": "assembler",
       "alternate": false,
       "duration": 24,
@@ -1321,7 +1321,7 @@
       ]
     },
     {
-      "id": "_black_powder",
+      "id": "black_powder",
       "building": "assembler",
       "alternate": false,
       "duration": 8,
@@ -1343,7 +1343,7 @@
       ]
     },
     {
-      "id": "_bolted_frame",
+      "id": "bolted_frame",
       "building": "assembler",
       "alternate": true,
       "duration": 24,
@@ -1365,7 +1365,7 @@
       ]
     },
     {
-      "id": "_bolted_iron_plate",
+      "id": "bolted_iron_plate",
       "building": "assembler",
       "alternate": true,
       "duration": 12,
@@ -1387,7 +1387,7 @@
       ]
     },
     {
-      "id": "_caterium_circuit_board",
+      "id": "caterium_circuit_board",
       "building": "assembler",
       "alternate": true,
       "duration": 48,
@@ -1409,7 +1409,7 @@
       ]
     },
     {
-      "id": "_cheap_silica",
+      "id": "cheap_silica",
       "building": "assembler",
       "alternate": true,
       "duration": 16,
@@ -1431,7 +1431,7 @@
       ]
     },
     {
-      "id": "_circuit_board",
+      "id": "circuit_board",
       "building": "assembler",
       "alternate": false,
       "duration": 8,
@@ -1453,7 +1453,7 @@
       ]
     },
     {
-      "id": "_coated_iron_canister",
+      "id": "coated_iron_canister",
       "building": "assembler",
       "alternate": true,
       "duration": 4,
@@ -1475,7 +1475,7 @@
       ]
     },
     {
-      "id": "_coated_iron_plate",
+      "id": "coated_iron_plate",
       "building": "assembler",
       "alternate": true,
       "duration": 12,
@@ -1497,7 +1497,7 @@
       ]
     },
     {
-      "id": "_compacted_coal",
+      "id": "compacted_coal",
       "building": "assembler",
       "alternate": true,
       "duration": 12,
@@ -1519,7 +1519,7 @@
       ]
     },
     {
-      "id": "_copper_rotor",
+      "id": "copper_rotor",
       "building": "assembler",
       "alternate": true,
       "duration": 16,
@@ -1541,7 +1541,7 @@
       ]
     },
     {
-      "id": "_crystal_computer",
+      "id": "crystal_computer",
       "building": "assembler",
       "alternate": true,
       "duration": 64,
@@ -1563,7 +1563,7 @@
       ]
     },
     {
-      "id": "_electric_motor",
+      "id": "electric_motor",
       "building": "assembler",
       "alternate": true,
       "duration": 16,
@@ -1585,7 +1585,7 @@
       ]
     },
     {
-      "id": "_electrode_circuit_board",
+      "id": "electrode_circuit_board",
       "building": "assembler",
       "alternate": true,
       "duration": 12,
@@ -1607,7 +1607,7 @@
       ]
     },
     {
-      "id": "_electromagnetic_connection_rod",
+      "id": "electromagnetic_connection_rod",
       "building": "assembler",
       "alternate": true,
       "duration": 15,
@@ -1629,7 +1629,7 @@
       ]
     },
     {
-      "id": "_electromagnetic_control_rod",
+      "id": "electromagnetic_control_rod",
       "building": "assembler",
       "alternate": false,
       "duration": 30,
@@ -1651,7 +1651,7 @@
       ]
     },
     {
-      "id": "_encased_industrial_beam",
+      "id": "encased_industrial_beam",
       "building": "assembler",
       "alternate": false,
       "duration": 10,
@@ -1673,7 +1673,7 @@
       ]
     },
     {
-      "id": "_encased_industrial_pipe",
+      "id": "encased_industrial_pipe",
       "building": "assembler",
       "alternate": true,
       "duration": 15,
@@ -1695,7 +1695,7 @@
       ]
     },
     {
-      "id": "_encased_plutonium_cell",
+      "id": "encased_plutonium_cell",
       "building": "assembler",
       "alternate": false,
       "duration": 12,
@@ -1717,7 +1717,7 @@
       ]
     },
     {
-      "id": "_fabric",
+      "id": "fabric",
       "building": "assembler",
       "alternate": false,
       "duration": 4,
@@ -1739,7 +1739,7 @@
       ]
     },
     {
-      "id": "_fine_black_powder",
+      "id": "fine_black_powder",
       "building": "assembler",
       "alternate": true,
       "duration": 16,
@@ -1761,7 +1761,7 @@
       ]
     },
     {
-      "id": "_fine_concrete",
+      "id": "fine_concrete",
       "building": "assembler",
       "alternate": true,
       "duration": 24,
@@ -1783,7 +1783,7 @@
       ]
     },
     {
-      "id": "_fused_quickwire",
+      "id": "fused_quickwire",
       "building": "assembler",
       "alternate": true,
       "duration": 8,
@@ -1805,7 +1805,7 @@
       ]
     },
     {
-      "id": "_fused_wire",
+      "id": "fused_wire",
       "building": "assembler",
       "alternate": true,
       "duration": 20,
@@ -1827,7 +1827,7 @@
       ]
     },
     {
-      "id": "_heat_exchanger",
+      "id": "heat_exchanger",
       "building": "assembler",
       "alternate": true,
       "duration": 6,
@@ -1849,7 +1849,7 @@
       ]
     },
     {
-      "id": "_heat_sink",
+      "id": "heat_sink",
       "building": "assembler",
       "alternate": false,
       "duration": 8,
@@ -1871,7 +1871,7 @@
       ]
     },
     {
-      "id": "_insulated_cable",
+      "id": "insulated_cable",
       "building": "assembler",
       "alternate": true,
       "duration": 12,
@@ -1893,7 +1893,7 @@
       ]
     },
     {
-      "id": "_modular_frame",
+      "id": "modular_frame",
       "building": "assembler",
       "alternate": false,
       "duration": 60,
@@ -1915,7 +1915,7 @@
       ]
     },
     {
-      "id": "_motor",
+      "id": "motor",
       "building": "assembler",
       "alternate": false,
       "duration": 12,
@@ -1937,7 +1937,7 @@
       ]
     },
     {
-      "id": "_nobelisk",
+      "id": "nobelisk",
       "building": "assembler",
       "alternate": false,
       "duration": 20,
@@ -1959,7 +1959,7 @@
       ]
     },
     {
-      "id": "_oc_supercomputer",
+      "id": "oc_supercomputer",
       "building": "assembler",
       "alternate": true,
       "duration": 20,
@@ -1981,7 +1981,7 @@
       ]
     },
     {
-      "id": "_plutonium_fuel_unit",
+      "id": "plutonium_fuel_unit",
       "building": "assembler",
       "alternate": true,
       "duration": 120,
@@ -2003,7 +2003,7 @@
       ]
     },
     {
-      "id": "_pressure_conversion_cube",
+      "id": "pressure_conversion_cube",
       "building": "assembler",
       "alternate": false,
       "duration": 60,
@@ -2025,7 +2025,7 @@
       ]
     },
     {
-      "id": "_quickwire_cable",
+      "id": "quickwire_cable",
       "building": "assembler",
       "alternate": true,
       "duration": 24,
@@ -2047,7 +2047,7 @@
       ]
     },
     {
-      "id": "_quickwire_stator",
+      "id": "quickwire_stator",
       "building": "assembler",
       "alternate": true,
       "duration": 15,
@@ -2069,7 +2069,7 @@
       ]
     },
     {
-      "id": "_reinforced_iron_plate",
+      "id": "reinforced_iron_plate",
       "building": "assembler",
       "alternate": false,
       "duration": 12,
@@ -2091,7 +2091,7 @@
       ]
     },
     {
-      "id": "_rotor",
+      "id": "rotor",
       "building": "assembler",
       "alternate": false,
       "duration": 15,
@@ -2113,7 +2113,7 @@
       ]
     },
     {
-      "id": "_rubber_concrete",
+      "id": "rubber_concrete",
       "building": "assembler",
       "alternate": true,
       "duration": 12,
@@ -2135,7 +2135,7 @@
       ]
     },
     {
-      "id": "_silicon_circuit_board",
+      "id": "silicon_circuit_board",
       "building": "assembler",
       "alternate": true,
       "duration": 24,
@@ -2157,7 +2157,7 @@
       ]
     },
     {
-      "id": "_smart_plating",
+      "id": "smart_plating",
       "building": "assembler",
       "alternate": false,
       "duration": 30,
@@ -2179,7 +2179,7 @@
       ]
     },
     {
-      "id": "_stator",
+      "id": "stator",
       "building": "assembler",
       "alternate": false,
       "duration": 12,
@@ -2201,7 +2201,7 @@
       ]
     },
     {
-      "id": "_steel_coated_plate",
+      "id": "steel_coated_plate",
       "building": "assembler",
       "alternate": true,
       "duration": 24,
@@ -2223,7 +2223,7 @@
       ]
     },
     {
-      "id": "_steel_rotor",
+      "id": "steel_rotor",
       "building": "assembler",
       "alternate": true,
       "duration": 12,
@@ -2245,7 +2245,7 @@
       ]
     },
     {
-      "id": "_steeled_frame",
+      "id": "steeled_frame",
       "building": "assembler",
       "alternate": true,
       "duration": 60,
@@ -2267,7 +2267,7 @@
       ]
     },
     {
-      "id": "_stitched_iron_plate",
+      "id": "stitched_iron_plate",
       "building": "assembler",
       "alternate": true,
       "duration": 32,
@@ -2289,7 +2289,7 @@
       ]
     },
     {
-      "id": "_versatile_framework",
+      "id": "versatile_framework",
       "building": "assembler",
       "alternate": false,
       "duration": 24,
@@ -2311,7 +2311,7 @@
       ]
     },
     {
-      "id": "_adaptive_control_unit",
+      "id": "adaptive_control_unit",
       "building": "manufacturer",
       "alternate": false,
       "duration": 120,
@@ -2341,7 +2341,7 @@
       ]
     },
     {
-      "id": "_automated_miner",
+      "id": "automated_miner",
       "building": "manufacturer",
       "alternate": true,
       "duration": 60,
@@ -2371,7 +2371,7 @@
       ]
     },
     {
-      "id": "_beacon",
+      "id": "beacon",
       "building": "manufacturer",
       "alternate": false,
       "duration": 8,
@@ -2401,7 +2401,7 @@
       ]
     },
     {
-      "id": "_caterium_computer",
+      "id": "caterium_computer",
       "building": "manufacturer",
       "alternate": true,
       "duration": 16,
@@ -2427,7 +2427,7 @@
       ]
     },
     {
-      "id": "_classic_battery",
+      "id": "classic_battery",
       "building": "manufacturer",
       "alternate": true,
       "duration": 8,
@@ -2457,7 +2457,7 @@
       ]
     },
     {
-      "id": "_computer",
+      "id": "computer",
       "building": "manufacturer",
       "alternate": false,
       "duration": 24,
@@ -2487,7 +2487,7 @@
       ]
     },
     {
-      "id": "_crystal_beacon",
+      "id": "crystal_beacon",
       "building": "manufacturer",
       "alternate": true,
       "duration": 120,
@@ -2513,7 +2513,7 @@
       ]
     },
     {
-      "id": "_crystal_oscillator",
+      "id": "crystal_oscillator",
       "building": "manufacturer",
       "alternate": false,
       "duration": 120,
@@ -2539,7 +2539,7 @@
       ]
     },
     {
-      "id": "_flexible_framework",
+      "id": "flexible_framework",
       "building": "manufacturer",
       "alternate": true,
       "duration": 16,
@@ -2565,7 +2565,7 @@
       ]
     },
     {
-      "id": "_gas_filter",
+      "id": "gas_filter",
       "building": "manufacturer",
       "alternate": false,
       "duration": 8,
@@ -2591,7 +2591,7 @@
       ]
     },
     {
-      "id": "_heavy_encased_frame",
+      "id": "heavy_encased_frame",
       "building": "manufacturer",
       "alternate": true,
       "duration": 64,
@@ -2621,7 +2621,7 @@
       ]
     },
     {
-      "id": "_heavy_flexible_frame",
+      "id": "heavy_flexible_frame",
       "building": "manufacturer",
       "alternate": true,
       "duration": 16,
@@ -2651,7 +2651,7 @@
       ]
     },
     {
-      "id": "_heavy_modular_frame",
+      "id": "heavy_modular_frame",
       "building": "manufacturer",
       "alternate": false,
       "duration": 30,
@@ -2681,7 +2681,7 @@
       ]
     },
     {
-      "id": "_high_speed_connector",
+      "id": "high_speed_connector",
       "building": "manufacturer",
       "alternate": false,
       "duration": 16,
@@ -2707,7 +2707,7 @@
       ]
     },
     {
-      "id": "_high_speed_wiring",
+      "id": "high_speed_wiring",
       "building": "manufacturer",
       "alternate": true,
       "duration": 32,
@@ -2733,7 +2733,7 @@
       ]
     },
     {
-      "id": "_infused_uranium_cell",
+      "id": "infused_uranium_cell",
       "building": "manufacturer",
       "alternate": true,
       "duration": 12,
@@ -2763,7 +2763,7 @@
       ]
     },
     {
-      "id": "_insulated_crystal_oscillator",
+      "id": "insulated_crystal_oscillator",
       "building": "manufacturer",
       "alternate": true,
       "duration": 32,
@@ -2789,7 +2789,7 @@
       ]
     },
     {
-      "id": "_iodine_infused_filter",
+      "id": "iodine_infused_filter",
       "building": "manufacturer",
       "alternate": false,
       "duration": 16,
@@ -2815,7 +2815,7 @@
       ]
     },
     {
-      "id": "_magnetic_field_generator",
+      "id": "magnetic_field_generator",
       "building": "manufacturer",
       "alternate": false,
       "duration": 120,
@@ -2841,7 +2841,7 @@
       ]
     },
     {
-      "id": "_modular_engine",
+      "id": "modular_engine",
       "building": "manufacturer",
       "alternate": false,
       "duration": 60,
@@ -2867,7 +2867,7 @@
       ]
     },
     {
-      "id": "_plastic_smart_plating",
+      "id": "plastic_smart_plating",
       "building": "manufacturer",
       "alternate": true,
       "duration": 24,
@@ -2893,7 +2893,7 @@
       ]
     },
     {
-      "id": "_plutonium_fuel_rod",
+      "id": "plutonium_fuel_rod",
       "building": "manufacturer",
       "alternate": false,
       "duration": 240,
@@ -2923,7 +2923,7 @@
       ]
     },
     {
-      "id": "_radio_connection_unit",
+      "id": "radio_connection_unit",
       "building": "manufacturer",
       "alternate": true,
       "duration": 16,
@@ -2949,7 +2949,7 @@
       ]
     },
     {
-      "id": "_radio_control_system",
+      "id": "radio_control_system",
       "building": "manufacturer",
       "alternate": true,
       "duration": 40,
@@ -2979,7 +2979,7 @@
       ]
     },
     {
-      "id": "_radio_control_unit",
+      "id": "radio_control_unit",
       "building": "manufacturer",
       "alternate": false,
       "duration": 48,
@@ -3005,7 +3005,7 @@
       ]
     },
     {
-      "id": "_rifle_cartridge",
+      "id": "rifle_cartridge",
       "building": "manufacturer",
       "alternate": false,
       "duration": 20,
@@ -3035,7 +3035,7 @@
       ]
     },
     {
-      "id": "_rigour_motor",
+      "id": "rigour_motor",
       "building": "manufacturer",
       "alternate": true,
       "duration": 48,
@@ -3061,7 +3061,7 @@
       ]
     },
     {
-      "id": "_seismic_nobelisk",
+      "id": "seismic_nobelisk",
       "building": "manufacturer",
       "alternate": true,
       "duration": 40,
@@ -3087,7 +3087,7 @@
       ]
     },
     {
-      "id": "_silicone_high_speed_connector",
+      "id": "silicone_high_speed_connector",
       "building": "manufacturer",
       "alternate": true,
       "duration": 40,
@@ -3113,7 +3113,7 @@
       ]
     },
     {
-      "id": "_super_state_computer",
+      "id": "super_state_computer",
       "building": "manufacturer",
       "alternate": true,
       "duration": 50,
@@ -3143,7 +3143,7 @@
       ]
     },
     {
-      "id": "_super_computer",
+      "id": "super_computer",
       "building": "manufacturer",
       "alternate": false,
       "duration": 32,
@@ -3173,7 +3173,7 @@
       ]
     },
     {
-      "id": "_thermal_propulsion_rocket",
+      "id": "thermal_propulsion_rocket",
       "building": "manufacturer",
       "alternate": false,
       "duration": 120,
@@ -3203,7 +3203,7 @@
       ]
     },
     {
-      "id": "_turbo_electric_motor",
+      "id": "turbo_electric_motor",
       "building": "manufacturer",
       "alternate": true,
       "duration": 64,
@@ -3233,7 +3233,7 @@
       ]
     },
     {
-      "id": "_turbo_motor",
+      "id": "turbo_motor",
       "building": "manufacturer",
       "alternate": false,
       "duration": 32,
@@ -3263,7 +3263,7 @@
       ]
     },
     {
-      "id": "_turbo_pressure_motor",
+      "id": "turbo_pressure_motor",
       "building": "manufacturer",
       "alternate": true,
       "duration": 32,
@@ -3293,7 +3293,7 @@
       ]
     },
     {
-      "id": "_uranium_fuel_rod",
+      "id": "uranium_fuel_rod",
       "building": "manufacturer",
       "alternate": false,
       "duration": 150,
@@ -3349,7 +3349,7 @@
       ]
     },
     {
-      "id": "_packaged_alumina_solution",
+      "id": "packaged_alumina_solution",
       "building": "packager",
       "alternate": false,
       "duration": 1,
@@ -3371,7 +3371,7 @@
       ]
     },
     {
-      "id": "_packaged_fuel",
+      "id": "packaged_fuel",
       "building": "packager",
       "alternate": false,
       "duration": 3,
@@ -3393,7 +3393,7 @@
       ]
     },
     {
-      "id": "_packaged_heavy_oil_residue",
+      "id": "packaged_heavy_oil_residue",
       "building": "packager",
       "alternate": false,
       "duration": 4,
@@ -3415,7 +3415,7 @@
       ]
     },
     {
-      "id": "_packaged_liquid_biofuel",
+      "id": "packaged_liquid_biofuel",
       "building": "packager",
       "alternate": false,
       "duration": 3,
@@ -3437,7 +3437,7 @@
       ]
     },
     {
-      "id": "_packaged_nitric_acid",
+      "id": "packaged_nitric_acid",
       "building": "packager",
       "alternate": false,
       "duration": 2,
@@ -3459,7 +3459,7 @@
       ]
     },
     {
-      "id": "_packaged_nitrogen_gas",
+      "id": "packaged_nitrogen_gas",
       "building": "packager",
       "alternate": false,
       "duration": 1,
@@ -3481,7 +3481,7 @@
       ]
     },
     {
-      "id": "_packaged_oil",
+      "id": "packaged_oil",
       "building": "packager",
       "alternate": false,
       "duration": 4,
@@ -3503,7 +3503,7 @@
       ]
     },
     {
-      "id": "_packaged_sulfuric_acid",
+      "id": "packaged_sulfuric_acid",
       "building": "packager",
       "alternate": false,
       "duration": 3,
@@ -3525,7 +3525,7 @@
       ]
     },
     {
-      "id": "_packaged_turbofuel",
+      "id": "packaged_turbofuel",
       "building": "packager",
       "alternate": false,
       "duration": 6,
@@ -3547,7 +3547,7 @@
       ]
     },
     {
-      "id": "_packaged_water",
+      "id": "packaged_water",
       "building": "packager",
       "alternate": false,
       "duration": 2,
@@ -3569,7 +3569,7 @@
       ]
     },
     {
-      "id": "_unpackaged_alumina_solution",
+      "id": "unpackaged_alumina_solution",
       "building": "packager",
       "alternate": false,
       "duration": 1,
@@ -3591,7 +3591,7 @@
       ]
     },
     {
-      "id": "_unpackage_fuel",
+      "id": "unpackage_fuel",
       "building": "packager",
       "alternate": false,
       "duration": 2,
@@ -3613,7 +3613,7 @@
       ]
     },
     {
-      "id": "_unpackage_heavy_oil_residue",
+      "id": "unpackage_heavy_oil_residue",
       "building": "packager",
       "alternate": false,
       "duration": 6,
@@ -3635,7 +3635,7 @@
       ]
     },
     {
-      "id": "_unpackage_liquid_biofuel",
+      "id": "unpackage_liquid_biofuel",
       "building": "packager",
       "alternate": false,
       "duration": 2,
@@ -3657,7 +3657,7 @@
       ]
     },
     {
-      "id": "_unpackage_nitric_acid",
+      "id": "unpackage_nitric_acid",
       "building": "packager",
       "alternate": false,
       "duration": 3,
@@ -3679,7 +3679,7 @@
       ]
     },
     {
-      "id": "_unpackage_nitrogen_gas",
+      "id": "unpackage_nitrogen_gas",
       "building": "packager",
       "alternate": false,
       "duration": 1,
@@ -3701,7 +3701,7 @@
       ]
     },
     {
-      "id": "_unpackage_oil",
+      "id": "unpackage_oil",
       "building": "packager",
       "alternate": false,
       "duration": 2,
@@ -3723,7 +3723,7 @@
       ]
     },
     {
-      "id": "_unpackage_sulfuric_acid",
+      "id": "unpackage_sulfuric_acid",
       "building": "packager",
       "alternate": false,
       "duration": 1,
@@ -3745,7 +3745,7 @@
       ]
     },
     {
-      "id": "_unpackage_turbofuel",
+      "id": "unpackage_turbofuel",
       "building": "packager",
       "alternate": false,
       "duration": 6,
@@ -3767,7 +3767,7 @@
       ]
     },
     {
-      "id": "_unpackage_water",
+      "id": "unpackage_water",
       "building": "packager",
       "alternate": false,
       "duration": 1,
@@ -3789,7 +3789,7 @@
       ]
     },
     {
-      "id": "_alumina_solution",
+      "id": "alumina_solution",
       "building": "refinery",
       "alternate": false,
       "duration": 6,
@@ -3815,7 +3815,7 @@
       ]
     },
     {
-      "id": "_aluminum_scrap",
+      "id": "aluminum_scrap",
       "building": "refinery",
       "alternate": false,
       "duration": 1,
@@ -3841,7 +3841,7 @@
       ]
     },
     {
-      "id": "_coated_cable",
+      "id": "coated_cable",
       "building": "refinery",
       "alternate": true,
       "duration": 8,
@@ -3863,7 +3863,7 @@
       ]
     },
     {
-      "id": "_diluted_packaged_fuel",
+      "id": "diluted_packaged_fuel",
       "building": "refinery",
       "alternate": true,
       "duration": 2,
@@ -3885,7 +3885,7 @@
       ]
     },
     {
-      "id": "_electrode_aluminum_scrap",
+      "id": "electrode_aluminum_scrap",
       "building": "refinery",
       "alternate": true,
       "duration": 4,
@@ -3911,7 +3911,7 @@
       ]
     },
     {
-      "id": "_fuel",
+      "id": "fuel",
       "building": "refinery",
       "alternate": true,
       "duration": 6,
@@ -3933,7 +3933,7 @@
       ]
     },
     {
-      "id": "_heavy_oil_residue",
+      "id": "heavy_oil_residue",
       "building": "refinery",
       "alternate": true,
       "duration": 6,
@@ -3955,7 +3955,7 @@
       ]
     },
     {
-      "id": "_liquid_biofuel",
+      "id": "liquid_biofuel",
       "building": "refinery",
       "alternate": false,
       "duration": 4,
@@ -3977,7 +3977,7 @@
       ]
     },
     {
-      "id": "_petroleum_coke",
+      "id": "petroleum_coke",
       "building": "refinery",
       "alternate": false,
       "duration": 6,
@@ -3995,7 +3995,7 @@
       ]
     },
     {
-      "id": "_plastic",
+      "id": "plastic",
       "building": "refinery",
       "alternate": false,
       "duration": 6,
@@ -4017,7 +4017,7 @@
       ]
     },
     {
-      "id": "_polyester_fabric",
+      "id": "polyester_fabric",
       "building": "refinery",
       "alternate": true,
       "duration": 12,
@@ -4039,7 +4039,7 @@
       ]
     },
     {
-      "id": "_polymer_resin",
+      "id": "polymer_resin",
       "building": "refinery",
       "alternate": true,
       "duration": 6,
@@ -4061,7 +4061,7 @@
       ]
     },
     {
-      "id": "_pure_caterium_ingot",
+      "id": "pure_caterium_ingot",
       "building": "refinery",
       "alternate": true,
       "duration": 5,
@@ -4083,7 +4083,7 @@
       ]
     },
     {
-      "id": "_pure_copper_ingot",
+      "id": "pure_copper_ingot",
       "building": "refinery",
       "alternate": true,
       "duration": 24,
@@ -4105,7 +4105,7 @@
       ]
     },
     {
-      "id": "_pure_iron_ingot",
+      "id": "pure_iron_ingot",
       "building": "refinery",
       "alternate": true,
       "duration": 12,
@@ -4127,7 +4127,7 @@
       ]
     },
     {
-      "id": "_pure_quartz_crystal",
+      "id": "pure_quartz_crystal",
       "building": "refinery",
       "alternate": true,
       "duration": 8,
@@ -4149,7 +4149,7 @@
       ]
     },
     {
-      "id": "_recycled_plastic",
+      "id": "recycled_plastic",
       "building": "refinery",
       "alternate": true,
       "duration": 12,
@@ -4171,7 +4171,7 @@
       ]
     },
     {
-      "id": "_recycled_rubber",
+      "id": "recycled_rubber",
       "building": "refinery",
       "alternate": true,
       "duration": 12,
@@ -4193,7 +4193,7 @@
       ]
     },
     {
-      "id": "_residual_fuel",
+      "id": "residual_fuel",
       "building": "refinery",
       "alternate": false,
       "duration": 6,
@@ -4211,7 +4211,7 @@
       ]
     },
     {
-      "id": "_residual_plastic",
+      "id": "residual_plastic",
       "building": "refinery",
       "alternate": false,
       "duration": 6,
@@ -4233,7 +4233,7 @@
       ]
     },
     {
-      "id": "_residual_rubber",
+      "id": "residual_rubber",
       "building": "refinery",
       "alternate": false,
       "duration": 6,
@@ -4255,7 +4255,7 @@
       ]
     },
     {
-      "id": "_rubber",
+      "id": "rubber",
       "building": "refinery",
       "alternate": false,
       "duration": 6,
@@ -4277,7 +4277,7 @@
       ]
     },
     {
-      "id": "_sloppy_alumina",
+      "id": "sloppy_alumina",
       "building": "refinery",
       "alternate": true,
       "duration": 3,
@@ -4299,7 +4299,7 @@
       ]
     },
     {
-      "id": "_steamed_copper_sheet",
+      "id": "steamed_copper_sheet",
       "building": "refinery",
       "alternate": true,
       "duration": 8,
@@ -4321,7 +4321,7 @@
       ]
     },
     {
-      "id": "_sulfuric_acid",
+      "id": "sulfuric_acid",
       "building": "refinery",
       "alternate": false,
       "duration": 6,
@@ -4343,7 +4343,7 @@
       ]
     },
     {
-      "id": "_turbo_heavy_fuel",
+      "id": "turbo_heavy_fuel",
       "building": "refinery",
       "alternate": true,
       "duration": 8,
@@ -4365,7 +4365,7 @@
       ]
     },
     {
-      "id": "_turbofuel",
+      "id": "turbofuel",
       "building": "refinery",
       "alternate": true,
       "duration": 16,
@@ -4387,7 +4387,7 @@
       ]
     },
     {
-      "id": "_wet_concrete",
+      "id": "wet_concrete",
       "building": "refinery",
       "alternate": true,
       "duration": 3,
@@ -4409,7 +4409,7 @@
       ]
     },
     {
-      "id": "_battery",
+      "id": "battery",
       "building": "blender",
       "alternate": false,
       "duration": 6,
@@ -4439,7 +4439,7 @@
       ]
     },
     {
-      "id": "_cooling_device",
+      "id": "cooling_device",
       "building": "blender",
       "alternate": true,
       "duration": 32,
@@ -4465,7 +4465,7 @@
       ]
     },
     {
-      "id": "_cooling_system",
+      "id": "cooling_system",
       "building": "blender",
       "alternate": false,
       "duration": 10,
@@ -4495,7 +4495,7 @@
       ]
     },
     {
-      "id": "_diluted_fuel",
+      "id": "diluted_fuel",
       "building": "blender",
       "alternate": true,
       "duration": 6,
@@ -4517,7 +4517,7 @@
       ]
     },
     {
-      "id": "_encased_uranium_cell",
+      "id": "encased_uranium_cell",
       "building": "blender",
       "alternate": false,
       "duration": 12,
@@ -4547,7 +4547,7 @@
       ]
     },
     {
-      "id": "_fertile_uranium",
+      "id": "fertile_uranium",
       "building": "blender",
       "alternate": true,
       "duration": 12,
@@ -4581,7 +4581,7 @@
       ]
     },
     {
-      "id": "_fused_modular_frame",
+      "id": "fused_modular_frame",
       "building": "blender",
       "alternate": false,
       "duration": 40,
@@ -4607,7 +4607,7 @@
       ]
     },
     {
-      "id": "_heat_fused_frame",
+      "id": "heat_fused_frame",
       "building": "blender",
       "alternate": true,
       "duration": 20,
@@ -4637,7 +4637,7 @@
       ]
     },
     {
-      "id": "_instant_scrap",
+      "id": "instant_scrap",
       "building": "blender",
       "alternate": true,
       "duration": 6,
@@ -4671,7 +4671,7 @@
       ]
     },
     {
-      "id": "_nitric_acid",
+      "id": "nitric_acid",
       "building": "blender",
       "alternate": false,
       "duration": 6,
@@ -4697,7 +4697,7 @@
       ]
     },
     {
-      "id": "_non_fissible_uranium",
+      "id": "non_fissible_uranium",
       "building": "blender",
       "alternate": false,
       "duration": 24,
@@ -4731,7 +4731,7 @@
       ]
     },
     {
-      "id": "_turbo_blend_fuel",
+      "id": "turbo_blend_fuel",
       "building": "blender",
       "alternate": true,
       "duration": 8,
@@ -4761,7 +4761,7 @@
       ]
     },
     {
-      "id": "_caterium_ingot",
+      "id": "caterium_ingot",
       "building": "smelter",
       "alternate": false,
       "duration": 4,
@@ -4779,7 +4779,7 @@
       ]
     },
     {
-      "id": "_copper_ingot",
+      "id": "copper_ingot",
       "building": "smelter",
       "alternate": false,
       "duration": 2,
@@ -4797,7 +4797,7 @@
       ]
     },
     {
-      "id": "_iron_ingot",
+      "id": "iron_ingot",
       "building": "smelter",
       "alternate": false,
       "duration": 2,
@@ -4815,7 +4815,7 @@
       ]
     },
     {
-      "id": "_pure_aluminum_ingot",
+      "id": "pure_aluminum_ingot",
       "building": "smelter",
       "alternate": true,
       "duration": 2,
@@ -4833,7 +4833,7 @@
       ]
     },
     {
-      "id": "_aluminum_ingot",
+      "id": "aluminum_ingot",
       "building": "foundry",
       "alternate": false,
       "duration": 4,
@@ -4855,7 +4855,7 @@
       ]
     },
     {
-      "id": "_coke_steel_ingot",
+      "id": "coke_steel_ingot",
       "building": "foundry",
       "alternate": true,
       "duration": 12,
@@ -4877,7 +4877,7 @@
       ]
     },
     {
-      "id": "_compacted_steel_ingot",
+      "id": "compacted_steel_ingot",
       "building": "foundry",
       "alternate": true,
       "duration": 16,
@@ -4899,7 +4899,7 @@
       ]
     },
     {
-      "id": "_copper_alloy_ingot",
+      "id": "copper_alloy_ingot",
       "building": "foundry",
       "alternate": true,
       "duration": 12,
@@ -4921,7 +4921,7 @@
       ]
     },
     {
-      "id": "_iron_alloy_ingot",
+      "id": "iron_alloy_ingot",
       "building": "foundry",
       "alternate": true,
       "duration": 6,
@@ -4943,7 +4943,7 @@
       ]
     },
     {
-      "id": "_solid_steel_ingot",
+      "id": "solid_steel_ingot",
       "building": "foundry",
       "alternate": true,
       "duration": 3,
@@ -4965,7 +4965,7 @@
       ]
     },
     {
-      "id": "_steel_ingot",
+      "id": "steel_ingot",
       "building": "foundry",
       "alternate": false,
       "duration": 4,
@@ -4987,7 +4987,7 @@
       ]
     },
     {
-      "id": "_instant_plutonium_cell",
+      "id": "instant_plutonium_cell",
       "building": "particle_accelerator",
       "alternate": true,
       "duration": 120,
@@ -5009,7 +5009,7 @@
       ]
     },
     {
-      "id": "_nuclear_pasta",
+      "id": "nuclear_pasta",
       "building": "particle_accelerator",
       "alternate": false,
       "duration": 120,
@@ -5031,7 +5031,7 @@
       ]
     },
     {
-      "id": "_plutonium_pellet",
+      "id": "plutonium_pellet",
       "building": "particle_accelerator",
       "alternate": false,
       "duration": 60,
@@ -5053,7 +5053,7 @@
       ]
     },
     {
-      "id": "_uranium_waste",
+      "id": "uranium_waste",
       "building": "nuclear_power_plant",
       "alternate": false,
       "duration": 300,

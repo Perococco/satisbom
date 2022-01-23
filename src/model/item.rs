@@ -29,6 +29,13 @@ impl Item {
             Item::Product(_) => None
         }
     }
+
+    pub fn is_resource_picked_manually(&self) -> bool {
+        match self {
+            Item::Resource(r) => r.extractor.is_manual(),
+            Item::Product(_) => false
+        }
+    }
 }
 
 impl Resource {
@@ -116,13 +123,13 @@ impl Resource {
         Resource { id, extractor, nodes }
     }
 
-    pub fn max_quantity(&self) -> Option<u32> {
-        self.nodes().map(|n| n.max_quantity())
+    pub fn max_quantity_per_minute(&self) -> Option<u32> {
+        self.nodes().map(|n| n.max_quantity_per_minute())
     }
 }
 
 impl Nodes {
-    pub fn max_quantity(&self) -> u32 {
+    pub fn max_quantity_per_minute(&self) -> u32 {
         self.impure*300 + self.normal*600 + self.pure*780
     }
 }

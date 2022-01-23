@@ -1,8 +1,10 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 use std::fmt::{Display, Error, Formatter};
-use dot::Edges;
+
 use hashlink::LinkedHashMap;
-use crate::AmountFormat;
+
+use crate::{AmountFormat, FilterableBook, FullBook, ProblemInput};
+use crate::factory::Factory;
 use crate::model::bom_printer::BomPrinter;
 use crate::model::building::Building;
 use crate::model::item::Item;
@@ -11,6 +13,7 @@ use crate::model::recipe_complexity::compute_complexity;
 
 pub struct Bom {
     pub targets: HashMap<Item, f64>,
+    pub availables: HashMap<Item, f64>,
     pub requirements: HashMap<Item, f64>,
     pub leftovers: HashMap<Item, f64>,
     pub recipes: LinkedHashMap<Recipe, f64>,
@@ -23,9 +26,22 @@ impl Bom {
     }
 }
 
+impl Bom {
+    pub fn optimized(input: &ProblemInput) -> crate::error::Result<Self> {
+        let full_book = FullBook::create()?;
+        let book = full_book.filter(input.filter())?;
+        let problem = Factory::create_problem(input,&book)?;
+        problem.solve()
+    }
+}
+
 
 impl Bom {
-    pub fn new(targets: HashMap<Item, f64>, requirements: HashMap<Item, f64>, leftovers: HashMap<Item, f64>, recipes: HashMap<Recipe, f64>) -> Self {
+    pub fn new(targets: HashMap<Item, f64>,
+               availables: HashMap<Item, f64>,
+               requirements: HashMap<Item, f64>,
+               leftovers: HashMap<Item, f64>,
+               recipes: HashMap<Recipe, f64>) -> Self {
         let mut buildings = HashMap::new();
 
         for (recipe, amount) in &recipes {
@@ -40,7 +56,7 @@ impl Bom {
 
         let recipes = sort_recipes(recipes);
 
-        Bom { targets, requirements, leftovers, recipes, buildings }
+        Bom { targets, availables, requirements, leftovers, recipes, buildings }
     }
 }
 
@@ -51,7 +67,9 @@ impl Bom {
 
         for recipe in self.recipes.keys() {
             for input in recipe.inputs() {
-                result.entry(input.item().clone()).or_insert(vec![]).push(recipe.clone())
+                result.entry(input.item().clone())
+                    .or_insert_with(std::vec::Vec::new)
+                    .push(recipe.clone())
             }
         }
 
@@ -90,6 +108,7 @@ impl Bom {
     pub fn display(&self, bp: &mut BomPrinter) -> crate::error::Result<()> {
 
         bp.display_items("To get:", &self.targets)?;
+        bp.display_items("With:", &self.availables)?;
         bp.display_items("You need:", &self.requirements)?;
         bp.display_items("Leftovers:", &self.leftovers)?;
 

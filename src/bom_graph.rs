@@ -1,17 +1,13 @@
 use std::borrow::Cow;
 use std::collections::{HashMap, HashSet};
-use std::fmt;
-use std::fmt::Formatter;
 use std::hash::{Hash, Hasher};
-use std::path::Display;
-use std::ptr::addr_of;
 use dot::{Edges, GraphWalk, Id, Labeller, LabelText, Nodes, Style};
 use dot::LabelText::LabelStr;
-use dot::Style::{Filled, Solid};
+use dot::Style::{Filled};
 use crate::model::item::Item;
 use crate::{Bom, Recipe};
-use crate::model::dot::ItemType::{Intermediate, Required, Targeted};
-use crate::model::reactant::Reactant;
+use crate::constants::is_nil;
+use crate::bom_graph::ItemType::{Intermediate, Required, Targeted};
 
 
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
@@ -77,19 +73,19 @@ struct GraphFactory<'a> {
 
     node_index: HashMap<Node, usize>,
     nodes: Vec<Node>,
-    edges: Vec<(usize, usize)>,
+    edges: HashSet<(usize, usize)>,
 }
 
 impl From<GraphFactory<'_>> for Graph {
     fn from(factory: GraphFactory<'_>) -> Self {
-        Graph { nodes: factory.nodes, edges: factory.edges }
+        Graph { nodes: factory.nodes, edges: factory.edges.into_iter().collect() }
     }
 }
 
 impl<'a> GraphFactory<'a> {
     fn new(bom: &'a Bom) -> Self {
         let recipes_by_input_items = bom.get_recipes_by_input_item();
-        GraphFactory { bom, nodes: vec![], node_index: HashMap::new(), edges: vec![], recipes_by_input_items }
+        GraphFactory { bom, nodes: vec![], node_index: HashMap::new(), edges: HashSet::new(), recipes_by_input_items }
     }
 }
 
@@ -129,10 +125,10 @@ impl<'a> GraphFactory<'a> {
             let node = Node::Item(item.clone(), amount, Intermediate);
             let index = self.add_node(node);
 
-            self.edges.push((recipe_node_index, index));
+            self.edges.insert((recipe_node_index, index));
             for recipe in recipe_using {
                 let recipe_index = self.get_recipe_node_index(&recipe);
-                self.edges.push((index, recipe_index))
+                self.edges.insert((index, recipe_index));
             }
 
             Some(index)
@@ -146,9 +142,9 @@ impl<'a> GraphFactory<'a> {
             let target_node_index = self.add_node(target_node);
 
             match node_index {
-                Some(idx) => self.edges.push((idx, target_node_index)),
-                None => self.edges.push((recipe_node_index, target_node_index))
-            }
+                Some(idx) => self.edges.insert((idx, target_node_index)),
+                None => self.edges.insert((recipe_node_index, target_node_index))
+            };
         };
     }
 
@@ -159,7 +155,7 @@ impl<'a> GraphFactory<'a> {
             if let Some(recipes) = self.recipes_by_input_items.get(item) {
                 for recipe in recipes {
                     let recipe_index = self.get_recipe_node_index(recipe);
-                    self.edges.push((node_index, recipe_index))
+                    self.edges.insert((node_index, recipe_index));
                 }
             }
         }
@@ -250,16 +246,39 @@ impl<'a> Labeller<'a, Nd<'a>, Ed> for Graph {
 
     fn node_label(&'a self, n: &Nd<'a>) -> LabelText<'a> {
         let (name,a) = match n {
-            Node::Recipe(r, a) => (r.id().replace("_"," "),a),
-            Node::Item(t, a,_) => (t.id().replace("_"," "),a)
+            Node::Recipe(r, a) => (r.id().replace("_"," "),a/r.nb_per_minute()),
+            Node::Item(t, a,_) => (t.id().replace("_"," "),*a)
         };
 
-        let label = format!("{}\n{:.3}",name,a);
+        let label = format!("{}\n{:.2}",name,a);
 
 
         LabelText::LabelStr(Cow::Owned(label))
 
     }
 
+    fn edge_label(&'a self, e: &Ed) -> LabelText<'a> {
+        let node0 = &self.nodes[e.0];
+        let node1 = &self.nodes[e.1];
 
+        match (node0, node1) {
+            (Node::Item(i,ia,_),Node::Recipe(r,ra)) => {
+                if let Some(re) = r.input_reactant(i) {
+                    let consumed = re.quantity_f64()*ra;
+                    let available = ia;
+                    if is_nil(consumed-available) {
+                        LabelStr(Cow::Borrowed(""))
+                    } else {
+                        LabelStr(Cow::Owned(format!("{:.2}", re.quantity_f64() * ra)))
+                    }
+                } else {
+                    LabelStr(Cow::Borrowed(""))
+                }
+            }
+            (_,_) => LabelStr(Cow::Borrowed(""))
+
+        }
+
+
+    }
 }

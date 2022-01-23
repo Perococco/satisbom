@@ -1,8 +1,5 @@
 use std::fmt::Formatter;
-use std::fmt::Write;
 
-use crate::colors::{AMOUNT_COLOR, DEFAULT_COLOR, ITEM_COLOR};
-use crate::model::bom_printer::BomPrinter;
 use crate::model::item::Item;
 
 #[derive(Clone)]
@@ -25,6 +22,10 @@ impl Reactant {
         self.quantity
     }
 
+    pub fn quantity_f64(&self) -> f64 {
+        self.quantity as f64
+    }
+
     pub fn new(item: Item, quantity: u32) -> Self {
         Reactant { item, quantity }
     }
@@ -39,16 +40,6 @@ impl Reactant {
     }
 
 
-    pub fn display(&self, term:&mut BomPrinter, amount:f64) -> crate::error::Result<()> {
-        let quantity = amount * (self.quantity as f64);
-        term.fg(AMOUNT_COLOR)?;
-        write!(term,"{}",quantity)?;
-        term.fg(DEFAULT_COLOR)?;
-        write!(term,"*")?;
-        term.fg(ITEM_COLOR)?;
-        write!(term,"{}",self.item)?;
-        Ok(())
-    }
 
 
 

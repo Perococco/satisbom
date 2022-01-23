@@ -15,5 +15,5 @@ num-traits = "0.2.14"
 num-rational = "0.4.0"
 term = "0.7.0"
 hashlink = "0.7.0"
-clap = "3.0.10"
+clap = { version = "3.0.10", features = ["derive"] }
 dot = "0.1.4"

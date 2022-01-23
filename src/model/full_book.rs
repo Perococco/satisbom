@@ -6,6 +6,7 @@ use crate::model::dto::book::BookDto;
 use crate::model::filtered_book::FilteredBook;
 use crate::model::item::Item;
 use crate::model::recipe::Recipe;
+use crate::recipe_filter::RecipeFilter;
 
 
 pub struct FullBook {
@@ -13,10 +14,19 @@ pub struct FullBook {
     recipes:Vec<Recipe>
 }
 
+impl FullBook {
+    pub fn items(&self) -> &HashMap<String, Item> {
+        &self.items
+    }
+    pub fn recipes(&self) -> &Vec<Recipe> {
+        &self.recipes
+    }
+}
+
 
 impl FullBook {
 
-    pub fn create() -> Result<Self> {
+    pub fn create() -> crate::error::Result<Self> {
         let dto = BookDto::parse()?;
         dto.to_full_book()
     }
@@ -28,11 +38,11 @@ impl FullBook {
 }
 
 impl FilterableBook for FullBook {
-    fn filter(&self, predicate: &impl Fn(&Recipe) -> bool) -> Result<FilteredBook> {
+    fn filter(&self, predicate: &RecipeFilter) -> Result<FilteredBook> {
         let filtered_recipes = self.recipes
             .iter()
             .enumerate()
-            .filter(|(_, r)| predicate(r))
+            .filter(|(_, r)| predicate.matches(r))
             .map(|(i, _)| i)
             .collect();
         Ok(FilteredBook::new(self, filtered_recipes))
@@ -40,13 +50,12 @@ impl FilterableBook for FullBook {
 }
 
 impl Book for FullBook {
+    fn number_of_recipes(&self) -> usize {
+        self.recipes.len()
+    }
 
     fn get_recipe(&self, recipe_index: usize) -> Result<&Recipe> {
         self.recipes.get(recipe_index).ok_or(InvalidRecipeIndex(recipe_index))
-    }
-
-    fn number_of_recipes(&self) -> usize {
-        self.recipes.len()
     }
 
     fn get_involved_items(&self) -> crate::error::Result<HashSet<Item>> {

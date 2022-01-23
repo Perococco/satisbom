@@ -4,6 +4,7 @@ use crate::error::{Error, Result};
 use crate::model::full_book::FullBook;
 use crate::model::item::Item;
 use crate::Recipe;
+use crate::recipe_filter::RecipeFilter;
 
 pub struct FilteredBook<'a> {
     full_book: &'a FullBook,
@@ -17,7 +18,7 @@ impl<'a> FilteredBook<'a> {
 }
 
 impl FilterableBook for FilteredBook<'_> {
-    fn filter(&self, predicate: &impl Fn(&Recipe) -> bool) -> Result<FilteredBook> {
+    fn filter(&self, predicate: &RecipeFilter) -> Result<FilteredBook> {
         let mut new_recipes = Vec::<usize>::new();
 
         for index in &self.filtered_recipe_indices {
@@ -31,15 +32,15 @@ impl FilterableBook for FilteredBook<'_> {
 }
 
 impl Book for FilteredBook<'_> {
+    fn number_of_recipes(&self) -> usize {
+        self.filtered_recipe_indices.len()
+    }
+
     fn get_recipe(&self, recipe_index: usize) -> Result<&Recipe> {
         self.filtered_recipe_indices
             .get(recipe_index)
             .ok_or(Error::InvalidRecipeIndex(recipe_index))
             .and_then(|i| self.full_book.get_recipe(*i))
-    }
-
-    fn number_of_recipes(&self) -> usize {
-        self.filtered_recipe_indices.len()
     }
 
     fn get_involved_items(&self) -> crate::error::Result<HashSet<Item>> {
@@ -61,7 +62,7 @@ impl Book for FilteredBook<'_> {
 }
 
 impl FilteredBook<'_> {
-    fn recipe_matches(&self, recipe_index: usize, predicate: &impl Fn(&Recipe) -> bool) -> Result<bool> {
-        self.get_recipe(recipe_index).map(predicate)
+    fn recipe_matches(&self, recipe_index: usize, predicate: &RecipeFilter) -> Result<bool> {
+        self.get_recipe(recipe_index).map(|r| predicate.matches(r))
     }
 }

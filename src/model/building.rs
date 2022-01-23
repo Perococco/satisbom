@@ -1,4 +1,3 @@
-
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
 pub enum Building {
     Extractor(Extractor),
@@ -29,12 +28,17 @@ impl Building {
             Building::Processor(p) => p.power_usage as i32
         }
     }
+
 }
 
 
 impl Extractor {
     pub fn new(id: String, kind: String, power_usage: i32, normal_extraction_rate: u32) -> Self {
         Extractor { id, kind, power_usage, normal_extraction_rate }
+    }
+
+    pub fn is_manual(&self) -> bool {
+        self.id.eq("manual")
     }
 }
 

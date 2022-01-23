@@ -1,12 +1,9 @@
 use std::fmt::{Display, Formatter};
 use std::hash::{Hash, Hasher};
-use crate::colors::{DEFAULT_COLOR};
-use crate::model::bom_printer::BomPrinter;
 use crate::model::building::Building;
 use crate::model::item::Item;
 use crate::model::reactant::Reactant;
 
-use std::fmt::Write;
 
 #[derive(Clone)]
 #[allow(dead_code)]
@@ -17,6 +14,24 @@ pub struct Recipe {
     alternate: bool,
     inputs: Vec<Reactant>,
     outputs: Vec<Reactant>,
+}
+
+impl Recipe {
+    pub(crate) fn uses_a_blender(&self) -> bool {
+        self.building.id().eq("blender")
+    }
+}
+
+impl Recipe {
+    pub(crate) fn input_reactant(&self, item: &Item) -> Option<&Reactant> {
+        self.inputs.iter().find(|r| r.item().eq(item))
+    }
+}
+
+impl Recipe {
+    pub(crate) fn uses_manual_resources(&self) -> bool {
+        self.inputs.iter().any(|r| r.item().is_resource_picked_manually())
+    }
 }
 
 impl Eq for Recipe {}
@@ -64,30 +79,6 @@ impl Display for Recipe {
     }
 }
 
-
-impl Recipe {
-    pub fn display(&self, term:&mut BomPrinter, amount:f64) -> crate::error::Result<()> {
-        for (i,reactant) in self.inputs.iter().enumerate() {
-            if i != 0 {
-                term.fg(DEFAULT_COLOR)?;
-                write!(term," + ")?;
-            }
-            reactant.display(term, amount)?;
-        };
-
-        term.fg(DEFAULT_COLOR)?;
-        write!(term," -> ")?;
-
-        for (i,reactant) in self.outputs.iter().enumerate() {
-            if i != 0 {
-                term.fg(DEFAULT_COLOR)?;
-                write!(term," + ")?;
-            }
-            reactant.display(term, amount)?;
-        };
-        Ok(())
-    }
-}
 
 impl Recipe {
 

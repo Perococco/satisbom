@@ -1,9 +1,28 @@
 use std::collections::HashMap;
-use crate::model::item::Item;
+use crate::NotManual;
+use crate::recipe_filter::RecipeFilter;
 
+#[derive(serde::Deserialize,serde::Serialize, Debug)]
 pub struct ProblemInput {
+    #[serde(rename="targets")]
     pub target_items:HashMap<String,u32>,
+    #[serde(rename="available-items")]
     pub available_items:HashMap<String,u32>,
+    #[serde(rename="use-abundances")]
+    pub use_abundances:bool,
+    pub filter:RecipeFilter
+}
+
+
+impl Default for ProblemInput {
+    fn default() -> Self {
+        ProblemInput{
+            target_items:HashMap::new(),
+            available_items:HashMap::new(),
+            use_abundances:true,
+            filter:NotManual,
+        }
+    }
 }
 
 impl ProblemInput {
@@ -16,14 +35,9 @@ impl ProblemInput {
         &self.available_items
     }
 
-    pub fn get_requested_quantity(&self, item:&Item) -> Option<u32> {
-        self.target_items.get(item.id()).cloned()
+    pub fn filter(&self) -> &RecipeFilter {
+        &self.filter
     }
-
-    pub fn is_requested_item(&self, item:&Item) -> bool {
-        self.target_items.contains_key(item.id())
-    }
-
 
 }
 

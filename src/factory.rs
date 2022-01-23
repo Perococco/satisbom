@@ -38,7 +38,6 @@ impl Factory<'_> {
     }
 }
 
-
 impl<'b> Factory<'b> {
     fn create(self) -> Result<Problem> {
         let mut items = HashMap::new();
@@ -62,7 +61,7 @@ impl<'b> Factory<'b> {
         }
 
 
-        Ok(Problem::new(self.variables, target_items, available_items, self.recipes, items))
+        Ok(Problem::new(self.variables, target_items, available_items, self.recipes, items, self.input.use_abundances))
     }
 }
 
