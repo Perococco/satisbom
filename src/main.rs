@@ -3,6 +3,7 @@ extern crate core;
 use std::collections::{HashMap, HashSet};
 use std::fmt::{Display,  Formatter, Write};
 use std::fs::{File, read_to_string};
+use std::os::unix::raw::ino_t;
 use std::str::FromStr;
 
 use clap::{AppSettings, Parser};
@@ -78,7 +79,7 @@ pub struct BomArg {
     #[clap(short = 'F', default_value_t = Format::Text, arg_enum)]
     format: Format,
 
-    #[clap(short = 'x', long)]
+    #[clap(short = 'p', long)]
     //force printing the bom on the standard output if the -output-file option is used
     force_stdout: bool,
 
@@ -88,10 +89,13 @@ pub struct BomArg {
     #[clap(short, long)]
     use_ratio: bool,
 
-    #[clap(short = 'a', long)]
+    #[clap(short = 'w', long)]
     weight_by_abundance: Option<bool>,
 
     reactants: Vec<String>,
+
+    #[clap(short = 'a', long)]
+    available_items:Vec<String>
 }
 
 impl BomArg {
@@ -131,12 +135,22 @@ impl BomArg {
             .collect::<Result<HashMap<String, u32>>>()
     }
 
+    fn parsed_available_items(&self) -> Result<HashMap<String, u32>> {
+        self.available_items.iter()
+            .map(|r| r.parse::<InputItem>())
+            .map(|r| r.map(|i| (i.name, i.quantity)))
+            .collect::<Result<HashMap<String, u32>>>()
+    }
+
 
     pub fn force_stdout(&self) -> bool {
         self.force_stdout
     }
     pub fn output_file(&self) -> &Option<String> {
         &self.output_file
+    }
+    pub fn available_items(&self) -> &Vec<String> {
+        &self.available_items
     }
 }
 
@@ -205,6 +219,7 @@ fn bom(args: BomArg) -> crate::error::Result<()> {
         .map(|f| read_input(f))
         .unwrap_or_else(|| Ok(ProblemInput::default()))?;
 
+    let available_items = args.parsed_available_items()?;
     let reactants = args.parsed_reactants()?;
     let filters = args.parsed_filters()?;
 
@@ -214,6 +229,10 @@ fn bom(args: BomArg) -> crate::error::Result<()> {
 
     if !reactants.is_empty() {
         input.target_items = reactants;
+    }
+
+    if !available_items.is_empty() {
+        input.available_items = available_items;
     }
 
     if let Some(filter) = filters {
