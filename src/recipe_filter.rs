@@ -1,9 +1,7 @@
-use std::collections::HashSet;
 use std::fmt::{Display, Formatter};
 use std::str::FromStr;
 use crate::error::Error;
-use crate::Error::FilterParsingFailed;
-use crate::Recipe;
+use crate::{NotNamed, Recipe};
 
 #[derive(Clone, serde::Deserialize,serde::Serialize, Debug )]
 pub enum RecipeFilter {
@@ -16,7 +14,7 @@ pub enum RecipeFilter {
     #[serde(rename="not-manual")]
     NotManual,
     #[serde(rename="not-named")]
-    NotNamed(HashSet<String>),
+    NotNamed(String),
     #[serde(rename="all-recipes")]
     AllRecipes,
     #[serde(rename="none-of")]
@@ -55,7 +53,7 @@ impl RecipeFilter {
             RecipeFilter::NotAlternate => !recipe.alternate(),
             RecipeFilter::NoRefinery => !recipe.uses_a_refinery(),
             RecipeFilter::NotManual => !recipe.uses_manual_resources(),
-            RecipeFilter::NotNamed(names) => !names.contains(recipe.id()),
+            RecipeFilter::NotNamed(name) => !name.eq_ignore_ascii_case(recipe.id()),
             RecipeFilter::AllRecipes => true,
             RecipeFilter::NoneOf(filters) => filters.iter().all(|f| !f.matches(recipe)),
             RecipeFilter::AllOf(filters) => filters.iter().all(|f| f.matches(recipe)),
@@ -73,9 +71,10 @@ impl FromStr for RecipeFilter {
         match f {
             "not-alternate" => Ok(RecipeFilter::NotAlternate),
             "not-manual" => Ok(RecipeFilter::NotManual),
+            "no-refinery" => Ok(RecipeFilter::NoRefinery),
             "no-blender" => Ok(RecipeFilter::NoBlender),
             "all-recipes" => Ok(RecipeFilter::AllRecipes),
-            _ => Err(FilterParsingFailed(f.to_string()))
+            recipe_id => Ok(NotNamed(recipe_id.to_string()))
         }
     }
 }

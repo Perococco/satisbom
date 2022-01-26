@@ -1,6 +1,6 @@
 extern crate core;
 
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 use std::fmt::{Display, Formatter, Write};
 use std::fs::{File, read_to_string};
 use std::str::FromStr;
@@ -348,9 +348,6 @@ fn read_input(input_file: &str) -> crate::error::Result<ProblemInput> {
 }
 
 fn dump(args: DumpArg) -> crate::error::Result<()> {
-    let mut names = HashSet::new();
-    names.insert("copper_ingot".to_string());
-    names.insert("caterium_ingot".to_string());
 
     let input = ProblemInput {
         target_items: hashmap! {
@@ -361,7 +358,7 @@ fn dump(args: DumpArg) -> crate::error::Result<()> {
             "iron_ingot".to_string() => 30,
         },
         use_abundances: true,
-        filter: AllOf(vec![NotAlternate, NotManual, NotNamed(names)]),
+        filter: AllOf(vec![NotAlternate, NotManual, NotNamed("copper_ingot".to_string()),NotNamed("Caterium_ingot".to_string())]),
     };
 
     match args.output_file {
