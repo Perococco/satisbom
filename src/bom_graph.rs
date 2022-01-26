@@ -1,3 +1,4 @@
+use std::any::Any;
 use std::borrow::Cow;
 use std::collections::{HashMap, HashSet};
 use std::hash::{Hash, Hasher};
@@ -57,12 +58,12 @@ impl Hash for Node {
 pub struct Graph {
     nodes: Vec<Node>,
     edges: Vec<(usize, usize)>,
-    amount_format:AmountFormat
+    amount_format: AmountFormat,
 }
 
 impl Graph {
-    pub fn new(bom: &Bom, amount_format:AmountFormat) -> Self {
-        let mut factory = GraphFactory::new(bom,amount_format);
+    pub fn new(bom: &Bom, amount_format: AmountFormat) -> Self {
+        let mut factory = GraphFactory::new(bom, amount_format);
         factory.build();
         factory.into()
     }
@@ -76,19 +77,19 @@ struct GraphFactory<'a> {
     node_index: HashMap<Node, usize>,
     nodes: Vec<Node>,
     edges: HashSet<(usize, usize)>,
-    amount_format:AmountFormat,
+    amount_format: AmountFormat,
 }
 
 impl From<GraphFactory<'_>> for Graph {
     fn from(factory: GraphFactory<'_>) -> Self {
-        Graph { nodes: factory.nodes, edges: factory.edges.into_iter().collect() , amount_format:factory.amount_format}
+        Graph { nodes: factory.nodes, edges: factory.edges.into_iter().collect(), amount_format: factory.amount_format }
     }
 }
 
 impl<'a> GraphFactory<'a> {
-    fn new(bom: &'a Bom, amount_format:AmountFormat) -> Self {
+    fn new(bom: &'a Bom, amount_format: AmountFormat) -> Self {
         let recipes_by_input_items = bom.get_recipes_by_input_item();
-        GraphFactory { bom, nodes: vec![], node_index: HashMap::new(), edges: HashSet::new(), recipes_by_input_items , amount_format}
+        GraphFactory { bom, nodes: vec![], node_index: HashMap::new(), edges: HashSet::new(), recipes_by_input_items, amount_format }
     }
 }
 
@@ -127,7 +128,7 @@ impl<'a> GraphFactory<'a> {
 
         let node_index = if let Some(recipe_using) = self.get_recipes_using(item) {
             let available_amount = self.bom.get_available_amount(item).cloned().unwrap_or(0f64);
-            let node = Node::Item(item.clone(), amount+ available_amount, Intermediate);
+            let node = Node::Item(item.clone(), amount + available_amount, Intermediate);
             let index = self.add_node(node);
 
             self.edges.insert((recipe_node_index, index));
@@ -167,21 +168,19 @@ impl<'a> GraphFactory<'a> {
     }
 
     fn handle_available_items(&mut self) {
-        for (item,amount) in &self.bom.available_items {
-            let node_index =self.add_node(Node::Item(item.clone(),*amount,Available));
+        for (item, amount) in &self.bom.available_items {
+            let node_index = self.add_node(Node::Item(item.clone(), *amount, Available));
 
-            let intermediate = self.get_intermediate_item_index(item);
+            let intermediate = self.get_item_index_of_any_type(item);
 
             if let Some(intermediate_index) = intermediate {
-                self.edges.insert((node_index,intermediate_index));
-            }
-            else if let Some(recipes) = self.recipes_by_input_items.get(item) {
+                self.edges.insert((node_index, intermediate_index));
+            } else if let Some(recipes) = self.recipes_by_input_items.get(item) {
                 for recipe in recipes {
                     let recipe_index = self.get_recipe_node_index(recipe);
                     self.edges.insert((node_index, recipe_index));
                 }
             }
-
         }
     }
 }
@@ -205,9 +204,15 @@ impl GraphFactory<'_> {
         *(self.node_index.get(&node).unwrap())
     }
 
-    fn get_intermediate_item_index(&self, item: &Item) -> Option<usize> {
-        let node = Node::Item(item.clone(),0f64, Intermediate);
+    fn get_item_index(&self, item: &Item, item_type: ItemType) -> Option<usize> {
+        let mut node = Node::Item(item.clone(), 0f64, item_type);
         self.node_index.get(&node).cloned()
+    }
+
+    fn get_item_index_of_any_type(&self, item: &Item) -> Option<usize> {
+        self.get_item_index(item,ItemType::Intermediate)
+            .map_or_else(|| self.get_item_index(item,Targeted),|v| Some(v))
+            .map_or_else(|| self.get_item_index(item,Required),|v| Some(v))
     }
 }
 
@@ -253,7 +258,7 @@ impl<'a> Labeller<'a, Nd<'a>, Ed> for Graph {
 
 
     fn node_style(&'a self, _n: &Nd<'a>) -> Style {
-        if let Node::Item(_, _,Intermediate) = _n {
+        if let Node::Item(_, _, Intermediate) = _n {
             Style::Solid
         } else {
             Filled
@@ -275,16 +280,15 @@ impl<'a> Labeller<'a, Nd<'a>, Ed> for Graph {
 
 
     fn node_label(&'a self, n: &Nd<'a>) -> LabelText<'a> {
-        let (name,a) = match n {
-            Node::Recipe(r, a) => (r.id().replace("_"," "),a/r.nb_per_minute()),
-            Node::Item(t, a,_) => (t.id().replace("_"," "),*a)
+        let (name, a) = match n {
+            Node::Recipe(r, a) => (r.id().replace("_", " "), a / r.nb_per_minute()),
+            Node::Item(t, a, _) => (t.id().replace("_", " "), *a)
         };
 
-        let label = format!("{}\n{}",name,self.amount_format.format(&a));
+        let label = format!("{}\n{}", name, self.amount_format.format(&a));
 
 
         LabelText::LabelStr(Cow::Owned(label))
-
     }
 
     fn edge_label(&'a self, e: &Ed) -> LabelText<'a> {
@@ -292,11 +296,11 @@ impl<'a> Labeller<'a, Nd<'a>, Ed> for Graph {
         let node1 = &self.nodes[e.1];
 
         match (node0, node1) {
-            (Node::Item(i,ia,_),Node::Recipe(r,ra)) => {
+            (Node::Item(i, ia, _), Node::Recipe(r, ra)) => {
                 if let Some(re) = r.input_reactant(i) {
-                    let consumed = re.quantity_f64()*ra;
+                    let consumed = re.quantity_f64() * ra;
                     let available = ia;
-                    if is_nil(consumed-available) {
+                    if is_nil(consumed - available) {
                         LabelStr(Cow::Borrowed(""))
                     } else {
                         LabelStr(Cow::Owned(format!("{:.2}", re.quantity_f64() * ra)))
@@ -305,10 +309,7 @@ impl<'a> Labeller<'a, Nd<'a>, Ed> for Graph {
                     LabelStr(Cow::Borrowed(""))
                 }
             }
-            (_,_) => LabelStr(Cow::Borrowed(""))
-
+            (_, _) => LabelStr(Cow::Borrowed(""))
         }
-
-
     }
 }
