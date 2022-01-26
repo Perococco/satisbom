@@ -95,7 +95,7 @@ pub struct BomArg {
     reactants: Vec<String>,
 
     #[clap(short = 'a', long)]
-    available_items:Vec<String>
+    available_items:String
 }
 
 impl BomArg {
@@ -136,7 +136,8 @@ impl BomArg {
     }
 
     fn parsed_available_items(&self) -> Result<HashMap<String, u32>> {
-        self.available_items.iter()
+        self.available_items
+            .split(",")
             .map(|r| r.parse::<InputItem>())
             .map(|r| r.map(|i| (i.name, i.quantity)))
             .collect::<Result<HashMap<String, u32>>>()
@@ -149,7 +150,7 @@ impl BomArg {
     pub fn output_file(&self) -> &Option<String> {
         &self.output_file
     }
-    pub fn available_items(&self) -> &Vec<String> {
+    pub fn available_items(&self) -> &String {
         &self.available_items
     }
 }
