@@ -11,13 +11,13 @@ use crate::constants::is_nil;
 
 pub struct Problem {
     variables: ProblemVariables,
-    data:ProblemData
+    data: ProblemData,
 }
 
 struct ProblemData {
     target_items: HashMap<Item, f64>,
     available_items: HashMap<Item, f64>,
-    use_abundances:bool,
+    use_abundances: bool,
 
     recipe_amount: LinkedHashMap<Recipe, Variable>,
     item_count: HashMap<Item, Expression>,
@@ -30,15 +30,14 @@ impl Problem {
                available_items: HashMap<Item, f64>,
                recipe_amount: LinkedHashMap<Recipe, Variable>,
                item_count: HashMap<Item, Expression>,
-               use_abundances:bool) -> Self {
-        Problem { variables, data:ProblemData{target_items, available_items, use_abundances, recipe_amount, item_count} }
+               use_abundances: bool) -> Self {
+        Problem { variables, data: ProblemData { target_items, available_items, use_abundances, recipe_amount, item_count } }
     }
 }
 
 
 impl Problem {
     pub(crate) fn solve(self) -> crate::error::Result<Bom> {
-
         let data = self.data;
 
         let objective = data.objective();
@@ -50,12 +49,12 @@ impl Problem {
         Ok(data.create_boom(result))
     }
 }
-impl ProblemData {
 
+impl ProblemData {
     fn objective(&self) -> Expression {
         let mut objective = Expression::from(0);
 
-        let total:u32 = self.item_count.keys()
+        let total: u32 = self.item_count.keys()
             .map(|i| i.as_resource())
             .flatten()
             .map(|r| r.max_quantity_per_minute())
@@ -67,20 +66,24 @@ impl ProblemData {
                 continue;
             }
 
-            let available = self.available_items.contains_key(item);
+            let available_items = self.available_items.contains_key(item);
+            let target = self.target_items.contains_key(item);
 
             let e = e.clone().mul(total);
-            match (item, available) {
-                (Item::Resource(r),_) => {
+            match (item, target, available_items) {
+                (Item::Resource(r), _, _) => {
                     if let Some(mq) = r.max_quantity_per_minute() {
-                        objective -= e.div(if self.use_abundances {mq} else {1});
+                        objective -= e.div(if self.use_abundances { mq } else { 1 });
                     } else {
                         objective -= e.div(1000000000)
                     }
                 }
-                (Item::Product(_),true) => { objective += e; }
-                (_,_) => {}
+                _ => {}
             }
+        }
+
+        for (_, amount) in &self.recipe_amount {
+            objective+=amount
         }
         objective
     }
@@ -88,7 +91,8 @@ impl ProblemData {
     fn compute_constraints(&self) -> Vec<Constraint> {
         let mut constraints = vec![];
         for (item, e) in &self.item_count {
-            let target = self.target_items.get(item).cloned().unwrap_or(0f64);
+            let target = self.target_items.get(item).cloned();
+            let available = self.available_items.get(item).cloned();
             match item {
                 Item::Resource(r) => {
                     constraints.push(e.clone().leq(0));
@@ -96,7 +100,13 @@ impl ProblemData {
                         constraints.push(e.clone().geq(-(q as f64)));
                     }
                 }
-                Item::Product(_) => { constraints.push(e.clone().geq(target)) }
+                Item::Product(_) => {
+                    let constraint = match (target, available) {
+                        (Some(amount), _) => e.clone().eq(amount),
+                        _ => e.clone().geq(0)
+                    };
+                    constraints.push(constraint);
+                }
             }
         }
         constraints
@@ -108,7 +118,7 @@ impl ProblemData {
     fn create_boom(self, solution: LpSolution) -> Bom {
         let recipes = self.recipe_amount.into_iter()
             .map(|(recipe, variable)| (recipe, solution.value(variable)))
-            .filter(|(_,a)| !is_nil(*a))
+            .filter(|(_, a)| !is_nil(*a))
             .collect();
 
 

@@ -66,9 +66,11 @@ pub struct SearchArgs {
 
 #[derive(Parser, Debug)]
 pub struct BomArg {
-    #[clap(short, long)]
-    input_file: Option<String>,
 
+    #[clap(short, long)]
+    available_items: Option<String>,
+
+    //Dump the current parameters to the provided file that can be used with the '-i' option
     #[clap(short, long)]
     dump_file: Option<String>,
 
@@ -78,6 +80,10 @@ pub struct BomArg {
     #[clap(short = 'F', default_value_t = Format::Text, arg_enum)]
     format: Format,
 
+    //Read production parameters from a JSON file
+    #[clap(short, long)]
+    input_file: Option<String>,
+
     #[clap(short = 'p', long)]
     //force printing the bom on the standard output if the -output-file option is used
     force_stdout: bool,
@@ -85,16 +91,19 @@ pub struct BomArg {
     #[clap(short, long)]
     output_file: Option<String>,
 
+    //Display the amount as a ratio
     #[clap(short, long)]
     use_ratio: bool,
 
+    //Weight the use of resource by their abundance (the rarest resource is the least used)
     #[clap(short = 'w', long)]
     weight_by_abundance: Option<bool>,
 
-    reactants: Vec<String>,
+    //If set, the reactants provided from the command will be replace those in the input file.
+    #[clap(short = 'x', long)]
+    replace_reactants: bool,
 
-    #[clap(short = 'a', long)]
-    available_items: Option<String>,
+    reactants: Vec<String>,
 }
 
 impl BomArg {
@@ -153,6 +162,11 @@ impl BomArg {
     }
     pub fn output_file(&self) -> &Option<String> {
         &self.output_file
+    }
+
+
+    pub fn replace_reactants(&self) -> bool {
+        self.replace_reactants
     }
 }
 
@@ -230,11 +244,21 @@ fn bom(args: BomArg) -> crate::error::Result<()> {
     }
 
     if !reactants.is_empty() {
-        input.target_items = reactants;
+        if args.replace_reactants() {
+            input.target_items = reactants;
+        } else {
+            for (item, amount) in reactants {
+                let input_amount = input.target_items.entry(item).or_default();
+                *input_amount += amount;
+            }
+        }
     }
 
     if let Some(available_items) = available_items {
-        input.available_items = available_items;
+        for (item, amount) in available_items {
+            let input_amount = input.available_items.entry(item).or_default();
+            *input_amount += amount;
+        }
     }
 
     if let Some(filter) = filters {

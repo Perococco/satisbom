@@ -1,4 +1,3 @@
-use std::any::Any;
 use std::borrow::Cow;
 use std::collections::{HashMap, HashSet};
 use std::hash::{Hash, Hasher};
@@ -205,7 +204,7 @@ impl GraphFactory<'_> {
     }
 
     fn get_item_index(&self, item: &Item, item_type: ItemType) -> Option<usize> {
-        let mut node = Node::Item(item.clone(), 0f64, item_type);
+        let node = Node::Item(item.clone(), 0f64, item_type);
         self.node_index.get(&node).cloned()
     }
 
