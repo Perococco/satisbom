@@ -1,22 +1,21 @@
 extern crate core;
 
 use std::collections::{HashMap, HashSet};
-use std::fmt::{Display,  Formatter, Write};
+use std::fmt::{Display, Formatter, Write};
 use std::fs::{File, read_to_string};
-use std::os::unix::raw::ino_t;
 use std::str::FromStr;
 
 use clap::{AppSettings, Parser};
 use clap::ErrorKind::MissingRequiredArgument;
 use maplit::hashmap;
-use tempfile::{NamedTempFile};
+use tempfile::NamedTempFile;
 
 use bom_graph::Graph;
 use model::bom::Bom;
 use model::book::FilterableBook;
 
 use crate::error::{Error, Result};
-use crate::Error::{Clap};
+use crate::Error::Clap;
 use crate::model::amount_format::AmountFormat;
 use crate::model::bom_printer::BomPrinter;
 use crate::model::full_book::FullBook;
@@ -95,7 +94,7 @@ pub struct BomArg {
     reactants: Vec<String>,
 
     #[clap(short = 'a', long)]
-    available_items:String
+    available_items: Option<String>,
 }
 
 impl BomArg {
@@ -135,12 +134,17 @@ impl BomArg {
             .collect::<Result<HashMap<String, u32>>>()
     }
 
-    fn parsed_available_items(&self) -> Result<HashMap<String, u32>> {
-        self.available_items
-            .split(",")
-            .map(|r| r.parse::<InputItem>())
-            .map(|r| r.map(|i| (i.name, i.quantity)))
-            .collect::<Result<HashMap<String, u32>>>()
+    fn parsed_available_items(&self) -> Result<Option<HashMap<String, u32>>> {
+        match &self.available_items {
+            None => Ok(None),
+            Some(items) => {
+                items.split(",")
+                    .map(|r| r.parse::<InputItem>())
+                    .map(|r| r.map(|i| (i.name, i.quantity)))
+                    .collect::<Result<HashMap<String, u32>>>()
+                    .map(|map| Some(map))
+            }
+        }
     }
 
 
@@ -149,9 +153,6 @@ impl BomArg {
     }
     pub fn output_file(&self) -> &Option<String> {
         &self.output_file
-    }
-    pub fn available_items(&self) -> &String {
-        &self.available_items
     }
 }
 
@@ -204,7 +205,7 @@ impl FromStr for InputItem {
     type Err = Error;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        let (qty, name) = s.split_once(".").ok_or_else(|| Error::TargetParsingFailed(s.to_string()))?;
+        let (qty, name) = s.split_once(".").unwrap_or(("1", s));
         let quantity = qty.parse::<u32>().map_err(|_| Error::TargetParsingFailed(s.to_string()))?;
         Ok(InputItem { name: name.to_string(), quantity })
     }
@@ -232,7 +233,7 @@ fn bom(args: BomArg) -> crate::error::Result<()> {
         input.target_items = reactants;
     }
 
-    if !available_items.is_empty() {
+    if let Some(available_items) = available_items {
         input.available_items = available_items;
     }
 

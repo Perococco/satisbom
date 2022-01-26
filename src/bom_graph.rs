@@ -8,7 +8,6 @@ use crate::model::item::Item;
 use crate::{AmountFormat, Bom, Recipe};
 use crate::constants::is_nil;
 use crate::bom_graph::ItemType::{Available, Intermediate, Required, Targeted};
-use crate::RecipeFilter::AnyOf;
 
 
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
@@ -174,7 +173,7 @@ impl<'a> GraphFactory<'a> {
             let intermediate = self.get_intermediate_item_index(item);
 
             if let Some(intermediate_index) = intermediate {
-                self.edges.insert((node_index,*intermediate_index));
+                self.edges.insert((node_index,intermediate_index));
             }
             else if let Some(recipes) = self.recipes_by_input_items.get(item) {
                 for recipe in recipes {
@@ -206,9 +205,9 @@ impl GraphFactory<'_> {
         *(self.node_index.get(&node).unwrap())
     }
 
-    fn get_intermediate_item_index(&self, item: &Item) -> Option<&usize> {
+    fn get_intermediate_item_index(&self, item: &Item) -> Option<usize> {
         let node = Node::Item(item.clone(),0f64, Intermediate);
-        self.node_index.get(&node)
+        self.node_index.get(&node).cloned()
     }
 }
 
