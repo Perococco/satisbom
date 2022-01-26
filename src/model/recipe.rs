@@ -17,6 +17,12 @@ pub struct Recipe {
 }
 
 impl Recipe {
+    pub(crate) fn uses_a_refinery(&self) -> bool {
+        self.building.id().eq("refinery")
+    }
+}
+
+impl Recipe {
     pub(crate) fn uses_a_blender(&self) -> bool {
         self.building.id().eq("blender")
     }

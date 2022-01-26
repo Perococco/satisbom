@@ -11,6 +11,8 @@ pub enum RecipeFilter {
     NotAlternate,
     #[serde(rename="no-blender")]
     NoBlender,
+    #[serde(rename="no-refinery")]
+    NoRefinery,
     #[serde(rename="not-manual")]
     NotManual,
     #[serde(rename="not-named")]
@@ -33,6 +35,7 @@ impl Display for RecipeFilter {
         let name = match self {
             RecipeFilter::NotAlternate => "not-alternate",
             RecipeFilter::NoBlender => "no-blender",
+            RecipeFilter::NoRefinery => "no-refinery",
             RecipeFilter::NotManual => "not-manual",
             RecipeFilter::AllRecipes => "all-recipes",
             RecipeFilter::NoneOf(_) => "none-of()",
@@ -50,6 +53,7 @@ impl RecipeFilter {
     pub fn matches(&self, recipe:&Recipe) -> bool {
         match self {
             RecipeFilter::NotAlternate => !recipe.alternate(),
+            RecipeFilter::NoRefinery => !recipe.uses_a_refinery(),
             RecipeFilter::NotManual => !recipe.uses_manual_resources(),
             RecipeFilter::NotNamed(names) => !names.contains(recipe.id()),
             RecipeFilter::AllRecipes => true,
@@ -67,9 +71,10 @@ impl FromStr for RecipeFilter {
 
     fn from_str(f: &str) -> Result<Self, Self::Err> {
         match f {
-            "no-alternate" => Ok(RecipeFilter::NotAlternate),
+            "not-alternate" => Ok(RecipeFilter::NotAlternate),
             "not-manual" => Ok(RecipeFilter::NotManual),
             "no-blender" => Ok(RecipeFilter::NoBlender),
+            "all-recipes" => Ok(RecipeFilter::AllRecipes),
             _ => Err(FilterParsingFailed(f.to_string()))
         }
     }
