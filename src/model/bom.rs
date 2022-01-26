@@ -23,6 +23,9 @@ impl Bom {
     pub(crate) fn get_targeted_amount(&self, item: &Item) -> Option<&f64> {
         self.targets.get(item)
     }
+    pub(crate) fn get_available_amount(&self, item: &Item) -> Option<&f64> {
+        self.available_items.get(item)
+    }
 }
 
 impl Bom {

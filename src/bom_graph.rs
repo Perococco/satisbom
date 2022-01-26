@@ -7,12 +7,14 @@ use dot::Style::{Filled};
 use crate::model::item::Item;
 use crate::{AmountFormat, Bom, Recipe};
 use crate::constants::is_nil;
-use crate::bom_graph::ItemType::{Intermediate, Required, Targeted};
+use crate::bom_graph::ItemType::{Available, Intermediate, Required, Targeted};
+use crate::RecipeFilter::AnyOf;
 
 
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
 pub enum ItemType {
     Intermediate,
+    Available,
     Targeted,
     Required,
 }
@@ -99,6 +101,7 @@ impl<'a> GraphFactory<'a> {
         };
 
         self.handle_requirements();
+        self.handle_available_items();
     }
 
     fn create_all_recipe_nodes(&mut self) {
@@ -124,7 +127,8 @@ impl<'a> GraphFactory<'a> {
         let targeted_amount = self.bom.get_targeted_amount(item);
 
         let node_index = if let Some(recipe_using) = self.get_recipes_using(item) {
-            let node = Node::Item(item.clone(), amount, Intermediate);
+            let available_amount = self.bom.get_available_amount(item).cloned().unwrap_or(0f64);
+            let node = Node::Item(item.clone(), amount+ available_amount, Intermediate);
             let index = self.add_node(node);
 
             self.edges.insert((recipe_node_index, index));
@@ -162,6 +166,25 @@ impl<'a> GraphFactory<'a> {
             }
         }
     }
+
+    fn handle_available_items(&mut self) {
+        for (item,amount) in &self.bom.available_items {
+            let node_index =self.add_node(Node::Item(item.clone(),*amount,Available));
+
+            let intermediate = self.get_intermediate_item_index(item);
+
+            if let Some(intermediate_index) = intermediate {
+                self.edges.insert((node_index,*intermediate_index));
+            }
+            else if let Some(recipes) = self.recipes_by_input_items.get(item) {
+                for recipe in recipes {
+                    let recipe_index = self.get_recipe_node_index(recipe);
+                    self.edges.insert((node_index, recipe_index));
+                }
+            }
+
+        }
+    }
 }
 
 impl GraphFactory<'_> {
@@ -181,6 +204,11 @@ impl GraphFactory<'_> {
     fn get_recipe_node_index(&self, recipe: &Recipe) -> usize {
         let node = Node::Recipe(recipe.clone(), 0f64);
         *(self.node_index.get(&node).unwrap())
+    }
+
+    fn get_intermediate_item_index(&self, item: &Item) -> Option<&usize> {
+        let node = Node::Item(item.clone(),0f64, Intermediate);
+        self.node_index.get(&node)
     }
 }
 
@@ -239,6 +267,7 @@ impl<'a> Labeller<'a, Nd<'a>, Ed> for Graph {
             Node::Recipe(_, _) => "#98B3FF",
             Node::Item(_, _, Targeted) => "#7EFF99",
             Node::Item(_, _, Required) => "#FF8075",
+            Node::Item(_, _, Available) => "#FFD512",
             Node::Item(_, _, Intermediate) => "#000000",
         };
 
