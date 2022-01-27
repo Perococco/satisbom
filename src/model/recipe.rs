@@ -17,6 +17,12 @@ pub struct Recipe {
 }
 
 impl Recipe {
+    pub(crate) fn uses_item(&self, item_id: &str) -> bool {
+        self.inputs.iter().any(|r| r.item_id().eq(item_id))
+    }
+}
+
+impl Recipe {
     pub(crate) fn uses_a_refinery(&self) -> bool {
         self.building.id().eq("refinery")
     }
@@ -31,6 +37,9 @@ impl Recipe {
 impl Recipe {
     pub(crate) fn input_reactant(&self, item: &Item) -> Option<&Reactant> {
         self.inputs.iter().find(|r| r.item().eq(item))
+    }
+    pub(crate) fn output_reactant(&self, item: &Item) -> Option<&Reactant> {
+        self.outputs.iter().find(|r| r.item().eq(item))
     }
 }
 

@@ -1,7 +1,9 @@
 use std::fmt::{Display, Formatter};
 use std::str::FromStr;
+
+use crate::Recipe;
 use crate::error::Error;
-use crate::{NotNamed, Recipe};
+use crate::Error::FilterParsingFailed;
 
 #[derive(Clone, serde::Deserialize,serde::Serialize, Debug )]
 pub enum RecipeFilter {
@@ -15,6 +17,8 @@ pub enum RecipeFilter {
     NotManual,
     #[serde(rename="not-named")]
     NotNamed(String),
+    #[serde(rename="not-using")]
+    NotUsing(String),
     #[serde(rename="all-recipes")]
     AllRecipes,
     #[serde(rename="none-of")]
@@ -40,7 +44,8 @@ impl Display for RecipeFilter {
             RecipeFilter::AllOf(_) => "all-of",
             RecipeFilter::AnyOf(_) => "any-of",
             RecipeFilter::Not(_) => "not",
-            RecipeFilter::NotNamed(_) => "not-named"
+            RecipeFilter::NotNamed(_) => "not-named",
+            RecipeFilter::NotUsing(_) => "not-using"
         };
 
         f.write_str(name)
@@ -59,7 +64,8 @@ impl RecipeFilter {
             RecipeFilter::AllOf(filters) => filters.iter().all(|f| f.matches(recipe)),
             RecipeFilter::AnyOf(filters) => filters.iter().any(|f| f.matches(recipe)),
             RecipeFilter::Not(filter) => !filter.matches(recipe),
-            RecipeFilter::NoBlender => !recipe.uses_a_blender()
+            RecipeFilter::NoBlender => !recipe.uses_a_blender(),
+            RecipeFilter::NotUsing(item_id) => !recipe.uses_item(item_id)
         }
     }
 }
@@ -74,7 +80,15 @@ impl FromStr for RecipeFilter {
             "no-refinery" => Ok(RecipeFilter::NoRefinery),
             "no-blender" => Ok(RecipeFilter::NoBlender),
             "all-recipes" => Ok(RecipeFilter::AllRecipes),
-            recipe_id => Ok(NotNamed(recipe_id.to_string()))
+            filter => {
+                if let Some(recipe_name) = filter.strip_prefix("wo_") {
+                    Ok(RecipeFilter::NotNamed(recipe_name.to_string()))
+                } else if let Some(item_id) = filter.strip_prefix("nu_") {
+                    Ok(RecipeFilter::NotUsing(item_id.to_string()))
+                } else {
+                    Err(FilterParsingFailed(filter.to_string()))
+                }
+            }
         }
     }
 }

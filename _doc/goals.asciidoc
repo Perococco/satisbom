@@ -17,22 +17,22 @@
 * [*] Improve output readability
 
 
-* [ ] Find a crate to handle program arguments
+* [*] Find a crate to handle program arguments
 
 * Be able to provide some output options :
-    [ ] all the recipes in a format that can be used as input for the recipes
-    [ ] a template of the file that can be used as input for the item
+    [*] all the recipes in a format that can be used as input for the recipes
+    [*] a template of the file that can be used as input for the item
 
 
 * Be able to provide the requested/available items
-  - [ ] from command line
-  - [ ] from a file
+  - [*] from command line
+  - [*] from a file
 
 * Be able to select the recipe to use
-  - [ ] from command line
-  - [ ] from a file
+  - [*] from command line
+  - [*] from a file
 
 
 * Output in different format
-  - [ ] Dot format
-  - [ ] PNG output
+  - [*] Dot format
+  - [*] PNG output

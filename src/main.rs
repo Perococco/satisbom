@@ -147,11 +147,11 @@ impl BomArg {
         match &self.available_items {
             None => Ok(None),
             Some(items) => {
-                items.split(",")
+                items.split(',')
                     .map(|r| r.parse::<InputItem>())
                     .map(|r| r.map(|i| (i.name, i.quantity)))
                     .collect::<Result<HashMap<String, u32>>>()
-                    .map(|map| Some(map))
+                    .map(Some)
             }
         }
     }
@@ -175,6 +175,7 @@ pub enum Format {
     Text,
     Dot,
     Png,
+    Svg,
 }
 
 impl Display for Format {
@@ -183,6 +184,7 @@ impl Display for Format {
             Format::Text => write!(f, "text"),
             Format::Dot => write!(f, "dot"),
             Format::Png => write!(f, "png"),
+            Format::Svg => write!(f, "svg"),
         }
     }
 }
@@ -194,6 +196,7 @@ impl FromStr for Format {
         match s {
             "txt" => Ok(Format::Text),
             "dot" => Ok(Format::Dot),
+            "svg" => Ok(Format::Svg),
             _ => Err(std::fmt::Error)
         }
     }
@@ -304,20 +307,20 @@ fn bom(args: BomArg) -> crate::error::Result<()> {
 
                 Ok(())
             }
-            Format::Png => {
+            Format::Png|Format::Svg => {
                 let graph: Graph = Graph::new(&bom, amount_format);
                 let named_file = NamedTempFile::new()?;
                 dot::render(&graph, &mut named_file.as_file())?;
 
                 let output = std::process::Command::new("dot")
-                    .arg("-Tpng")
+                    .arg(format!("-T{}",args.format))
                     .arg(named_file.path())
                     .output()?;
 
                 if output.status.success() {
                     use std::io::Write;
                     if let Some(f) = args.output_file() {
-                        let mut file = File::create(format!("{}.png", f))?;
+                        let mut file = File::create(format!("{}.{}", f,args.format))?;
                         file.write_all(&output.stdout)?;
                     } else {
                         std::io::stdout().write_all(&output.stdout)?;

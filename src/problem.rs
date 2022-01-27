@@ -70,20 +70,17 @@ impl ProblemData {
             let target = self.target_items.contains_key(item);
 
             let e = e.clone().mul(total);
-            match (item, target, available_items) {
-                (Item::Resource(r), _, _) => {
-                    if let Some(mq) = r.max_quantity_per_minute() {
-                        objective -= e.div(if self.use_abundances { mq } else { 1 });
-                    } else {
-                        objective -= e.div(1000000000)
-                    }
+            if let (Item::Resource(r), _, _) = (item, target, available_items) {
+                if let Some(mq) = r.max_quantity_per_minute() {
+                    objective -= e.div(if self.use_abundances { mq } else { 1 });
+                } else {
+                    objective -= e.div(1000000000)
                 }
-                _ => {}
             }
         }
 
         for (_, amount) in &self.recipe_amount {
-            objective+=amount
+            objective += amount
         }
         objective
     }

@@ -20,6 +20,9 @@ pub struct Bom {
 }
 
 impl Bom {
+    pub(crate) fn get_leftover_amount(&self, item: &Item) -> Option<&f64> {
+        self.leftovers.get(item)
+    }
     pub(crate) fn get_targeted_amount(&self, item: &Item) -> Option<&f64> {
         self.targets.get(item)
     }
@@ -62,21 +65,40 @@ impl Bom {
     }
 }
 
+pub struct ItemUsage<'a> {
+    pub recipe:&'a Recipe,
+    pub quantity:f64,
+}
 
 impl Bom {
-    pub fn get_recipes_by_input_item(&self) -> HashMap<Item, Vec<Recipe>> {
-        let mut result = HashMap::new();
 
-        for recipe in self.recipes.keys() {
-            for input in recipe.inputs() {
-                result.entry(input.item().clone())
-                    .or_insert_with(std::vec::Vec::new)
-                    .push(recipe.clone())
+    pub fn get_all_items(&self) -> HashMap<&Item, (Vec<ItemUsage>, Vec<ItemUsage>)> {
+        let mut result= HashMap::new();
+
+        for (recipe,amount) in &self.recipes {
+            for reactant in recipe.inputs() {
+                let value = result.entry(reactant.item()).or_insert_with(|| (vec![], vec![]));
+                value.0.push(ItemUsage{recipe, quantity:amount*reactant.quantity_f64()});
+            }
+            for reactant in recipe.outputs() {
+                let value = result.entry(reactant.item()).or_insert_with(|| (vec![], vec![]));
+                value.1.push(ItemUsage{recipe, quantity:amount*reactant.quantity_f64()});
             }
         }
 
         result
+    }
 
+    pub fn display(&self, bp: &mut BomPrinter) -> crate::error::Result<()> {
+
+        bp.display_items("To get:", &self.targets)?;
+        bp.display_items("With:", &self.available_items)?;
+        bp.display_items("You need:", &self.requirements)?;
+        bp.display_items("Leftovers:", &self.leftovers)?;
+
+        bp.display_recipes(&self.recipes)?;
+
+        bp.display_buildings(&self.buildings)
     }
 }
 
@@ -98,16 +120,3 @@ fn sort_recipes(recipes: HashMap<Recipe, f64>) -> LinkedHashMap<Recipe,f64> {
 }
 
 
-impl Bom {
-    pub fn display(&self, bp: &mut BomPrinter) -> crate::error::Result<()> {
-
-        bp.display_items("To get:", &self.targets)?;
-        bp.display_items("With:", &self.available_items)?;
-        bp.display_items("You need:", &self.requirements)?;
-        bp.display_items("Leftovers:", &self.leftovers)?;
-
-        bp.display_recipes(&self.recipes)?;
-
-        bp.display_buildings(&self.buildings)
-    }
-}
