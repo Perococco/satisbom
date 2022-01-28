@@ -134,6 +134,14 @@ impl<'a> GraphFactory<'a> {
                         let leftover_node_index = self.add_item_node(item, leftover_amount, ItemType::LeftOver);
                         self.edges.insert((node_index, leftover_node_index));
                     }
+
+                    let missing = used_amount - (available_amount+produced_amount);
+
+                    if missing>0f64 && is_not_nil(missing)  {
+                        let requirement_node_index = self.add_item_node(item,missing,Requirement);
+                        self.edges.insert((requirement_node_index,node_index));
+                    }
+
                 }
                 (true, false) => {
                     let node_index = if is_nil(used_amount - available_amount) {
